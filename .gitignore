@@ -1,0 +1,20 @@
+# Next bundle
+.next/
+
+# Package
+node_modules
+*.lock
+*-lock*
+
+# Ide & Editor
+.idea/
+.vscode/
+
+# Loging
+*.log
+
+# Test
+coverage
+
+# junk
+.DS_Store

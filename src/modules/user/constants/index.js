@@ -1,0 +1,7 @@
+export const GET_USER_PROFILE_WITH_TOKEN = 'app/user/GET_USER_PROFILE_WITH_TOKEN'
+export const GET_USER_PROFILE_WITH_TOKEN_SUCCESS = 'app/user/GET_USER_PROFILE_WITH_TOKEN_SUCCESS'
+export const UPDATE_USER_PROFILE = 'app/user/UPDATE_USER_PROFILE'
+export const UPDATE_USER_PROFILE_SUCCESS = 'app/user/UPDATE_USER_PROFILE_SUCCESS'
+export const CLEAR_HTTP = 'app/user/CLEAR_HTTP'
+export const LOGOUT = 'app/user/LOGOUT'
+export const RESET_PROFILE = 'app/user/RESET_PROFILE'

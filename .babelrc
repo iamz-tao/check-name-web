@@ -1,0 +1,29 @@
+{
+  "presets": [
+    "next/babel"
+  ],
+  "plugins": [
+    ["import", {
+      "libraryName": "antd"
+    }],
+    "inline-react-svg",
+    [
+      "styled-components",
+      {
+        "ssr": true
+      }
+    ],
+    [
+      "babel-plugin-root-import",
+      {
+        "paths": [
+          {
+            "rootPathPrefix": "~",
+            "rootPathSuffix": "src"
+          }
+        ]
+      }
+    ],
+    ["react-intl"]
+  ]
+}

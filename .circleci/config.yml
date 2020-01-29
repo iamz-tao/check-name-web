@@ -1,0 +1,47 @@
+login_docker: &login_docker
+  name: login docker hub
+  command: |
+    docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
+
+build_docker: &build_docker
+  name: build_docker
+  command: |
+    docker build -t metromercespotme/spotme:latest .
+    docker push metromercespotme/spotme:latest
+
+sandbox_ssh: &sandbox_ssh
+  name: sandbox_ssh
+  command: |
+    ssh ${SNAPLOGIC_HOST} 'docker stop spotme-dev-2'
+    ssh ${SNAPLOGIC_HOST} 'docker rm spotme-dev-2'
+    ssh ${SNAPLOGIC_HOST} 'docker run -dti --name spotme-dev-2 -p 8084:3000  metromercespotme/spotme:latest'
+
+version: 2
+jobs:
+  login:
+    machine: true
+    steps:
+      - checkout
+      - run: *login_docker
+
+  deploy_sandbox:
+    machine: true
+    steps:
+      - checkout
+      - run: *login_docker
+      - run: *build_docker
+      - run: *sandbox_ssh
+
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - login
+      - deploy_sandbox:
+          requires:
+            - login
+          filters:
+            branches:
+              only:
+                - sandbox
+
