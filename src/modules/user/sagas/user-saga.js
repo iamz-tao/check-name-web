@@ -8,7 +8,8 @@ import Cookie from 'js-cookie'
 import isNil from 'lodash/isNil'
 
 import { loginAction } from '~/modules/authentication/actions'
-import * as http from '~/helpers/axiosWrapper'
+import * as http from '~/helpers/axiosWrapperGet'
+import * as httpPut from '~/helpers/axiosWrapperPut'
 
 import { userAction } from '../actions'
 
@@ -25,7 +26,6 @@ export function* getUserProfileWithToken() {
     if (!isNil(token)) {
       const response = yield call(http.post, {
         url: '/api/getProfile/',
-        method: 'get',
         payload: {
           email,
           token,
@@ -61,9 +61,8 @@ export function* updateUserProfileWithToken({ payload }) {
       role,
     } = payload.data
 
-    const response = yield call(http.post, {
+    const response = yield call(httpPut.post, {
       url: '/api/updateUser',
-      method: 'put',
       payload: {
         email,
         firstname,

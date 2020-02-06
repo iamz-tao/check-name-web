@@ -1,12 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Segment } from 'semantic-ui-react'
+import {
+  Switch,
+} from 'antd'
 
 const UserList = (props) => {
   const {
     list_year,
     filter,
     handleChangeStatus,
+    handleGetId,
   } = props
 
 
@@ -52,7 +56,7 @@ const UserList = (props) => {
                   </ListUserStatus>
 
                 </UserStatusGroup>
-                <Switch defaultChecked onChange={handleChangeStatus} />
+                <Switch defaultChecked onChange={handleChangeStatus} onClick={() => handleGetId(y.get('id'))} />
               </Row>
             </ItemWrapper>
           ))}
@@ -90,7 +94,6 @@ const ItemWrapper = styled(Segment)`
   border-radius: 4px;
   margin-bottom: 0px !important;
   padding: 0 !important;
-  // cursor: pointer;
   background: #FFFFFF !important;
   border: 1px solid #D0CDCD !important;
   box-sizing: border-box !important;
@@ -114,7 +117,6 @@ const Row = styled.div`
   width: 100%;
 `
 
-// language=SCSS prefix=&{ suffix=}
 const ItemSpan = styled.span`
     font-size: 14px;
     font-family: Sarabun;
@@ -126,7 +128,6 @@ const ItemSpan = styled.span`
     }
 `
 
-// language=SCSS prefix=&{ suffix=}
 const OtherWrapper = styled.div`
     width: 150px;
     display: flex;

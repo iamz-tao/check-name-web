@@ -11,6 +11,7 @@ import isNil from 'lodash/isNil'
 import { yearAction } from '../actions'
 import {
   CREATE_YEAR,
+  GET_YEAR_ALL,
 } from '../constants'
 import { getYearAllAPI } from '../api'
 
@@ -61,5 +62,6 @@ export function* getYearAll() {
 export default function* authSaga() {
   yield all([
     takeLatest(CREATE_YEAR, createYear),
+    takeLatest(GET_YEAR_ALL, getYearAll),
   ])
 }

@@ -72,7 +72,7 @@ class HomePageAdmin extends Component {
 
   componentDidMount() {
     const { getYearAll } = this.props
-    getgetYearAll({})
+    getYearAll({})
   }
 
   fetch = () => {
@@ -129,6 +129,9 @@ class HomePageAdmin extends Component {
   handleChangeStatus = (checked) => {
     console.log('xxxxx',checked)
   }
+  handleGetId = (id) => {
+    console.log('idd',id)
+  }
 
   render() {
     const {
@@ -173,6 +176,7 @@ class HomePageAdmin extends Component {
                             list_year={list_year}
                             filter={filter}
                             handleChangeStatus={this.handleChangeStatus}
+                            handleGetId={this.handleGetId}
                           />
                         </ListCol>
                       </ListCol>
@@ -194,7 +198,7 @@ class HomePageAdmin extends Component {
 }
 
 const mapStateToProps = (state, props) => createStructuredSelector({
-  list_year: yearSelector.getYearAll,
+  list_year: yearSelector.getAllYear,
 })(state, props)
 
 const mapDispatchToProps = dispatch => bindActionCreators({

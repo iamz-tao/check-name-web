@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { apiEndpoint } from '~/config/app-config'
+import Cookies from 'js-cookie'
 
 const responseStatusWhiteList = ['SUCCESS', 'ADD', 'DONE']
 
