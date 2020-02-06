@@ -17,12 +17,11 @@ import {
   APPROVE_SUBJECTS,
   REJECT_SUBJECTS,
   OPEN_SECTION,
-  OPEN_SECTION_SUCCESS,
 } from '../constants'
 import { getSubjectsAPI } from '../api'
 
 import * as http from '~/helpers/axiosWrapperPostToken'
-import * as httpPut from '~/helpers/axiosWrapper'
+import * as httpPut from '~/helpers/axiosWrapperPut'
 
 export function* createSubject({ payload }) {
   try {
@@ -125,7 +124,6 @@ export function* approveSubject({ payload }) {
     const { subject_id } = payload
     const response = yield call(httpPut.post, {
       url: `/api/approve/${subject_id}`,
-      method: 'put',
       payload: {
       },
     })
@@ -146,7 +144,6 @@ export function* rejectSubject({ payload }) {
     const { subject_id } = payload
     const response = yield call(httpPut.post, {
       url: `/api/reject/${subject_id}`,
-      method: 'put',
       payload: {
       },
     })
@@ -168,7 +165,6 @@ export function* approveSubjects({ payload }) {
     const { approve_ids } = payload.data
     const response = yield call(httpPut.post, {
       url: '/api/approveMulty',
-      method: 'put',
       payload: {
         approve_ids,
       },
@@ -190,7 +186,6 @@ export function* rejectSubjects({ payload }) {
     const { approve_ids } = payload.data
     const response = yield call(httpPut.post, {
       url: '/api/rejectMulty',
-      method: 'put',
       payload: {
         reject_ids: approve_ids,
       },

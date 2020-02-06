@@ -8,7 +8,7 @@ export const getAllYear = createSelector(
   stateSelector,
   (state) => {
     try {
-      return state.getIn(['year', 'yearAll'])
+      return state.get('yearAll')
     } catch (error) {
       return fromJS({})
     }

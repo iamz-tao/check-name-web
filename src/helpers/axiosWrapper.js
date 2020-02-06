@@ -1,14 +1,13 @@
 import axios from 'axios'
 import { apiEndpoint } from '~/config/app-config'
-import Cookies from 'js-cookie'
 
 const responseStatusWhiteList = ['SUCCESS', 'ADD', 'DONE']
 
-const http = async (url = '/api', method, payload = {}) => {
+const http = async (url = '/api', payload = {}) => {
   try {
     try {
       const result = await axios({
-        method,
+        method: 'post',
         headers: {
           'Content-Type': 'application/json',
         },

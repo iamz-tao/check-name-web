@@ -26,6 +26,21 @@ export function* getUserAPI() {
   })
 }
 
+export function* getYearAllAPI() {
+  const token = Cookie.get('token')
+  const email = Cookie.get('email')
+  const data = {}
+
+  return yield call(http.post, {
+    url: '/api/getYear',
+    payload: {
+      token,
+      email,
+      data,
+    },
+  })
+}
+
 export function* deleteUserAPI(id) {
   try {
     const token = Cookie.get('token')
@@ -43,7 +58,6 @@ export function* deleteUserAPI(id) {
         },
       })
 
-      // Router.replace('/admin')
       window.location.href = '/admin'
       const { error } = response
 

@@ -199,6 +199,7 @@ const mapStateToProps = (state, props) => createStructuredSelector({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getYearAll: yearAction.getYearAll,
+  createYear: yearAction.createYear,
 }, dispatch)
 
 export default compose(

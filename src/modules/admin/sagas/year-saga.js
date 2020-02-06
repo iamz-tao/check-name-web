@@ -12,6 +12,7 @@ import { yearAction } from '../actions'
 import {
   CREATE_YEAR,
 } from '../constants'
+import { getYearAllAPI } from '../api'
 
 import * as httpToken from '~/helpers/axiosWrapperPostToken'
 import * as http from '~/helpers/axiosWrapper'
@@ -43,7 +44,20 @@ export function* createYear({ payload }) {
   }
 }
 
-
+export function* getYearAll() {
+  try {
+    const token = Cookie.get('token')
+    if (!isNil(token)) {
+      const { data, error } = yield getYearAllAPI()
+      if (error) {
+        return
+      }
+      yield put(yearAction.setToYear(data.data))
+    }
+  } catch (error) {
+    console.log('error', error)
+  }
+}
 export default function* authSaga() {
   yield all([
     takeLatest(CREATE_YEAR, createYear),
