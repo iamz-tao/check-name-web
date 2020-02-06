@@ -4,11 +4,11 @@ import Cookies from 'js-cookie'
 
 const responseStatusWhiteList = ['SUCCESS', 'ADD', 'DONE']
 
-const http = async (url = '/api', payload = {}) => {
+const http = async (url = '/api', method, payload = {}) => {
   try {
     try {
       const result = await axios({
-        method: 'post',
+        method,
         headers: {
           'Content-Type': 'application/json',
         },

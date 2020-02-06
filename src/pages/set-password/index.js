@@ -17,9 +17,8 @@ import withLayout from '~/hocs/Layouts/withLayout'
 import { setPasswordAction } from '~/modules/authentication/actions'
 import { setPasswordSelector } from '~/modules/authentication/selectors'
 
-import ErrorModal from '~/components/Modals/Error'
-import SuccessModal from '~/components/Modals/Success'
-import Loading from '~/components/Loading'
+// import ErrorModal from '~/components/Modals/Error'
+// import SuccessModal from '~/components/Modals/Success'
 import LoadingPulse from '~/components/LoadingPulse'
 
 class SetPassword extends Component {
@@ -148,7 +147,7 @@ class SetPassword extends Component {
           </SetPasswordRow>
         </Grid>
 
-        <SuccessModal
+        {/* <SuccessModal
           content='Email verification'
           open={set_password_success}
           message={(
@@ -168,7 +167,7 @@ class SetPassword extends Component {
           message={errorMessage}
           onClick={this.handleRedirectToLogin}
           txtButton='Go to Login'
-        />
+        /> */}
       </HomeWrapper>
     )
   }

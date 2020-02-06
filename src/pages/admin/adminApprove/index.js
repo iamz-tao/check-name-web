@@ -159,15 +159,14 @@ class AdminApprove extends Component {
               }}
             >
 
-              {
-                <Fragment>
-                  <Space />
-                  {
+              <Fragment>
+                <Space />
+                {
                     subjects === null && (
                       <LoadingPulse />
                     )
                   }
-                  {
+                {
                     subjectWait !== null && subjectWait.length > 0 && (
                     <ListCol>
                       <ListCol>
@@ -187,8 +186,8 @@ class AdminApprove extends Component {
                     )
                   }
 
-                  {
-                    subjectWait !== null && subjects.toJS().filter(s => s.approved_status === 'PENDING').length === 0 && (
+                {
+                    subjectWait !== null && (
                       <RowContainerNotFound>
                         <NotFoundWrapper>
                           <h1>
@@ -198,9 +197,7 @@ class AdminApprove extends Component {
                       </RowContainerNotFound>
                     )
                   }
-                </Fragment>
-                // )
-              }
+              </Fragment>
             </ListCol>
           </RowContainer>
         </RowContainer>

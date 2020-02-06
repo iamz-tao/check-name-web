@@ -19,12 +19,10 @@
   },
   "keywords": [
     "nextjs",
-    "metromerce",
-    "tongzcomradez",
     "frontend",
     "react"
   ],
-  "author": "tongzcomradez",
+  "author": "iamztao",
   "license": "MIT",
   "dependencies": {
     "@babel/core": "7.3.4",

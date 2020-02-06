@@ -9,7 +9,10 @@ import { Link } from '~/routes'
 const HeaderAdmin = () => (
   <HeaderWrapper>
     <CustomMenu borderless>
-      <Link>
+      <Link
+        to='/list-year'
+        href='/list-year'
+      >
         <CustomMenuItem
           link
         >
@@ -69,6 +72,16 @@ const HeaderAdmin = () => (
         </CustomMenuItem>
       </Link>
 
+      <Link
+        to='/list-beacons'
+        href='/list-beacons'
+      >
+        <CustomMenuItem
+          link
+        >
+   BEACON
+        </CustomMenuItem>
+      </Link>
       <Link
         to='/users'
         href='/users'

@@ -20,8 +20,8 @@ import withLayout from '~/hocs/Layouts/withLayout'
 import { forgetPasswordAction } from '~/modules/authentication/actions'
 import { forgetPasswordSelector } from '~/modules/authentication/selectors'
 
-import CompleteModal from '~/hocs/Layouts/Modals/Success'
-import * as modalAction from '~/modules/modal/actions'
+// import CompleteModal from '~/hocs/Layouts/Modals/Success'
+// import * as modalAction from '~/modules/modal/actions'
 import LoadingPulse from '~/components/LoadingPulse'
 
 
@@ -129,7 +129,7 @@ class SetPassword extends Component {
               </StyledForm>
             </CardInfo>
           </CustomerFormWrapper>
-          <CompleteModal />
+          {/* <CompleteModal /> */}
         </FormItem>
       </Wrapper>
     )

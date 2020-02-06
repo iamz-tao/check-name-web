@@ -34,6 +34,7 @@ export function* loginWithUsernameRequest({ payload }) {
     const { email, password } = payload.data
     const resp = yield call(http.post, {
       url: '/api/login',
+      method: 'post',
       payload: {
         email,
         password,

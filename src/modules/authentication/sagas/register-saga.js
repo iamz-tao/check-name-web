@@ -33,6 +33,7 @@ export function* registerUserRequest({ payload }) {
     
     const response = yield call(http.post, {
       url: '/api/register',
+      method: 'post',
       payload: {
         email,
         mobile,

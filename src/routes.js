@@ -21,5 +21,5 @@ routes
   .add('approve-create-subject', '/approveSubject', '/admin/adminApprove')
   .add('create-subject', '/create-subject', '/admin/adminCreateSubject')
   .add('list-subjects', '/list-subjects', '/admin/adminListSubjects')
-
+  .add('list-year', '/list-year', '/admin/adminListYear')
 module.exports = routes

@@ -83,15 +83,6 @@ const UpdateProfileForm = (props) => {
             />
           </StyledForm>
 
-          {/* <FormButton
-            type='cancel'
-            txtButton='BACK'
-            width='50%'
-            onClick={() => {
-              // Router.replace('/admin')
-            }}
-          /> */}
-              {/* &nbsp; &nbsp; */}
           <FormButton
             // disabled={pristine || submitting || !valid}
             colorButton='#CA5353'
