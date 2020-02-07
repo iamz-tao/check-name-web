@@ -1,13 +1,15 @@
 import React, { Component, Fragment } from 'react'
 import styled from 'styled-components'
+import Cookie from 'js-cookie'
 import { createStructuredSelector } from 'reselect'
 import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
 import { Modal, notification } from 'antd'
-import Router from 'next/router'
+import isNil from 'lodash/isNil'
 
 import FilterAndCriteria from './components/FilterAndCriteria'
-import ListYear from './components/ListYear'
+import YearList from './components/YearList'
+import CreateYear from './components/createYear'
 import HeaderAdmin from '~/components/HeaderNavbar/Admin'
 
 import NotFound from '~/components/Table/NotFound'
@@ -15,62 +17,67 @@ import LoadingPulse from '~/components/LoadingPulse'
 import FormButton from '~/components/Form/Button'
 
 import withLayout from '~/hocs/Layouts/withLayout'
-import { Link } from '~/routes'
 import { yearAction } from '~/modules/admin/actions'
 import { yearSelector } from '~/modules/admin/selectors'
 
 const { confirm } = Modal
 
-const TableHeader = () => (
-  <Wrapper>
-    <FormButton
-      colorButton='#006765'
-      type='submit'
-      txtButton='NEW'
-      width='50%'
-      onClick={() => {
-        Router.push('/adminRegister')
-      }}
-    />
-    <Row>
-      <UserDetailGroup>
-        <ListUserEmail>
-          <ItemHeader>
-            YEAR
-          </ItemHeader>
-        </ListUserEmail>
-        <ListUserName>
-          <ItemHeader>
-            SEMESTER
-          </ItemHeader>
-        </ListUserName>
-        <ListUserName>
-          <ItemHeader>
-            STATUS
-          </ItemHeader>
-        </ListUserName>
-      </UserDetailGroup>
-      <UserStatusGroup>
-        {/* <ListUserStatus>
-          <ItemHeader>
-            STATUS
-          </ItemHeader>
-        </ListUserStatus> */}
-      </UserStatusGroup>
+const TableHeader = (props) => {
+  const {
+    handleModal,
+  } = props
 
-    </Row>
-  </Wrapper>
-)
+  return (
+    <Wrapper>
+      <FormButton
+        colorButton='#006765'
+        type='submit'
+        txtButton='NEW'
+        width='50%'
+        onClick={() => handleModal()}
+      />
+      <Row>
+        <UserDetailGroup>
+          <ListHeader>
+            <ItemHeader>
+              YEAR
+            </ItemHeader>
+          </ListHeader>
+          <ListHeader>
+            <ItemHeader>
+              SEMESTER
+            </ItemHeader>
+          </ListHeader>
+          <ListHeader>
+            <ItemHeader>
+              STATUS
+            </ItemHeader>
+          </ListHeader>
+          <ListHeader />
+        </UserDetailGroup>
+        <DeleteWrapper />
+      </Row>
+    </Wrapper>
+  )
+}
 
 class HomePageAdmin extends Component {
   state = {
     list_year: null,
+    year: '',
+    semester: '',
+    open: false,
+    loading: false,
     filter: {
       keyword: '',
     },
   }
 
   componentDidMount() {
+    const token = Cookie.get('token')
+    if (isNil(token)) {
+      window.location.href = '/login'
+    }
     const { getYearAll } = this.props
     getYearAll({})
   }
@@ -94,6 +101,11 @@ class HomePageAdmin extends Component {
       },
     }))
     this.fetch()
+  }
+
+  handleInput = (type, e) => {
+    const { change } = this.props
+    change(type, e)
   }
 
   handleResetFilter = () => {
@@ -126,11 +138,39 @@ class HomePageAdmin extends Component {
     })
   }
 
-  handleChangeStatus = (checked) => {
-    console.log('xxxxx',checked)
-  }
+
   handleGetId = (id) => {
-    console.log('idd',id)
+    const { updateCurrentYear } = this.props
+    updateCurrentYear({ id })
+  }
+
+  handleModal = () => {
+    const { open } = this.state
+    this.setState({
+      open: !open,
+    })
+  }
+
+  handleDeleteYear = (id) => {
+    const { deleteYear } = this.props
+    const success = 'success'
+    confirm({
+      title: 'Confirm Deletion',
+      content: 'Are you sure delete this year? You can\'t undo this action.',
+      okText: 'Delete',
+      okType: 'danger',
+      cancelText: 'Cancel',
+      onOk() {
+        deleteYear({ id })
+        notification[success]({
+          message: 'Delete Success!',
+          description:
+            'Action completed successfully.',
+        })
+      },
+      onCancel() {
+      },
+    })
   }
 
   render() {
@@ -140,10 +180,17 @@ class HomePageAdmin extends Component {
 
     const {
       filter,
+      open,
     } = this.state
 
     return (
       <PageWrapper>
+        <CreateYear
+          open={open}
+          handleModal={this.handleModal}
+          handleInputChange={this.handleInputChange}
+          handleInput={this.handleInput}
+        />
         <HeaderAdmin />
         <RowContainer>
           <FilterWrapper>
@@ -170,13 +217,15 @@ class HomePageAdmin extends Component {
                 {
                     list_year !== null && list_year.size > 0 && (
                       <ListCol>
-                        <TableHeader />
+                        <TableHeader
+                          handleModal={this.handleModal}
+                        />
                         <ListCol>
-                          <ListYear
+                          <YearList
                             list_year={list_year}
                             filter={filter}
-                            handleChangeStatus={this.handleChangeStatus}
                             handleGetId={this.handleGetId}
+                            handleDeleteYear={this.handleDeleteYear}
                           />
                         </ListCol>
                       </ListCol>
@@ -203,7 +252,8 @@ const mapStateToProps = (state, props) => createStructuredSelector({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getYearAll: yearAction.getYearAll,
-  createYear: yearAction.createYear,
+  deleteYear: yearAction.deleteYear,
+  updateCurrentYear: yearAction.updateCurrentYear,
 }, dispatch)
 
 export default compose(
@@ -274,41 +324,27 @@ const Wrapper = styled.div`
   padding: 0px 0px 16px 0px;
 `
 
-const ListUserEmail = styled(OtherWrapper)`
+const ListHeader = styled(OtherWrapper)`
   flex: 1;
   display: inline-block;
   padding-left: 35px;
   text-align: left;
-  min-width: 250px;
 `
-const ListUserName = styled(OtherWrapper)`
-  flex: 1;
-  display: inline-block;
-  padding-left: 40px;
-  text-align: left;
-  min-width: 250px;
+const UserDetailGroup = styled.div`
+  display: flex;
+  flex: 4;
+  color: #929598;
+  font-size: 16px;
 `
 
-const ListUserStatus = styled(OtherWrapper)`
-  padding-left: 5px;
-`
 const Row = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 32%;
+  height: 76px;
   width: 100%;
 `
-const UserDetailGroup = styled.div`
-  width: 66%;
+const DeleteWrapper = styled.div`
   display: flex;
-  color: #929598;
-  font-size: 16px;
-`
-const UserStatusGroup = styled.div`
-  width: 34%;
-  display: flex;
-  justify-content: center;
-  padding-right: 108px;
-  font-size: 16px;
+  width: 128px;
 `

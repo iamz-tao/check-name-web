@@ -4,18 +4,18 @@ import { Segment } from 'semantic-ui-react'
 import {
   Switch,
 } from 'antd'
+import DeleteIcon from '~/components/DeleteIcon'
 
-const UserList = (props) => {
+const YearList = (props) => {
   const {
     list_year,
     filter,
-    handleChangeStatus,
     handleGetId,
+    handleDeleteYear,
   } = props
 
 
   // const keyword_lower = filter.keyword.toLowerCase()
-
   return (
     <Column>
       <Wrapper>
@@ -24,19 +24,17 @@ const UserList = (props) => {
             <ItemWrapper>
               <Row>
                 <UserDetailGroup>
-                  <ListUserName>
+                  <ListDetail>
                     <ItemSpan>
                       {y.get('year')}
                     </ItemSpan>
-                  </ListUserName>
-                  <ListUserName>
+                  </ListDetail>
+                  <ListDetail>
                     <ItemSpan>
                       {y.get('semester')}
                     </ItemSpan>
-                  </ListUserName>
-                </UserDetailGroup>
-                <UserStatusGroup>
-                  <ListUserStatus>
+                  </ListDetail>
+                  <ListDetail>
                     <ItemSpan>
                       {
                         y.get('status') === 'DISABLE' && (
@@ -53,10 +51,20 @@ const UserList = (props) => {
                         )
                       }
                     </ItemSpan>
-                  </ListUserStatus>
-
-                </UserStatusGroup>
-                <Switch defaultChecked onChange={handleChangeStatus} onClick={() => handleGetId(y.get('id'))} />
+                  </ListDetail>
+                  <ListDetail style={{ textAlign: 'right' }}>
+                    <Switch defaultChecked={y.get('status') === 'ACTIVE'} checked={y.get('status') === 'ACTIVE'} onClick={() => handleGetId(y.get('id'))} />
+                  </ListDetail>
+                </UserDetailGroup>
+                <DeleteWrapper>
+                  <DeleteIcon
+                    className='trash'
+                    onClick={(e) => {
+                      e.preventDefault()
+                      handleDeleteYear(y.get('id'))
+                    }}
+                  />
+                </DeleteWrapper>
               </Row>
             </ItemWrapper>
           ))}
@@ -66,7 +74,7 @@ const UserList = (props) => {
   )
 }
 
-export default UserList
+export default YearList
 
 const Wrapper = styled.div`
   display: flex;
@@ -86,6 +94,9 @@ const Wrapper = styled.div`
       color: #CA5353 !important;
     }
   }
+  .ant-switch-checked {
+    background-color: #FFCDCD;
+}
 `
 
 const ItemWrapper = styled(Segment)`
@@ -99,6 +110,12 @@ const ItemWrapper = styled(Segment)`
   box-sizing: border-box !important;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
   border-radius: 18px !important;
+`
+
+const DeleteWrapper = styled.div`
+  display: flex;
+  width: 128px;
+  justify-content: center;
 `
 
 const Column = styled.div`
@@ -129,32 +146,18 @@ const ItemSpan = styled.span`
 `
 
 const OtherWrapper = styled.div`
-    width: 150px;
     display: flex;
     line-height: 40px;
     padding-left: 8px;
 `
 
-const ListUserName = styled(OtherWrapper)`
+const ListDetail = styled(OtherWrapper)`
   flex: 1;
   display: inline-block;
   padding-left: 40px;
   text-align: left;
-  min-width: 250px;
-`
-
-const ListUserStatus = styled(OtherWrapper)`
-  line-height: 40px;
-  width: 116px;
-  padding-left: 8px;
 `
 const UserDetailGroup = styled.div`
-  width: 66%;
   display: flex;
-`
-
-const UserStatusGroup = styled.div`
-  width: 16%;
-  display: flex;
-  justify-content: flex-end;
+  flex: 4;
 `

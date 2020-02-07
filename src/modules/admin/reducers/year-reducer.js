@@ -3,6 +3,7 @@ import {
   CREATE_YEAR_SUCCESS,
   CREATE_YEAR_FAILED,
   SET_TO_YEAR,
+  UPDATE_CURRENT_YEAR_SUCCESS,
 } from '../constants'
 
 const initialState = fromJS({
@@ -31,6 +32,18 @@ export default (state = initialState, { type, payload }) => {
       return state
         .set('yearAll', fromJS(payload))
         .setIn(['httpState', 'isFetching'], true)
+    case UPDATE_CURRENT_YEAR_SUCCESS: {
+      const id = payload
+      const yearIndex = state.getIn(['yearAll'])
+      .findIndex(rec => rec.get('id') === id)
+      const yearActivePreviousIndex = state.getIn(['yearAll'])
+      .findIndex(rec => rec.get('status') === 'ACTIVE')
+      const status = state.getIn(['yearAll', yearIndex, 'status'])
+      return state
+        .setIn(['yearAll', yearIndex, 'status'], status === 'ACTIVE' ? 'DISABLE' : status === 'DISABLE' && 'ACTIVE')
+        .setIn(['yearAll', yearActivePreviousIndex, 'status'], 'DISABLE') 
+    }
+      
     default:
       return state
   }

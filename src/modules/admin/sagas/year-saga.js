@@ -12,11 +12,13 @@ import { yearAction } from '../actions'
 import {
   CREATE_YEAR,
   GET_YEAR_ALL,
+  DELETE_YEAR,
+  UPDATE_CURRENT_YEAR,
 } from '../constants'
-import { getYearAllAPI } from '../api'
+import { getYearAllAPI, deleteYearAPI } from '../api'
 
 import * as httpToken from '~/helpers/axiosWrapperPostToken'
-import * as http from '~/helpers/axiosWrapper'
+import * as httpPut from '~/helpers/axiosWrapperPut'
 
 export function* createYear({ payload }) {
   try {
@@ -59,9 +61,37 @@ export function* getYearAll() {
     console.log('error', error)
   }
 }
+
+export function* deleteYear({ payload }) {
+  try {
+    yield deleteYearAPI(payload.id)
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
+export function* updateCurrentYear({ payload }) {
+  try {
+    const response = yield call(httpPut.post, {
+      url: `/api/setCurrentYear/${payload.id}`,
+    })
+
+    const { error } = response
+    if (error) {
+      return
+    }
+
+    yield put(yearAction.updateCurrentYearSuccess(payload.id))
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
 export default function* authSaga() {
   yield all([
     takeLatest(CREATE_YEAR, createYear),
     takeLatest(GET_YEAR_ALL, getYearAll),
+    takeLatest(DELETE_YEAR, deleteYear),
+    takeLatest(UPDATE_CURRENT_YEAR, updateCurrentYear),
   ])
 }

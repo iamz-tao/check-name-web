@@ -1,101 +1,165 @@
-import React from 'react'
-
+import React, { Component } from 'react'
+import { bindActionCreators, compose } from 'redux'
+import { connect } from 'react-redux'
 import {
+  Form as SemanticForm,
   Modal,
-  Button,
 } from 'semantic-ui-react'
+import { reduxForm, Field } from 'redux-form/immutable'
+import { createStructuredSelector } from 'reselect'
+
+import validate from './validate'
+
 import styled from 'styled-components'
 import {
   Button as ButtonAntd,
-  Dropdown,
-  Icon,
 } from 'antd'
-
+import { yearAction } from '~/modules/admin/actions'
+import {
+  SemanticInput,
+  DropdownWithLabel,
+} from '~/components/ReduxForm'
 import DefaultForm from '~/components/DefaultForm'
+import FormButton from '~/components/Form/Button'
 
-const CreateYear = (props) => {
-  const {
-    open,
-    // handleInput,
-    handleModal,
-    handleCancel,
-  } = props
+const FORM_NAME = 'CREATE_YEAR'
+class CreateYear extends Component {
+  handleInput = (type, e) => {
+    const { change } = this.props
+    change(type, e)
+  }
 
-  const semesters = [
-    {
-      key: 1,
-      text: 'First',
-      value: 'FIRST',
-    },
-    {
-      key: 2,
-      text: 'Second',
-      value: 'SECOND',
-    },
-    {
-      key: 3,
-      text: 'Summer',
-      value: 'SUMMER',
-    },
-  ]
+  handleCreateYear = (values) => {
+    const { createYear, handleModal } = this.props
+    createYear({
+      data: {
+        semester: values.get('semester'),
+        year: values.get('year'),
+      },
+    })
+
+    handleModal()
+  }
 
 
-  return (
-    <StyledWrapper
-      closeOnDimmerClick={false}
-      closeIcon
-      open={open}
-      onClose={() => handleModal()}
-    >
-      <Modal.Content>
-        <Header>
-          ADD YEAR
-        </Header>
-        <Wrapper>
+  render() {
+    const {
+      open,
+      handleModal,
+      handleSubmit,
+    } = this.props
+    const semesters = [
+      {
+        key: 1,
+        text: 'First',
+        value: 'FIRST',
+      },
+      {
+        key: 2,
+        text: 'Second',
+        value: 'SECOND',
+      },
+      {
+        key: 3,
+        text: 'Summer',
+        value: 'SUMMER',
+      },
+    ]
+    return (
+      <StyledWrapper
+        closeOnDimmerClick={false}
+        closeIcon
+        open={open}
+        onClose={() => handleModal()}
+      >
+        <Form onSubmit={handleSubmit(this.handleCreateYear)}>
 
-          <DefaultForm
-            isRequired
-            label='YEAR'
-            width='176px'
-          >
-            <Field
-              required
-              name='year'
-              placeholder='Year'
-              // component={SemanticInput}
-              // onChange={handleInputChange}
-            />
+          <Modal.Content>
+            <Header>
+              ADD YEAR
+            </Header>
+            <Wrapper>
 
-          </DefaultForm>
-          <DefaultForm
-            isRequired
-            label='SELECT SEMESTER'
-            width='103px'
-            marginBottom='6px'
-          >
-            <Dropdown overlay={semesters}>
-              <Button>
-                Select Semester
-                {' '}
-                <div style={{ width: '76%' }} />
-                <Icon type='down' />
-              </Button>
-            </Dropdown>
-          </DefaultForm>
-          <BlankWrapper />
+              <DefaultForm
+                isRequired
+                label='YEAR'
+                width='142px'
+              >
+                <Field
+                  required
+                  name='year'
+                  placeholder='Year'
+                  component={SemanticInput}
+                />
 
-          <ButtonWrapper>
-            <ButtonCancel onClick={handleCancel}>CANCEL</ButtonCancel>
-            &nbsp;&nbsp;&nbsp;
-            <ButtonSave onClick={handleModal}>SAVE</ButtonSave>
-          </ButtonWrapper>
-        </Wrapper>
-      </Modal.Content>
-    </StyledWrapper>
-  )
+              </DefaultForm>
+              <DefaultForm
+                isRequired
+                label='SELECT SEMESTER'
+                width='142px'
+                marginBottom='6px'
+              >
+                <Field
+                  required
+                  name='semester'
+                  placeholder='Select Semester'
+                  component={DropdownWithLabel}
+                  options={semesters}
+                  handleInput={this.handleInput}
+                />
+              </DefaultForm>
+              <BlankWrapper />
+
+              <ButtonWrapper>
+                <FormButton
+                  isFilter
+                  type='reset'
+                  txtButton='CANCEL'
+                  width='50%'
+                  onClick={(e) => {
+                    e.preventDefault()
+                    handleModal()
+                  }}
+                />
+                  &nbsp; &nbsp;
+                <FormButton
+                  isFilter
+                  colorButton='#CA5353'
+                  type='submit'
+                  txtButton='CREATE'
+                  width='50%'
+                  onClick={() => {
+                  }}
+                />
+              </ButtonWrapper>
+            </Wrapper>
+          </Modal.Content>
+        </Form>
+
+      </StyledWrapper>
+    )
+  }
 }
 
-export default CreateYear
+
+const mapStateToProps = (state, props) => createStructuredSelector({
+})(state, props)
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  createYear: yearAction.createYear,
+}, dispatch)
+
+const withForm = reduxForm({
+  form: FORM_NAME,
+  validate,
+  enableReinitialize: true,
+  keepDirtyOnReinitialize: true,
+})
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withForm,
+)(CreateYear)
 
 const Header = styled.span`
   font-size: 18px;
@@ -104,24 +168,7 @@ const Header = styled.span`
   color: black;
   display: flex;
   padding-left: 18px;
-`
-const ButtonSave = styled(ButtonAntd)`
-  background: #CA5353 !important;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
-  border-radius: 28px !important;
-  width: 100px !important;
-  height: 38px !important;
-  color: #fff !important;
-
-`
-const ButtonCancel = styled(ButtonAntd)`
-  background: #FFFFFF !important;
-  border: 1px solid #949494 !important;
-  box-sizing: border-box !important;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
-  border-radius: 28px !important;
-  width: 100px;
-  height: 38px !important;
+  margin-bottom: 22px;
 `
 const ButtonWrapper = styled.div`
   display: flex;
@@ -131,7 +178,7 @@ const StyledWrapper = styled(Modal)`
   max-width: 600px !important;
   min-width: 300px;
   text-align: center !important;
-  padding-right: 18px;
+  padding: 26px 26px 0px 26px;
   height: fit-content;
   background: #FFFFFF;
   border: 1px solid #C4C4C4 !important;
@@ -139,21 +186,7 @@ const StyledWrapper = styled(Modal)`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
   font-family: kanit;
   font-size: 14px !important;
-  .ant-time-picker-input {
-    height: 38px;
-    background-color: #EBEBEB !important;
-    border: 1px solid rgba(148,148,148,0.5) !important;
-    box-sizing: border-box;
-    border-radius: 28px !important;
-    line-height: 1.8em  ;
-  }
-  .ant-time-picker {
-    width: 100%;
-  }
-  .ant-btn:focus, .ant-btn:hover {
-    color: #CA5353;
-    border-color: #CA5353;
-}
+ 
 .ui.selection.dropdown .menu {
   border-radius: 0px 0px 28px 28px;
 }
@@ -175,38 +208,9 @@ const Wrapper = styled.div`
   text-align: center !important;
   flex-direction: column;
 `
-const LabelWrapper = styled.label`
-  display: flex;
-  padding-left: 18px;
-  line-height: 41px;
-  font-family: kanit !important;
-  font-size: 14px !important;
-  font-weight: 400;
-  color: rgb(89.25,89.25,89.25) !important;
-`
 const BlankWrapper = styled.div`
 
 `
-const ShowTimeWrapper = styled.div`
-  display: flex;
-  align-items: center;
+const Form = styled(SemanticForm)`
   width: 100%;
-
-`
-const PlusWrpper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  flex-direction: row;
-  align-items: center;
-`
-const ButtonPlus = styled(Button)`
-  background: #FFFFFF !important;
-  border: 1px solid rgba(36, 52, 69, 0.5) !important;
-  box-sizing: border-box !important;
-  border-radius: 12px !important;
-  width: 32px !important;
-  height: 32px;
-  padding: 0px 0px 4px 8px !important;
-  border: 1px solid rgba(36, 52, 69, 0.5) !important;
-  font-size: 28px !important;
 `

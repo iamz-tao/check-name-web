@@ -77,3 +77,40 @@ export function* deleteUserAPI(id) {
     yield put(userAction.requestSuccess())
   }
 }
+
+export function* deleteYearAPI(id) {
+  try {
+    const token = Cookie.get('token')
+    const email = Cookie.get('email')
+
+    if (!isNil(token)) {
+      const response = yield call(httpDel.post, {
+        url: `/api/delYear/${id}`,
+        payload: {
+          email,
+          token,
+          data: {
+            id,
+          },
+        },
+      })
+
+      window.location.href = '/list-year'
+      const { error } = response
+
+      if (error) {
+        yield put(loginAction.handleLogout())
+        window.location.href = '/login'
+        return
+      }
+
+      yield put(userAction.requestSuccess())
+    } else {
+      yield put(loginAction.handleLogout())
+      window.location.href = '/login'
+    }
+  } catch (error) {
+    console.log('error', error)
+    yield put(userAction.requestSuccess())
+  }
+}

@@ -14,7 +14,6 @@ import { userAction } from '../actions'
 import { getUserAPI, deleteUserAPI } from '../api'
 
 export function* getUsers() {
-  console.log('xxx')
   try {
     const token = Cookie.get('token')
     if (!isNil(token)) {

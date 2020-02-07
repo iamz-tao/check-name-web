@@ -35,4 +35,5 @@ const Trash = styled(Icon)`
   margin: 0px !important;
   line-height: 24px !important;
   font-size: 1.7em !important;
+  cursor: pointer;
 `

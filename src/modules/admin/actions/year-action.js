@@ -4,6 +4,9 @@ import {
   CREATE_YEAR_FAILED,
   GET_YEAR_ALL,
   SET_TO_YEAR,
+  DELETE_YEAR,
+  UPDATE_CURRENT_YEAR,
+  UPDATE_CURRENT_YEAR_SUCCESS,
 } from '../constants'
 
 export const createYear = payload => ({
@@ -29,4 +32,20 @@ export const getYearAll = payload => ({
 export const setToYear = payload => ({
   payload,
   type: SET_TO_YEAR,
+})
+
+export const deleteYear = payload => ({
+  payload,
+  type: DELETE_YEAR,
+})
+
+export const updateCurrentYear = payload => ({
+  payload,
+  type: UPDATE_CURRENT_YEAR,
+})
+
+  
+export const updateCurrentYearSuccess = payload => ({
+  payload,
+  type: UPDATE_CURRENT_YEAR_SUCCESS,
 })
