@@ -41,7 +41,7 @@ const TableHeader = () => (
   </Wrapper>
 )
 
-class HomePageProfessor extends Component {
+class AdminListSubjects extends Component {
   state = {
     subjects: null,
     filter: {
@@ -116,7 +116,7 @@ class HomePageProfessor extends Component {
     const {
       filter,
     } = this.state
-    
+
     return (
       <PageWrapper>
         <HeaderProfessor />
@@ -150,6 +150,7 @@ class HomePageProfessor extends Component {
                             subjects={subjects}
                             filter={filter}
                             handleDeleteSection={this.handleDeleteSection}
+                            handleMenuClick={this.handleMenuClick}
                           />
                         </ListCol>
                       </ListCol>
@@ -171,7 +172,7 @@ class HomePageProfessor extends Component {
 }
 
 const mapStateToProps = (state, props) => createStructuredSelector({
-  subjects: subjectsSelector.getSubjectsProfessor,
+  subjectsProfessor: subjectsSelector.getSubjectsProfessor,
 })(state, props)
 
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -182,7 +183,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withLayout,
-)(HomePageProfessor)
+)(AdminListSubjects)
 
 const PageWrapper = styled.div`
   font-family: Sarabun;
@@ -238,7 +239,6 @@ const FilterWrapper = styled(Col)`
   }
 `
 const Space = styled.div`
-  height: 56px;
 `
 
 const Wrapper = styled.div`

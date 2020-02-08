@@ -15,11 +15,11 @@ export const getSubjects = createSelector(
   },
 )
 
-export const getSubjectProfessor = createSelector(
+export const getSubjectsProfessor = createSelector(
   stateSelector,
   (state) => {
     try {
-      return state.getIn(['subjectProfessor'], '')
+      return state.getIn(['professor', 'subjects'], '')
     } catch (error) {
       return fromJS({})
     }

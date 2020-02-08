@@ -10,11 +10,13 @@ import {
   REJECT_SUBJECT_SUCCESS,
   APPROVE_SUBJECTS,
   REJECT_SUBJECTS,
-  GET_SUBJUECT_PROFESSOR,
-  SET_SUBJECT_PROFESSOR,
   OPEN_SECTION,
   OPEN_SECTION_SUCCESS,
   OPEN_SECTION_FAILED,
+  GET_SUBJECTS_PROFESSOR,
+  SET_SUBJECT_PROFESSOR,
+  DELETE_SECTION,
+  DELETE_SECTION_SUCCESS,
 } from '../constants'
 
 export const createSubject = payload => ({
@@ -72,15 +74,15 @@ export const rejectSubjects = payload => ({
   type: REJECT_SUBJECTS,
 })
 
-export const getSubjectProfessor = payload => ({
+export const getSubjectsProfessor = payload => ({
   payload,
-  type: GET_SUBJUECT_PROFESSOR,
+  type: GET_SUBJECTS_PROFESSOR,
 })
 
-export const setSubjectProfessor = payload => ({
+export const setSubjectsProfessor = payload => ({
   payload,
   type: SET_SUBJECT_PROFESSOR,
-})
+}) 
 
 export const openSection = payload => ({
   payload,
@@ -95,4 +97,14 @@ export const openSectionSuccess = payload => ({
 export const openSectionFailure = payload => ({
   payload,
   type: OPEN_SECTION_FAILED,
+})
+
+export const deleteSection = payload => ({
+  payload,
+  type: DELETE_SECTION,
+})
+
+export const deleteSectionSuccess = payload => ({
+  payload,
+  type: DELETE_SECTION_SUCCESS,
 })

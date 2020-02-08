@@ -11,9 +11,12 @@ export const REJECT_SUBJECTS = 'app/subject/REJECT_SUBJECTS'
 export const APPROVE_SUBJECT_SUCCESS = 'app/subject/APPROVE_SUBJECT_SUCCESS'
 export const REJECT_SUBJECT_SUCCESS = 'app/subject/REJECT_SUBJECT_SUCCESS'
 
-export const GET_SUBJUECT_PROFESSOR = 'app/subject/GET_SUBJUECT_PROFESSOR'
+export const GET_SUBJECTS_PROFESSOR = 'app/subject/GET_SUBJECTS_PROFESSOR'
 export const SET_SUBJECT_PROFESSOR = 'app/subject/SET_SUBJECT_PROFESSOR'
 
 export const OPEN_SECTION = 'app/subject/OPEN_SECTION'
 export const OPEN_SECTION_SUCCESS = 'app/subject/OPEN_SECTION_SUCCESS'
 export const OPEN_SECTION_FAILED = 'app/subject/OPEN_SECTION_FAILED'
+
+export const DELETE_SECTION = 'app/subject/DELETE_SECTION'
+export const DELETE_SECTION_SUCCESS = 'app/subject/DELETE_SECTION_SUCCESS'
