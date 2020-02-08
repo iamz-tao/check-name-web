@@ -5,13 +5,10 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import Cookie from 'js-cookie'
 
-import { Router } from '~/routes'
-import Navbar from '~/hocs/Layouts/components/Navbar'
 import Header from '~/hocs/Layouts/components/Header'
 import Sidebar from '~/hocs/Layouts/components/Sidebar'
 import withIntl from '~/helpers/withIntl'
 
-const sharedpages = ['/profile']
 
 const PageLayout = ({ children }) => {
   const [sidebar, setSidebar] = useState(false)
