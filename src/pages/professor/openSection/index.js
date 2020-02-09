@@ -4,11 +4,10 @@ import { bindActionCreators, compose } from 'redux'
 import { Button, Form as SemanticForm } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form/immutable'
-import { fromJS } from 'immutable'
 import { createStructuredSelector } from 'reselect'
-import PropTypes from 'prop-types'
 import { notification } from 'antd'
 import Router from 'next/router'
+import moment from 'moment'
 
 import validate from './validate'
 
@@ -102,11 +101,11 @@ const OpenSection = class extends React.Component {
     const { openSection } = this.props
     const Time = []
     if (day2 === '') {
-      Time.push([{
+      Time.push({
         day: day1,
         start_time: startTime1,
         end_Time: endTime1,
-      }])
+      })
     } else {
       Time.push({
         day: day1,
@@ -139,45 +138,43 @@ const OpenSection = class extends React.Component {
     this.openNotificationWithIcon('success')
   }
 
-  handleButtonClick = (e) => {
-    const {
-      value,
-    } = e.item.props
+  handleButtonClick = (e, { value }) => {
     this.setState({
       day1: value,
     })
   }
 
   getTimeFrom = (from) => {
+    const newForm = new Date(from)
     this.setState({
-      startTime1: from._i,
+      startTime1: moment(newForm).format("h:mm A"),
     })
   }
 
   getTimeTo = (to) => {
+    const newTo = new Date(to)
     this.setState({
-      endTime1: to._i,
+      endTime1: moment(newTo).format("h:mm A"),
     })
   }
 
-  handleButtonClick2 = (e) => {
-    const {
-      value,
-    } = e.item.props
+  handleButtonClick2 = (e, { value }) => {
     this.setState({
       day2: value,
     })
   }
 
   getTimeFrom2 = (from) => {
+    const newForm = new Date(from)
     this.setState({
-      startTime2: from._i,
+      startTime2: moment(newForm).format("h:mm A"),
     })
   }
 
   getTimeTo2 = (to) => {
+    const newTo = new Date(to)
     this.setState({
-      endTime2: to._i,
+      endTime2: moment(newTo).format("h:mm A"),
     })
   }
 
@@ -213,7 +210,7 @@ const OpenSection = class extends React.Component {
       subjects,
       invalid,
     } = this.props
-// console.log('inaaa',invalid)
+
     const {
       day1,
       startTime1,
@@ -224,7 +221,7 @@ const OpenSection = class extends React.Component {
       open,
       addDay,
     } = this.state
-
+    
     const options = []
     const subjectActive = subjects ? subjects.toJS().filter(s => s.approved_status === 'APPROVE') : []
     if (subjectActive.length !== 0) {
@@ -272,6 +269,7 @@ const OpenSection = class extends React.Component {
                       handleAddDay={this.handleAddDay}
                       addDay={addDay}
                       settingSec={settingSec}
+                      handleSubmit={handleSubmit}
                       // invalid={invalid}
                     />
                   </div>

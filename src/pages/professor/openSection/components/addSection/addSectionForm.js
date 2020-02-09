@@ -34,6 +34,7 @@ const AddSectionForm = (props) => {
     addDay,
     settingSec,
     invalid,
+    handleSubmit,
   } = props
   const {
     day1,
@@ -60,6 +61,7 @@ const AddSectionForm = (props) => {
         handleCancel={handleCancel}
         handleAddDay={handleAddDay}
         addDay={addDay}
+        handleSubmit={handleSubmit}
       />
       <CardForm
         title='OPEN SECTION'
@@ -69,7 +71,7 @@ const AddSectionForm = (props) => {
       >
         <CustomFormSection name=''>
           <LabelWrapper>
-          YEAR / SEMESTER : 2563/2
+            YEAR / SEMESTER : 2563/2
           </LabelWrapper>
           <DefaultForm
             isRequired
@@ -87,8 +89,6 @@ const AddSectionForm = (props) => {
           </DefaultForm>
 
         </CustomFormSection>
-        {/* </CardForm>
-      <CardForm title='SETTING' height='456px'> */}
         <CustomFormSection name=''>
           <DefaultForm
             isRequired
@@ -145,7 +145,7 @@ const AddSectionForm = (props) => {
             </DefaultForm>
             &nbsp; &nbsp;
             <Button onClick={handleModal}>
-            ADD
+              ADD
             </Button>
           </div>
           <div>
@@ -153,14 +153,14 @@ const AddSectionForm = (props) => {
             day1 !== '' && (
               <div style={{ display: 'flex' }}>
                 <LabelWrapperSection>
-            SECTION :
+                  SECTION :
                 </LabelWrapperSection>
                 <LabelWrapper style={{ paddingLeft: '20px' }}>
                   {day1}
                   <br />
                   {startTime1}
                   {' '}
--
+                  -
                   {' '}
                   {endTime1}
                 </LabelWrapper>
@@ -172,7 +172,7 @@ const AddSectionForm = (props) => {
                   <br />
                   {startTime2}
                   {' '}
--
+                  -
                   {' '}
                   {endTime2}
                 </LabelWrapper>

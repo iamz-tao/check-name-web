@@ -16,7 +16,7 @@ const HeaderAdmin = () => (
         <CustomMenuItem
           link
         >
-      YEAR
+          YEAR
         </CustomMenuItem>
       </Link>
       <CustomDropdown
@@ -68,7 +68,7 @@ const HeaderAdmin = () => (
         <CustomMenuItem
           link
         >
-   SUBJECT APPROVE
+          SUBJECT APPROVE
         </CustomMenuItem>
       </Link>
 
@@ -79,7 +79,7 @@ const HeaderAdmin = () => (
         <CustomMenuItem
           link
         >
-   BEACON
+          BEACON
         </CustomMenuItem>
       </Link>
       <Link
@@ -89,7 +89,7 @@ const HeaderAdmin = () => (
         <CustomMenuItem
           link
         >
-   USER
+          USER
         </CustomMenuItem>
       </Link>
     </CustomMenu>
@@ -149,12 +149,12 @@ const CustomMenuItem = styled(Menu.Item)`
   }
 `
 const ItemDetail = styled.span`
-  font-size: 14px;
+  font-size: 12px;
   color: #929598;
 `
 
 const ItemHeader = styled.span`
-    font-size: 1.21em;
+    font-size: 1em;
     margin: 0;
     color: #929598;
     cursor: pointer;

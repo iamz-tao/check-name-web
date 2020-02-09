@@ -16,16 +16,33 @@ const HeaderProfessor = () => (
         <Dropdown.Menu>
           <Dropdown.Item>
             <Link
+              to='/professor'
+              href='/professor'
+            >
+              <LinkButton>
+                <ItemWrapper>
+                  <ItemHeader>
+                    ALL SUBJECTS
+                  </ItemHeader>
+                  <ItemDetail>
+                    List all Subjects.
+                  </ItemDetail>
+                </ItemWrapper>
+              </LinkButton>
+            </Link>
+          </Dropdown.Item>
+          <Dropdown.Item>
+            <Link
               to='/open-section'
               href='/open-section'
             >
               <LinkButton>
                 <ItemWrapper>
                   <ItemHeader>
-                              OPEN SECTION
+                    OPEN SECTION
                   </ItemHeader>
                   <ItemDetail>
-                            Open section and create new subject.
+                    Open section and create new subject.
                   </ItemDetail>
                 </ItemWrapper>
               </LinkButton>
@@ -38,7 +55,7 @@ const HeaderProfessor = () => (
         <CustomMenuItem
           link
         >
-             NISIT APPROVE
+          NISIT APPROVE
         </CustomMenuItem>
       </Link>
 
@@ -46,7 +63,7 @@ const HeaderProfessor = () => (
         <CustomMenuItem
           link
         >
-             REPORT
+          REPORT
         </CustomMenuItem>
       </Link>
     </CustomMenu>
@@ -106,12 +123,12 @@ const CustomMenuItem = styled(Menu.Item)`
   }
 `
 const ItemDetail = styled.span`
-  font-size: 14px;
+  font-size: 12px;
   color: #929598;
 `
 
 const ItemHeader = styled.span`
-    font-size: 1.21em;
+    font-size: 1em;
     margin: 0;
     color: #929598;
     cursor: pointer;

@@ -63,7 +63,6 @@ class HomePageProfessor extends Component {
   }
 
   handleDeleteSection = (id) => {
-    console.log('iddd',id)
     const { deleteSection } = this.props
     const success = 'success'
     confirm({
@@ -115,7 +114,7 @@ class HomePageProfessor extends Component {
     const {
       filter,
     } = this.state
-    console.log('subjects',subjects)
+    
     return (
       <PageWrapper>
         <HeaderProfessor />

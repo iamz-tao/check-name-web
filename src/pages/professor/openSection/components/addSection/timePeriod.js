@@ -10,33 +10,12 @@ import DefaultForm from '~/components/DefaultForm'
 const format = 'HH:mm'
 
 const TimePeriod = (props) => {
-//   const {
-//     feat,
-//     from,
-//     to,
-//     feats,
-//     onChangeTimeFrom,
-//     onChangeTimeTo,
-//     all,
-//   } = props
-
-  //   const differences = calculateShowTime(all.get(feat.get('_id')))
-
-  //   const hourDifference = differences ? differences[0] : 0
-  //   const minuteDifference = differences ? differences[1] : 0
-
-  const onChangeTimeFrom = (from) => {
-console.log('xxxx')
-    // const { change, all } = this.props
-    // const toRange = all.getIn([id, 1])
-    // if (!toRange) {
-    //   change(`features.${id}`, [from, ''])
-    // } else {
-    //   change(`features.${id}`, [from, toRange])
-    // }
-    // await this.setState({ from })
-    // this.handleTimeFrom()
-  }
+  const {
+    from,
+    to,
+    // onChangeTimeFrom,
+    // onChangeTimeTo,
+  } = props
 
   return (
     <BlankWrapper>
@@ -46,20 +25,20 @@ console.log('xxxx')
         label='SELECT TIME'
       >
         <ShowTimeWrapper>
-            Start Time
+          Start Time
           <TimePicker
             format={format}
-            onChange={() => onChangeTimeFrom()}
-            // defaultValue={moment(all.getIn([feat.get('_id'), 0], moment('00:00', 'HH:mm')))}
+            onChange={time => from(time)}
+            defaultValue={moment('00:00', 'HH:mm')}
             placeholder='Start Time'
           />
 
-            &nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;
-            End Time
+          &nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;
+          End Time
           <TimePicker
             format={format}
-            // onChange={time => onChangeTimeTo(time)}
-            // defaultValue={moment(all.getIn([feat.get('_id'), 1], moment('00:00', 'HH:mm')))}
+            onChange={time => to(time)}
+            defaultValue={moment('00:00', 'HH:mm')}
             placeholder='End Time'
           />
         </ShowTimeWrapper>
