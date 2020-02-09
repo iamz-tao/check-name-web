@@ -30,7 +30,6 @@ const initialState = fromJS({
 })
 
 export default (state = initialState, { type, payload }) => {
-  console.log('xxxxxxx',payload)
   switch (type) {
     case CREATE_SUBJECT:
       return state
