@@ -58,7 +58,6 @@ class LoginPage extends Component {
     if (!isNil(authToken)) {
       const { handleAlreadyLogin } = this.props
       // handleAlreadyLogin()
-      return
     }
   }
 
@@ -111,7 +110,7 @@ class LoginPage extends Component {
     if (get(getAuthenticationLoginState, 'isFetching')) {
       return (<LoadingPulse />)
     }
-    
+
     return (
       <form onSubmit={handleSubmit(this.handleLogin)}>
         <HomeWrapper>
@@ -119,7 +118,7 @@ class LoginPage extends Component {
             <FormWrapper>
               <HeaderWrapper>
                 <FormHeader>
-                 LOG-IN TO YOUR ACCOUNT
+                  LOG-IN TO YOUR ACCOUNT
                 </FormHeader>
               </HeaderWrapper>
 
@@ -139,7 +138,7 @@ class LoginPage extends Component {
                   placeholder='Password'
                 />
                 <ForgetLink href='/forget-password'>
-                 Forgot password?
+                  Forgot password?
                 </ForgetLink>
 
                 <FormButton
