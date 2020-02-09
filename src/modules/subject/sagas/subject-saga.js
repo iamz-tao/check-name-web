@@ -222,7 +222,14 @@ export function* getSubjectsProfessor() {
 
 export function* deleteSection({ payload }) {
   try {
-    yield deleteSectionAPI(payload.id)
+    const token = Cookie.get('token')
+    if (!isNil(token)) {
+      const { data, error } = yield deleteSectionAPI(payload.id)
+      if (error) {
+        return
+      }
+    yield put(subjectAction.deleteSectionSuccess(payload.id))
+    }
   } catch (error) {
     console.log('error', error)
   }

@@ -15,7 +15,6 @@ import {
   AddSectionForm,
 } from './components/addSection'
 import withLayout from '~/hocs/Layouts/withLayout'
-import LoadingPulse from '~/components/LoadingPulse'
 import HeaderProfessor from '~/components/HeaderNavbar/Professor'
 import { subjectAction } from '~/modules/subject/actions'
 import { subjectsSelector } from '~/modules/subject/selectors'

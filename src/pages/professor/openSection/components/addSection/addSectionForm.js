@@ -12,6 +12,7 @@ import {
   SemanticInput,
   DropdownWithLabel,
 } from '~/components/ReduxForm'
+import LoadingPulse from '~/components/LoadingPulse'
 import DefaultForm from '~/components/DefaultForm'
 import FormButton from '~/components/Form/Button'
 
@@ -46,10 +47,16 @@ const AddSectionForm = (props) => {
     endTime2,
   } = settingSec
 
+  const height = day1 !== '' ? 'fit-content' : '576px'
+  if (currentYear === null) {
+    return (
+      <LoadingPulse />
+    )
+  }
+
   const year = currentYear.get('year')
   const semester = currentYear.get('semester') === 'FIRST' ? 1 : currentYear.get('semester') === 'SECOND' ? 2 : 'SUMMER'
 
-  const height = day1 !== '' ? 'fit-content' : '576px'
   return (
     <Wrapper name='addSection'>
       <CreateSection
