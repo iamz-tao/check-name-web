@@ -35,6 +35,7 @@ const AddSectionForm = (props) => {
     settingSec,
     invalid,
     handleSubmit,
+    currentYear,
   } = props
   const {
     day1,
@@ -44,6 +45,9 @@ const AddSectionForm = (props) => {
     startTime2,
     endTime2,
   } = settingSec
+
+  const year = currentYear.get('year')
+  const semester = currentYear.get('semester') === 'FIRST' ? 1 : currentYear.get('semester') === 'SECOND' ? 2 : 'SUMMER'
 
   const height = day1 !== '' ? 'fit-content' : '576px'
   return (
@@ -62,6 +66,8 @@ const AddSectionForm = (props) => {
         handleAddDay={handleAddDay}
         addDay={addDay}
         handleSubmit={handleSubmit}
+        year={year}
+        semester={semester}
       />
       <CardForm
         title='OPEN SECTION'
@@ -71,7 +77,11 @@ const AddSectionForm = (props) => {
       >
         <CustomFormSection name=''>
           <LabelWrapper>
-            YEAR / SEMESTER : 2563/2
+            YEAR / SEMESTER :
+            {' '}
+            {year}
+            /
+            {semester}
           </LabelWrapper>
           <DefaultForm
             isRequired
@@ -145,7 +155,7 @@ const AddSectionForm = (props) => {
             </DefaultForm>
             &nbsp; &nbsp;
             <Button onClick={handleModal}>
-              ADD
+              SETTING
             </Button>
           </div>
           <div>
@@ -153,7 +163,7 @@ const AddSectionForm = (props) => {
             day1 !== '' && (
               <div style={{ display: 'flex' }}>
                 <LabelWrapperSection>
-                  SECTION :
+                  DETAIL :
                 </LabelWrapperSection>
                 <LabelWrapper style={{ paddingLeft: '20px' }}>
                   {day1}

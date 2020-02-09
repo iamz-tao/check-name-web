@@ -29,6 +29,8 @@ const CreateSection = (props) => {
     addDay,
     handleButtonClick,
     handleButtonClick2,
+    semester,
+    year,
   } = props
 
   return (
@@ -43,7 +45,11 @@ const CreateSection = (props) => {
           ADD SECTION
         </Header>
         <LabelWrapper>
-          YEAR / SEMESTER : 2563/2
+          YEAR / SEMESTER :
+          {' '}
+          {year}
+          /
+          {semester}
         </LabelWrapper>
         <Wrapper>
           <DefaultForm

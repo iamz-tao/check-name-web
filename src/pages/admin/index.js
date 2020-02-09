@@ -1,9 +1,5 @@
 import React, { Component, Fragment } from 'react'
 import styled from 'styled-components'
-import {
-  Menu,
-  Dropdown,
-} from 'semantic-ui-react'
 import { createStructuredSelector } from 'reselect'
 import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
@@ -19,7 +15,6 @@ import LoadingPulse from '~/components/LoadingPulse'
 import FormButton from '~/components/Form/Button'
 
 import withLayout from '~/hocs/Layouts/withLayout'
-import { Link } from '~/routes'
 import { userAction } from '~/modules/admin/actions'
 import { userSelector } from '~/modules/admin/selectors'
 
@@ -184,7 +179,6 @@ class HomePageAdmin extends Component {
               }}
             >
 
-              {
                 <Fragment>
                   <Space />
                   {
@@ -213,7 +207,6 @@ class HomePageAdmin extends Component {
                     )
                   }
                 </Fragment>
-              }
             </ListCol>
           </RowContainer>
         </RowContainer>

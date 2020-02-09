@@ -7,6 +7,8 @@ import {
   DELETE_YEAR,
   UPDATE_CURRENT_YEAR,
   UPDATE_CURRENT_YEAR_SUCCESS,
+  GET_CURRENT_YEAR,
+  SET_CURRENT_YEAR,
 } from '../constants'
 
 export const createYear = payload => ({
@@ -48,4 +50,14 @@ export const updateCurrentYear = payload => ({
 export const updateCurrentYearSuccess = payload => ({
   payload,
   type: UPDATE_CURRENT_YEAR_SUCCESS,
+})
+
+export const getCurrentYear = payload => ({
+  payload,
+  type: GET_CURRENT_YEAR,
+})
+
+export const setCurrentYear = payload => ({
+  payload,
+  type: SET_CURRENT_YEAR,
 })

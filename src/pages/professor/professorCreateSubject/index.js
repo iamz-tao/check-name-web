@@ -16,6 +16,9 @@ import withLayout from '~/hocs/Layouts/withLayout'
 // import LoadingPulse from '~/components/LoadingPulse'
 import HeaderProfessor from '~/components/HeaderNavbar/Professor'
 import { subjectAction } from '~/modules/subject/actions'
+import { yearAction } from '~/modules/admin/actions'
+import { yearSelector } from '~/modules/admin/selectors'
+
 
 const CreateUpdateSubject = class extends React.Component {
   state = {
@@ -26,6 +29,8 @@ const CreateUpdateSubject = class extends React.Component {
   }
 
   componentDidMount() {
+    const { getCurrentYear } = this.props
+    getCurrentYear({})
   }
 
   componentWillUnmount() {
@@ -64,11 +69,15 @@ const CreateUpdateSubject = class extends React.Component {
 
     const {
       createSubject,
+      currentYear,
     } = this.props
 
+    const year = currentYear.get('year')
+    const semester = currentYear.get('semester') === 'FIRST' ? 1 : currentYear.get('semester') === 'SECOND' ? 2 : 'SUMMER'
+
     const data = {
-      year: 2563,
-      semester: '2',
+      year,
+      semester,
       subject_code,
       subject_name,
       approved_status: 'PENDING',
@@ -81,6 +90,7 @@ const CreateUpdateSubject = class extends React.Component {
   render() {
     const {
       handleSubmit,
+      currentYear,
       // invalid,
       // initialValues,
     } = this.props
@@ -90,17 +100,19 @@ const CreateUpdateSubject = class extends React.Component {
       <PageWrapper>
         <HeaderProfessor />
         <Form onSubmit={handleSubmit(this.submitForm)}>
-        <Row>
-          <Col width='916px'>
-            <AdsTypeWrapper>
-              <Form>
-                <div id='createSubject'>
-                  <CreateSubject />
-                </div>
-              </Form>
-            </AdsTypeWrapper>
-          </Col>
-        </Row>
+          <Row>
+            <Col width='916px'>
+              <AdsTypeWrapper>
+                <Form>
+                  <div id='createSubject'>
+                    <CreateSubject
+                      currentYear={currentYear}
+                    />
+                  </div>
+                </Form>
+              </AdsTypeWrapper>
+            </Col>
+          </Row>
         </Form>
       </PageWrapper>
     )
@@ -111,10 +123,12 @@ const FORM_NAME = 'CRAETE_UPDATE_SUBJECT'
 
 
 const mapStateToProps = (state, props) => createStructuredSelector({
+  currentYear: yearSelector.getCurrentYear,
 })(state, props)
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   createSubject: subjectAction.createSubject,
+  getCurrentYear: yearAction.getCurrentYear,
 }, dispatch)
 
 const withForm = reduxForm({

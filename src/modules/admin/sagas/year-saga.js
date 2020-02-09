@@ -14,8 +14,9 @@ import {
   GET_YEAR_ALL,
   DELETE_YEAR,
   UPDATE_CURRENT_YEAR,
+  GET_CURRENT_YEAR,
 } from '../constants'
-import { getYearAllAPI, deleteYearAPI } from '../api'
+import { getYearAllAPI, deleteYearAPI, getCurrentYearAPI } from '../api'
 
 import * as httpToken from '~/helpers/axiosWrapperPostToken'
 import * as httpPut from '~/helpers/axiosWrapperPut'
@@ -62,6 +63,21 @@ export function* getYearAll() {
   }
 }
 
+export function* getCurrentYear() {
+  try {
+    const token = Cookie.get('token')
+    if (!isNil(token)) {
+      const { data, error } = yield getCurrentYearAPI()
+      if (error) {
+        return
+      }
+      yield put(yearAction.setCurrentYear(data.data))
+    }
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
 export function* deleteYear({ payload }) {
   try {
     yield deleteYearAPI(payload.id)
@@ -91,6 +107,7 @@ export default function* authSaga() {
   yield all([
     takeLatest(CREATE_YEAR, createYear),
     takeLatest(GET_YEAR_ALL, getYearAll),
+    takeLatest(GET_CURRENT_YEAR, getCurrentYear),
     takeLatest(DELETE_YEAR, deleteYear),
     takeLatest(UPDATE_CURRENT_YEAR, updateCurrentYear),
   ])

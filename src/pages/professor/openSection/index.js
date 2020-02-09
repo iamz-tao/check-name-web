@@ -19,6 +19,8 @@ import LoadingPulse from '~/components/LoadingPulse'
 import HeaderProfessor from '~/components/HeaderNavbar/Professor'
 import { subjectAction } from '~/modules/subject/actions'
 import { subjectsSelector } from '~/modules/subject/selectors'
+import { yearAction } from '~/modules/admin/actions'
+import { yearSelector } from '~/modules/admin/selectors'
 
 const OpenSection = class extends React.Component {
   state = {
@@ -37,8 +39,10 @@ const OpenSection = class extends React.Component {
   componentDidMount() {
     const {
       getSubjects,
+      getCurrentYear,
     } = this.props
     getSubjects({})
+    getCurrentYear({})
   }
 
   componentWillUnmount() {
@@ -209,6 +213,7 @@ const OpenSection = class extends React.Component {
       handleSubmit,
       subjects,
       invalid,
+      currentYear,
     } = this.props
 
     const {
@@ -270,6 +275,7 @@ const OpenSection = class extends React.Component {
                       addDay={addDay}
                       settingSec={settingSec}
                       handleSubmit={handleSubmit}
+                      currentYear={currentYear}
                       // invalid={invalid}
                     />
                   </div>
@@ -288,11 +294,13 @@ const FORM_NAME = 'OPEN_SECTION'
 
 const mapStateToProps = (state, props) => createStructuredSelector({
   subjects: subjectsSelector.getSubjects,
+  currentYear: yearSelector.getCurrentYear,
 })(state, props)
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getSubjects: subjectAction.getSubjects,
   openSection: subjectAction.openSection,
+  getCurrentYear: yearAction.getCurrentYear,
 }, dispatch)
 
 const withForm = reduxForm({
