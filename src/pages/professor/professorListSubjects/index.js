@@ -65,7 +65,7 @@ class AdminListSubjects extends Component {
   }
 
   handleDeleteSection = (id) => {
-    // const { deleteSection } = this.props
+    const { deleteSection } = this.props
     const success = 'success'
     confirm({
       title: 'Confirm Deletion',
@@ -74,7 +74,7 @@ class AdminListSubjects extends Component {
       okType: 'danger',
       cancelText: 'Cancel',
       onOk() {
-        // deleteSection({ id })
+        deleteSection({ id })
         notification[success]({
           message: 'Delete Success!',
           description:
