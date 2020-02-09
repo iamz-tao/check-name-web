@@ -7,8 +7,8 @@ import { Modal, notification } from 'antd'
 import Router from 'next/router'
 
 import FilterAndCriteria from './components/FilterAndCriteria'
-import ListUsers from './components/ListUsers'
-import HeaderAdmin from '~/components/HeaderNavbar/Admin'
+import SubjectsList from '../components/ListSubjects'
+import HeaderProfessor from '~/components/HeaderNavbar/Professor'
 
 import NotFound from '~/components/Table/NotFound'
 import LoadingPulse from '~/components/LoadingPulse'
@@ -16,91 +16,76 @@ import FormButton from '~/components/Form/Button'
 
 import withLayout from '~/hocs/Layouts/withLayout'
 import { Link } from '~/routes'
-import { userAction } from '~/modules/admin/actions'
-import { userSelector } from '~/modules/admin/selectors'
+import { subjectAction } from '~/modules/subject/actions'
+import { subjectsSelector } from '~/modules/subject/selectors'
 
 const { confirm } = Modal
 
 const TableHeader = () => (
   <Wrapper>
-    <FormButton
-      colorButton='#006765'
-      type='submit'
-      txtButton='NEW'
-      width='50%'
-      onClick={() => {
-        Router.push('/adminRegister')
-      }}
-    />
     <Row>
       <UserDetailGroup>
-        <ListUserEmail>
+        <ListHeader>
           <ItemHeader>
-            ID
+            SUBJECT NAME
           </ItemHeader>
-        </ListUserEmail>
-        <ListUserName>
+        </ListHeader>
+        <ListHeader>
           <ItemHeader>
-            NAME
+            SUBJECT NAME
           </ItemHeader>
-        </ListUserName>
-        <ListUserName>
-          <ItemHeader>
-            EMAIL
-          </ItemHeader>
-        </ListUserName>
+        </ListHeader>
+        <ListHeader />
       </UserDetailGroup>
-      <UserStatusGroup>
-        <ListUserStatus>
-          <ItemHeader>
-            STATUS
-          </ItemHeader>
-        </ListUserStatus>
-      </UserStatusGroup>
-
     </Row>
- </Wrapper>
+  </Wrapper>
 )
 
-class HomePageAdmin extends Component {
+class AdminListSubjects extends Component {
   state = {
-    users: null,
+    subjects: null,
     filter: {
-      user_role: [],
       keyword: '',
     },
   }
 
   componentDidMount() {
-    const { getUsers } = this.props
-    getUsers({})
+    const { getSubjects } = this.props
+    getSubjects({})
   }
 
   fetch = () => {
     const { filter } = this.state
-    const { getUsers } = this.props
-    getUsers({
+    const { getSubjects } = this.props
+    getSubjects({
       filter: {
         ...filter,
       },
     })
   }
 
-  handleCheckboxUserType = async (e, data) => {
-    const { value } = data
-    const { filter } = this.state
-
-    const newUserType = [value]
-
-    await this.setState({
-      filter: {
-        ...filter,
-        user_role: newUserType,
+  handleDeleteSection = (id) => {
+    // const { deleteSection } = this.props
+    const success = 'success'
+    confirm({
+      title: 'Confirm Deletion',
+      content: 'Are you sure delete this section? You can\'t undo this action.',
+      okText: 'Delete',
+      okType: 'danger',
+      cancelText: 'Cancel',
+      onOk() {
+        // deleteSection({ id })
+        notification[success]({
+          message: 'Delete Success!',
+          description:
+            'Action completed successfully.',
+        })
+      },
+      onCancel() {
       },
     })
-
-    this.fetch()
   }
+
 
   handleInputChange = async ({ target }) => {
     await this.setState(state => ({
@@ -114,47 +99,18 @@ class HomePageAdmin extends Component {
   }
 
   handleResetFilter = () => {
-    this.setState({
-      filter: {
-        user_role: [],
-        keyword: '',
-      },
-    })
+    // this.setState({
+    //   filter: {
+    //     user_role: [],
+    //     keyword: '',
+    //   },
+    // })
   }
 
-  openNotificationDeleteSuccess = (type) => {
-    notification[type]({
-      message: 'Delete Success!',
-      description:
-        'Action completed successfully.',
-    })
-  }
-
-  showDeleteConfirm = (id) => {
-    const { deleteUser } = this.props
-    const success = 'success'
-    confirm({
-      title: 'Confirm Deletion',
-      content: 'Are you sure delete this user? You can\'t undo this action.',
-      okText: 'Delete',
-      okType: 'danger',
-      cancelText: 'Cancel',
-      onOk() {
-        deleteUser({ id })
-        notification[success]({
-          message: 'Delete Success!',
-          description:
-            'Action completed successfully.',
-        })
-      },
-      onCancel() {
-      },
-    })
-  }
 
   render() {
     const {
-      users,
+      subjects,
     } = this.props
 
     const {
@@ -163,12 +119,11 @@ class HomePageAdmin extends Component {
 
     return (
       <PageWrapper>
-        <HeaderAdmin />
+        <HeaderProfessor />
         <RowContainer>
           <FilterWrapper>
             <FilterAndCriteria
               filter={filter}
-              handleCheckboxUserType={this.handleCheckboxUserType}
               handleInputChange={this.handleInputChange}
               handleResetFilter={this.handleResetFilter}
             />
@@ -179,37 +134,35 @@ class HomePageAdmin extends Component {
                 position: 'relative',
               }}
             >
-
-              {
-                <Fragment>
-                  <Space />
-                  {
-                    users === null && (
+              <Fragment>
+                <Space />
+                {
+                    subjects === null && (
                       <LoadingPulse />
                     )
                   }
-                  {
-                    users !== null && users.size > 0 && (
+                {
+                    subjects !== null && subjects.size > 0 && (
                       <ListCol>
                         <TableHeader />
                         <ListCol>
-                          <ListUsers
-                            users={users}
+                          <SubjectsList
+                            subjects={subjects}
                             filter={filter}
-                            handleDeleteUser={this.showDeleteConfirm}
+                            handleDeleteSection={this.handleDeleteSection}
+                            handleMenuClick={this.handleMenuClick}
                           />
                         </ListCol>
                       </ListCol>
                     )
                   }
 
-                  {
-                    users !== null && users.size === 0 && (
+                {
+                    subjects !== null && subjects.size === 0 && (
                       <NotFound />
                     )
                   }
-                </Fragment>
-              }
+              </Fragment>
             </ListCol>
           </RowContainer>
         </RowContainer>
@@ -219,18 +172,18 @@ class HomePageAdmin extends Component {
 }
 
 const mapStateToProps = (state, props) => createStructuredSelector({
-  users: userSelector.getUsers,
+  subjectsProfessor: subjectsSelector.getSubjectsProfessor,
 })(state, props)
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  getUsers: userAction.getUsers,
-  deleteUser: userAction.deleteUser,
+  getSubjects: subjectAction.getSubjectsProfessor,
+  deleteSection: subjectAction.deleteSection,
 }, dispatch)
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withLayout,
-)(HomePageAdmin)
+)(AdminListSubjects)
 
 const PageWrapper = styled.div`
   font-family: Sarabun;
@@ -295,24 +248,13 @@ const Wrapper = styled.div`
   padding: 0px 0px 16px 0px;
 `
 
-const ListUserEmail = styled(OtherWrapper)`
+const ListHeader = styled(OtherWrapper)`
   flex: 1;
   display: inline-block;
   padding-left: 35px;
   text-align: left;
-  min-width: 250px;
-`
-const ListUserName = styled(OtherWrapper)`
-  flex: 1;
-  display: inline-block;
-  padding-left: 40px;
-  text-align: left;
-  min-width: 250px;
 `
 
-const ListUserStatus = styled(OtherWrapper)`
-  padding-left: 5px;
-`
 const Row = styled.div`
   display: flex;
   justify-content: space-between;
@@ -321,15 +263,8 @@ const Row = styled.div`
   width: 100%;
 `
 const UserDetailGroup = styled.div`
-  width: 66%;
   display: flex;
   color: #929598;
   font-size: 16px;
-`
-const UserStatusGroup = styled.div`
-  width: 34%;
-  display: flex;
-  justify-content: center;
-  padding-right: 108px;
-  font-size: 16px;
+  flex: 3;
 `

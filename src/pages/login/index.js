@@ -54,12 +54,6 @@ class LoginPage extends Component {
   }
 
   componentDidMount() {
-    const authToken = Cookie.get('token')
-    if (!isNil(authToken)) {
-      const { handleAlreadyLogin } = this.props
-      // handleAlreadyLogin()
-      return
-    }
   }
 
   handleInputChange = ({ target }) => {
@@ -108,10 +102,11 @@ class LoginPage extends Component {
       login_modal_error,
       errorMessage,
     } = this.state
+
     if (get(getAuthenticationLoginState, 'isFetching')) {
       return (<LoadingPulse />)
     }
-    
+
     return (
       <form onSubmit={handleSubmit(this.handleLogin)}>
         <HomeWrapper>
@@ -119,7 +114,7 @@ class LoginPage extends Component {
             <FormWrapper>
               <HeaderWrapper>
                 <FormHeader>
-                 LOG-IN TO YOUR ACCOUNT
+                  LOG-IN TO YOUR ACCOUNT
                 </FormHeader>
               </HeaderWrapper>
 
@@ -139,7 +134,7 @@ class LoginPage extends Component {
                   placeholder='Password'
                 />
                 <ForgetLink href='/forget-password'>
-                 Forgot password?
+                  Forgot password?
                 </ForgetLink>
 
                 <FormButton
@@ -153,7 +148,7 @@ class LoginPage extends Component {
                    &nbsp; &nbsp;
                 <FormButton
                   colorButton='#006765'
-                  disabled={pristine || submitting || !valid}
+                  disabled={pristine || submitting }
                   type='submit'
                   txtButton='LOGIN'
                   width='50%'
