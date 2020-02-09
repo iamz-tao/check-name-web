@@ -4,6 +4,7 @@ import { createStructuredSelector } from 'reselect'
 import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
 import { Modal, notification } from 'antd'
+import Router from 'next/router'
 
 import FilterAndCriteria from './components/FilterAndCriteria'
 import SubjectsList from './components/ListSubjects'
@@ -11,6 +12,7 @@ import HeaderProfessor from '~/components/HeaderNavbar/Professor'
 
 import NotFound from '~/components/Table/NotFound'
 import LoadingPulse from '~/components/LoadingPulse'
+import FormButton from '~/components/Form/Button'
 
 import withLayout from '~/hocs/Layouts/withLayout'
 import { Link } from '~/routes'
@@ -39,7 +41,7 @@ const TableHeader = () => (
   </Wrapper>
 )
 
-class HomePageProfessor extends Component {
+class AdminListSubjects extends Component {
   state = {
     subjects: null,
     filter: {
@@ -63,8 +65,7 @@ class HomePageProfessor extends Component {
   }
 
   handleDeleteSection = (id) => {
-    console.log('iddd',id)
-    const { deleteSection } = this.props
+    // const { deleteSection } = this.props
     const success = 'success'
     confirm({
       title: 'Confirm Deletion',
@@ -73,7 +74,7 @@ class HomePageProfessor extends Component {
       okType: 'danger',
       cancelText: 'Cancel',
       onOk() {
-        deleteSection({ id })
+        // deleteSection({ id })
         notification[success]({
           message: 'Delete Success!',
           description:
@@ -115,7 +116,7 @@ class HomePageProfessor extends Component {
     const {
       filter,
     } = this.state
-    console.log('subjects',subjects)
+
     return (
       <PageWrapper>
         <HeaderProfessor />
@@ -149,6 +150,7 @@ class HomePageProfessor extends Component {
                             subjects={subjects}
                             filter={filter}
                             handleDeleteSection={this.handleDeleteSection}
+                            handleMenuClick={this.handleMenuClick}
                           />
                         </ListCol>
                       </ListCol>
@@ -170,7 +172,7 @@ class HomePageProfessor extends Component {
 }
 
 const mapStateToProps = (state, props) => createStructuredSelector({
-  subjects: subjectsSelector.getSubjectsProfessor,
+  subjectsProfessor: subjectsSelector.getSubjectsProfessor,
 })(state, props)
 
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -181,7 +183,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withLayout,
-)(HomePageProfessor)
+)(AdminListSubjects)
 
 const PageWrapper = styled.div`
   font-family: Sarabun;
@@ -237,7 +239,6 @@ const FilterWrapper = styled(Col)`
   }
 `
 const Space = styled.div`
-  height: 56px;
 `
 
 const Wrapper = styled.div`
