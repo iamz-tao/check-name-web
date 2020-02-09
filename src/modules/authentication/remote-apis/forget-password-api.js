@@ -4,7 +4,6 @@ import { apiEndpoint } from '~/config/app-config'
 export const forgetPasswordWithEmail = async (payload) => {
   try {
     try {
-      console.log(payload)
       const result = await axios({
         method: 'post',
         headers: {

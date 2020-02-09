@@ -83,7 +83,9 @@ export default (state = initialState, { type, payload }) => {
         .set('isFetching', true)
     }
     case DELETE_SECTION_SUCCESS: {
+      const removeIndex = state.getIn(['professor', 'subjects']).findIndex(rec => rec.get('id') === payload)
       return state
+        .removeIn(['professor', 'subjects', removeIndex])
         .setIn(['httpState', 'isFetching'], false)
     }
     default:

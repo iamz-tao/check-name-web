@@ -14,3 +14,14 @@ export const getAllYear = createSelector(
     }
   },
 )
+
+export const getCurrentYear = createSelector(
+  stateSelector,
+  (state) => {
+    try {
+      return state.getIn(['year', 'year'])
+    } catch (error) {
+      return fromJS({})
+    }
+  },
+)

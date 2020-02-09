@@ -1,92 +1,37 @@
-import React, { useState, useEffect } from 'react'
-
+import React from 'react'
 import {
   Modal,
-  Button,
+  Dropdown,
 } from 'semantic-ui-react'
 import styled from 'styled-components'
 import {
   TimePicker,
   Button as ButtonAntd,
-  Dropdown,
-  Menu,
-  Icon,
+  Button,
 } from 'antd'
 
+
+import { day } from '~/config/constants'
 import DefaultForm from '~/components/DefaultForm'
 
-const format = 'HH:mm'
-
+const format = 'h:mm a'
 
 const CreateSection = (props) => {
   const {
     open,
-    // handleInput,
     getTimeFrom,
     getTimeTo,
-    handleButtonClick,
     getTimeFrom2,
     getTimeTo2,
-    handleButtonClick2,
     handleModal,
     handleCancel,
     handleAddDay,
     addDay,
+    handleButtonClick,
+    handleButtonClick2,
+    semester,
+    year,
   } = props
-
-  const day = (
-    <Menu onClick={handleButtonClick}>
-      <Menu.Item key='0' value='Sunday'>
-        Sunday
-      </Menu.Item>
-      <Menu.Item key='1' value='Monday'>
-      Monday
-      </Menu.Item>
-      <Menu.Item key='2' value='Tuesday'>
-      Tuesday
-      </Menu.Item>
-      <Menu.Item key='3' value='Wednesday'>
-      Wednesday
-      </Menu.Item>
-      <Menu.Item key='4' value='Thursday'>
-      Thursday
-      </Menu.Item>
-      <Menu.Item key='5' value='Friday'>
-      Friday
-      </Menu.Item>
-      <Menu.Item key='6' value='Saturday'>
-      Saturday
-      </Menu.Item>
-
-    </Menu>
-  )
-  const day2 = (
-    <Menu onClick={handleButtonClick2}>
-      <Menu.Item key='0' value='Sunday'>
-        Sunday
-      </Menu.Item>
-      <Menu.Item key='1' value='Monday'>
-      Monday
-      </Menu.Item>
-      <Menu.Item key='2' value='Tuesday'>
-      Tuesday
-      </Menu.Item>
-      <Menu.Item key='3' value='Wednesday'>
-      Wednesday
-      </Menu.Item>
-      <Menu.Item key='4' value='Thursday'>
-      Thursday
-      </Menu.Item>
-      <Menu.Item key='5' value='Friday'>
-      Friday
-      </Menu.Item>
-      <Menu.Item key='6' value='Saturday'>
-      Saturday
-      </Menu.Item>
-
-    </Menu>
-  )
-
 
   return (
     <StyledWrapper
@@ -100,7 +45,11 @@ const CreateSection = (props) => {
           ADD SECTION
         </Header>
         <LabelWrapper>
-          YEAR / SEMESTER : 2563/2
+          YEAR / SEMESTER :
+          {' '}
+          {year}
+          /
+          {semester}
         </LabelWrapper>
         <Wrapper>
           <DefaultForm
@@ -109,17 +58,15 @@ const CreateSection = (props) => {
             width='103px'
             marginBottom='6px'
           >
-            <Dropdown overlay={day}>
-              <Button>
-        Select Day 1
-                {' '} 
-                <div style={{width: '76%'}}/>
-                <Icon type='down' />
-              </Button>
-            </Dropdown>
+            <Dropdown
+              placeholder='Select Day'
+              fluid
+              selection
+              options={day}
+              onChange={handleButtonClick}
+            />
           </DefaultForm>
           <BlankWrapper>
-
             <DefaultForm
               isFeature
               label=''
@@ -146,17 +93,17 @@ const CreateSection = (props) => {
             <div>
               <DefaultForm
                 isRequired
-                label='SELECT DAY'
+                label='SELECT DAY 2'
                 width='103px'
                 marginBottom='6px'
               >
-                <Dropdown overlay={day2}>
-                  <Button style={{ width: '100%' }}>
-        Select Day 2
-                    {' '}
-                    <Icon type='down' />
-                  </Button>
-                </Dropdown>
+                <Dropdown
+                  placeholder='Select Day'
+                  fluid
+                  selection
+                  options={day}
+                  onChange={handleButtonClick2}
+                />
               </DefaultForm>
               <BlankWrapper>
 
@@ -168,6 +115,7 @@ const CreateSection = (props) => {
                 >
                   <ShowTimeWrapper>
                     <TimePicker
+                      use12Hours
                       format={format}
                       placeholder='Start Time'
                       onChange={getTimeFrom2}
@@ -188,17 +136,16 @@ const CreateSection = (props) => {
 
           {
             !addDay && (
-              <PlusWrpper>
+              <PlusWrapper>
                 <LabelWrapper style={{ paddingRight: '8px' }}>
-          ADD DAY
+                  ADD DAY
                 </LabelWrapper>
                 <ButtonPlus onClick={handleAddDay}>
-              +
+                  +
                 </ButtonPlus>
-              </PlusWrpper>
+              </PlusWrapper>
             )
           }
-
           <ButtonWrapper>
             <ButtonCancel onClick={handleCancel}>CANCEL</ButtonCancel>
             &nbsp;&nbsp;&nbsp;
@@ -308,7 +255,7 @@ const ShowTimeWrapper = styled.div`
   width: 100%;
 
 `
-const PlusWrpper = styled.div`
+const PlusWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   flex-direction: row;
@@ -321,7 +268,8 @@ const ButtonPlus = styled(Button)`
   border-radius: 12px !important;
   width: 32px !important;
   height: 32px;
-  padding: 0px 0px 4px 8px !important;
+  padding: 0px 0px 4px 0px !important;
   border: 1px solid rgba(36, 52, 69, 0.5) !important;
   font-size: 28px !important;
+  line-height: 0;
 `
