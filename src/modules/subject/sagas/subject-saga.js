@@ -18,8 +18,9 @@ import {
   REJECT_SUBJECTS,
   OPEN_SECTION,
   GET_SUBJECTS_PROFESSOR,
+  DELETE_SECTION,
 } from '../constants'
-import { getSubjectsAPI, getSubjectsProfessorAPI } from '../api'
+import { getSubjectsAPI, getSubjectsProfessorAPI, deleteSectionAPI } from '../api'
 
 import * as http from '~/helpers/axiosWrapperPostToken'
 import * as httpPut from '~/helpers/axiosWrapperPut'
@@ -219,6 +220,13 @@ export function* getSubjectsProfessor() {
   }
 }
 
+export function* deleteSection({ payload }) {
+  try {
+    yield deleteSectionAPI(payload.id)
+  } catch (error) {
+    console.log('error', error)
+  }
+}
 export default function* authSaga() {
   yield all([
     takeLatest(CREATE_SUBJECT, createSubject),
@@ -229,5 +237,6 @@ export default function* authSaga() {
     takeLatest(REJECT_SUBJECTS, rejectSubjects),
     takeLatest(OPEN_SECTION, openSection),
     takeLatest(GET_SUBJECTS_PROFESSOR, getSubjectsProfessor),
+    takeLatest(DELETE_SECTION, deleteSection),
   ])
 }

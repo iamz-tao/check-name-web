@@ -32,7 +32,7 @@ const SubjectsList = (props) => {
                 <ListDetail>
                   <DeleteIcon
                     className='trash'
-                    onClick={() => handleDeleteSection(s.id)}
+                    onClick={() => handleDeleteSection(s.get('id'))}
                   />
                 </ListDetail>
               </Row>

@@ -4,7 +4,7 @@ import {
 import Cookie from 'js-cookie'
 
 import * as http from '~/helpers/axiosWrapperGet'
-
+import * as httpDel from '~/helpers/axiosWrapperDelete'
 
 export function* getSubjectsAPI() {
   const token = Cookie.get('token')
@@ -32,6 +32,19 @@ export function* getSubjectsProfessorAPI() {
     payload: {
       token,
       email,
+      data,
+    },
+  })
+}
+
+export function* deleteSectionAPI(id) {
+  const token = Cookie.get('token')
+  const data = {}
+
+  return yield call(httpDel.post, {
+    url: `/api/deleteSEction/${id}`,
+    payload: {
+      token,
       data,
     },
   })

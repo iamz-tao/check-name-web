@@ -20,6 +20,9 @@ import {
 
 const initialState = fromJS({
   subjects: null,
+  professor: {
+    subjects: null,
+  },
   httpState: {
     isFetching: false,
     message: '',

@@ -4,7 +4,6 @@ import { createStructuredSelector } from 'reselect'
 import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
 import { Modal, notification } from 'antd'
-import Router from 'next/router'
 
 import FilterAndCriteria from './components/FilterAndCriteria'
 import SubjectsList from './components/ListSubjects'
@@ -12,7 +11,6 @@ import HeaderProfessor from '~/components/HeaderNavbar/Professor'
 
 import NotFound from '~/components/Table/NotFound'
 import LoadingPulse from '~/components/LoadingPulse'
-import FormButton from '~/components/Form/Button'
 
 import withLayout from '~/hocs/Layouts/withLayout'
 import { Link } from '~/routes'
@@ -65,7 +63,8 @@ class HomePageProfessor extends Component {
   }
 
   handleDeleteSection = (id) => {
-    // const { deleteSection } = this.props
+    console.log('iddd',id)
+    const { deleteSection } = this.props
     const success = 'success'
     confirm({
       title: 'Confirm Deletion',
@@ -74,7 +73,7 @@ class HomePageProfessor extends Component {
       okType: 'danger',
       cancelText: 'Cancel',
       onOk() {
-        // deleteSection({ id })
+        deleteSection({ id })
         notification[success]({
           message: 'Delete Success!',
           description:
@@ -116,7 +115,7 @@ class HomePageProfessor extends Component {
     const {
       filter,
     } = this.state
-    
+    console.log('subjects',subjects)
     return (
       <PageWrapper>
         <HeaderProfessor />
