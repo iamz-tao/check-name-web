@@ -58,7 +58,7 @@ export function* deleteUserAPI(id) {
         },
       })
 
-      window.location.href = '/admin'
+      yield put(userAction.deleteUserSuccess(id))
       const { error } = response
 
       if (error) {

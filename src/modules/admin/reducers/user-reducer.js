@@ -2,6 +2,7 @@ import { fromJS } from 'immutable'
 import {
   SET_TO_USERS,
   REQUEST_SUCCESS,
+  DELETE_USER_SUCCESS,
 } from '../constants'
 
 const initialState = fromJS({
@@ -19,6 +20,11 @@ export default (state = initialState, { type, payload }) => {
       return state
         .set('isFetching', false)
         .set('errorMessage', payload.message)
+    }
+    case DELETE_USER_SUCCESS: {
+      const userIndex = state.get('users').findIndex(rec => rec.get('uid') === payload)
+      return state
+      .removeIn(['users', userIndex])
     }
     default:
       return state

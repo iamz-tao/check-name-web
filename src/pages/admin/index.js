@@ -6,6 +6,10 @@ import { connect } from 'react-redux'
 import { Modal, notification } from 'antd'
 import Router from 'next/router'
 
+import get from 'lodash/get'
+import Cookie from 'js-cookie'
+import isNil from 'lodash/isNil'
+
 import FilterAndCriteria from './components/FilterAndCriteria'
 import ListUsers from './components/ListUsers'
 import HeaderAdmin from '~/components/HeaderNavbar/Admin'
@@ -15,7 +19,6 @@ import LoadingPulse from '~/components/LoadingPulse'
 import FormButton from '~/components/Form/Button'
 
 import withLayout from '~/hocs/Layouts/withLayout'
-import { Link } from '~/routes'
 import { userAction } from '~/modules/admin/actions'
 import { userSelector } from '~/modules/admin/selectors'
 
@@ -23,43 +26,44 @@ const { confirm } = Modal
 
 const TableHeader = () => (
   <Wrapper>
-    <FormButton
-      colorButton='#006765'
-      type='submit'
-      txtButton='NEW'
-      width='50%'
-      onClick={() => {
-        Router.push('/adminRegister')
-      }}
-    />
+    <ButtonWrapper>
+      <FormButton
+        colorButton='#006765'
+        type='submit'
+        txtButton='NEW'
+        width='50%'
+        onClick={() => {
+          Router.push('/adminRegister')
+        }}
+      />
+    </ButtonWrapper>
+
     <Row>
       <UserDetailGroup>
-        <ListUserEmail>
+        <ListHeader style={{ paddingLeft: '40px' }}>
           <ItemHeader>
             ID
           </ItemHeader>
-        </ListUserEmail>
-        <ListUserName>
+        </ListHeader>
+        <ListHeader style={{ flex: 2 }}>
           <ItemHeader>
             NAME
           </ItemHeader>
-        </ListUserName>
-        <ListUserName>
+        </ListHeader>
+        <ListHeader style={{ flex: 2 }}>
           <ItemHeader>
             EMAIL
           </ItemHeader>
-        </ListUserName>
-      </UserDetailGroup>
-      <UserStatusGroup>
-        <ListUserStatus>
+        </ListHeader>
+        <ListHeader style={{ justifyContent: 'center' }}>
           <ItemHeader>
             STATUS
           </ItemHeader>
-        </ListUserStatus>
-      </UserStatusGroup>
-
+        </ListHeader>
+        <ListHeader />
+      </UserDetailGroup>
     </Row>
- </Wrapper>
+  </Wrapper>
 )
 
 class HomePageAdmin extends Component {
@@ -72,6 +76,10 @@ class HomePageAdmin extends Component {
   }
 
   componentDidMount() {
+    const authToken = Cookie.get('token')
+    if (!authToken) {
+      Router.push('/login')
+    }
     const { getUsers } = this.props
     getUsers({})
   }
@@ -179,16 +187,14 @@ class HomePageAdmin extends Component {
                 position: 'relative',
               }}
             >
-
-              {
-                <Fragment>
-                  <Space />
-                  {
+              <Fragment>
+                <Space />
+                {
                     users === null && (
                       <LoadingPulse />
                     )
                   }
-                  {
+                {
                     users !== null && users.size > 0 && (
                       <ListCol>
                         <TableHeader />
@@ -203,13 +209,12 @@ class HomePageAdmin extends Component {
                     )
                   }
 
-                  {
+                {
                     users !== null && users.size === 0 && (
                       <NotFound />
                     )
                   }
-                </Fragment>
-              }
+              </Fragment>
             </ListCol>
           </RowContainer>
         </RowContainer>
@@ -253,8 +258,7 @@ const ItemHeader = styled.span`
 
 const OtherWrapper = styled.div`
     display: flex;
-    justify-content: center;
-    text-align: center;
+    text-align: start;
 `
 
 const RowContainer = styled.div`
@@ -291,28 +295,14 @@ const Space = styled.div`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
   padding: 0px 0px 16px 0px;
 `
 
-const ListUserEmail = styled(OtherWrapper)`
+const ListHeader = styled(OtherWrapper)`
   flex: 1;
-  display: inline-block;
-  padding-left: 35px;
-  text-align: left;
-  min-width: 250px;
-`
-const ListUserName = styled(OtherWrapper)`
-  flex: 1;
-  display: inline-block;
-  padding-left: 40px;
-  text-align: left;
-  min-width: 250px;
+  display: flex;
 `
 
-const ListUserStatus = styled(OtherWrapper)`
-  padding-left: 5px;
-`
 const Row = styled.div`
   display: flex;
   justify-content: space-between;
@@ -321,15 +311,13 @@ const Row = styled.div`
   width: 100%;
 `
 const UserDetailGroup = styled.div`
-  width: 66%;
   display: flex;
   color: #929598;
   font-size: 16px;
+  flex: 5;
 `
-const UserStatusGroup = styled.div`
-  width: 34%;
+const ButtonWrapper = styled.div`
   display: flex;
-  justify-content: center;
-  padding-right: 108px;
-  font-size: 16px;
+  width: 100%;
+  justify-content: flex-end;
 `
