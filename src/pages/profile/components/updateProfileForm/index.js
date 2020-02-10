@@ -4,7 +4,6 @@ import { Field } from 'redux-form/immutable'
 import {
   Grid,
 } from 'semantic-ui-react'
-import Router from 'next/router'
 import PropTypes from 'prop-types'
 import { fromJS } from 'immutable'
 
@@ -15,11 +14,9 @@ import FormButton from '~/components/Form/Button'
 
 
 const UpdateProfileForm = (props) => {
-  // const {
-    // valid,
-    // pristine,
-    // submitting,
-  // } = props
+  const {
+    submitting,
+  } = props
 
   return (
     <FormWrapper>
@@ -27,7 +24,7 @@ const UpdateProfileForm = (props) => {
       <Wrapper>
         <Grid style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
           <FormHeader>
-      UPDATE PROFILE
+            UPDATE PROFILE
           </FormHeader>
           <Avatar />
         </Grid>
@@ -38,11 +35,11 @@ const UpdateProfileForm = (props) => {
 
           <StyledForm>
             <Field
-              label='PROFESSOER ID :'
+              label='PERSONNEL ID :'
               name='id'
               component={renderInput}
               type='text'
-              placeholder='Professor ID'
+              placeholder='Personnel ID'
             />
           </StyledForm>
           <StyledForm>
@@ -65,15 +62,6 @@ const UpdateProfileForm = (props) => {
           </StyledForm>
           <StyledForm>
             <Field
-              label='MOBILE PHONE :'
-              name='mobile'
-              component={renderInput}
-              type='phone'
-              placeholder='Mobile Phone'
-            />
-          </StyledForm>
-          <StyledForm>
-            <Field
               disabled
               label='EMAIL :'
               name='email'
@@ -82,9 +70,17 @@ const UpdateProfileForm = (props) => {
               placeholder='Email'
             />
           </StyledForm>
-
+          <StyledForm>
+            <Field
+              label='MOBILE PHONE :'
+              name='mobile'
+              component={renderInput}
+              type='phone'
+              placeholder='Mobile Phone'
+            />
+          </StyledForm>
           <FormButton
-            // disabled={pristine || submitting || !valid}
+            disabled={submitting}
             colorButton='#CA5353'
             type='submit'
             txtButton='UPDATE'
@@ -98,6 +94,7 @@ const UpdateProfileForm = (props) => {
     </FormWrapper>
   )
 }
+
 
 UpdateProfileForm.propTypes = {
   handleInputChange: PropTypes.func.isRequired,
