@@ -4,15 +4,15 @@ const validate = (values) => {
   const errors = {}
 
   if (!values.get('email')) {
-    errors.email = 'กรุณากรอกข้อมูล'
+    errors.email = 'Required!'
   }
 
   if (values.get('email') && !is.email(values.get('email'))) {
-    errors.email = 'กรุณากรอกให้ถูกต้อง'
+    errors.email = 'Invalid email address!'
   }
 
   if (!values.get('password')) {
-    errors.password = 'กรุณากรอกข้อมูล'
+    errors.password = 'Required!'
   }
 
   return errors
