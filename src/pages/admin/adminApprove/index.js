@@ -187,7 +187,7 @@ class AdminApprove extends Component {
                   }
 
                 {
-                    subjectWait !== null && (
+                    subjectWait !== null && subjectWait.length === 0 && (
                       <RowContainerNotFound>
                         <NotFoundWrapper>
                           <h1>

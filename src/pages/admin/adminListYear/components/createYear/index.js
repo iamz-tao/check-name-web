@@ -8,12 +8,8 @@ import {
 import { reduxForm, Field } from 'redux-form/immutable'
 import { createStructuredSelector } from 'reselect'
 
-import validate from './validate'
 
 import styled from 'styled-components'
-import {
-  Button as ButtonAntd,
-} from 'antd'
 import { yearAction } from '~/modules/admin/actions'
 import {
   SemanticInput,
@@ -151,7 +147,6 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 const withForm = reduxForm({
   form: FORM_NAME,
-  validate,
   enableReinitialize: true,
   keepDirtyOnReinitialize: true,
 })

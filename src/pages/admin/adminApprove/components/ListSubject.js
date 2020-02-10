@@ -1,9 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Segment } from 'semantic-ui-react'
 import { Table, Button } from 'antd'
-import FormButton from '~/components/Form/Button'
-import DeleteIcon from '~/components/DeleteIcon'
 
 
 const UserList = (props) => {
@@ -40,7 +37,6 @@ const UserList = (props) => {
       render: id => (
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Button style={{ backgroundColor: '#1AB433', border: '0.8px solid #1AB433' }} onClick={() => handleApprove(id)}>Approve</Button>
-          &nbsp;
           <Button style={{ backgroundColor: '#CA5353', border: '0.8px solid #CA5353' }} onClick={() => handleReject(id)}>Reject</Button>
         </div>
       ),
@@ -68,18 +64,18 @@ const UserList = (props) => {
             <div style={{ display: 'flex' }}>
               <div style={{ marginBottom: 16, flex: 1 }}>
                 <CustomClear type='dashed' onClick={start} disabled={!hasSelected} loading={loading}>
-              CLEAR
+                  CLEAR
                 </CustomClear>
                 <span style={{ marginLeft: 8 }}>
                   {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
                 </span>
               </div>
-              <div>
+              <div style={{paddingRight: '16px'}}>
                 <CustomApprove type='dashed' onClick={() => handleApproveSubjects('A')}>
-              APPROVE
+                  APPROVE
                 </CustomApprove>
                 <CustomReject type='dashed' onClick={() => handleApproveSubjects('R')}>
-              REJECT
+                  REJECT
                 </CustomReject>
               </div>
             </div>
@@ -125,9 +121,9 @@ const Column = styled.div`
 `
 
 const CustomClear = styled(Button)`
-  background-color: #a7a7a7;
+  background-color: #737373 !important;
   color: #8d9193;
-  border: 0.8px solid #a7a7a7;
+  border: 0.8px solid #737373;
 `
 
 const CustomApprove = styled(Button)`
