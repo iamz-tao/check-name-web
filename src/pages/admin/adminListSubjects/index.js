@@ -75,7 +75,7 @@ class AdminListSubjects extends Component {
   }
 
   handleDeleteSubject = (id) => {
-    // const { deleteSubject } = this.props
+    const { deleteSubject } = this.props
     const success = 'success'
     confirm({
       title: 'Confirm Deletion',
@@ -84,7 +84,7 @@ class AdminListSubjects extends Component {
       okType: 'danger',
       cancelText: 'Cancel',
       onOk() {
-        // deleteSubject({ id })
+        deleteSubject({ id })
         notification[success]({
           message: 'Delete Success!',
           description:
@@ -192,7 +192,7 @@ const mapStateToProps = (state, props) => createStructuredSelector({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getSubjects: subjectAction.getSubjects,
-//   deleteSubject: subjectAction.deleteSubject, wait API
+  deleteSubject: subjectAction.deleteSubject,
 }, dispatch)
 
 export default compose(

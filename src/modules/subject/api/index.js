@@ -49,3 +49,16 @@ export function* deleteSectionAPI(id) {
     },
   })
 }
+
+export function* deleteSubjectAPI(id) {
+  const token = Cookie.get('token')
+  const data = {}
+
+  return yield call(httpDel.post, {
+    url: `/api/delSubject/${id}`,
+    payload: {
+      token,
+      data,
+    },
+  })
+}
