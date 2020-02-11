@@ -1,29 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Segment } from 'semantic-ui-react'
-import {
-  Menu,
-} from 'antd'
 import DeleteIcon from '~/components/DeleteIcon'
 
 const SubjectsList = (props) => {
   const {
     subjects,
     filter,
-    handleDeleteSubject,
-    handleMenuClick,
+    handleDeleteSection,
   } = props
-
-  const menu = (
-    <Menu onClick={handleMenuClick}>
-      <Menu.Item key='ACTIVE'>
-        ACTIVE
-      </Menu.Item>
-      <Menu.Item key='CLOSE'>
-        CLOSE
-      </Menu.Item>
-    </Menu>
-  )
 
   return (
     <Column>
@@ -35,21 +20,21 @@ const SubjectsList = (props) => {
                 <UserDetailGroup>
                   <ListDetail>
                     <ItemSpan>
-                      {s.subject_code}
+                      {s.getIn(['Subject', 'subject_name'])}
                     </ItemSpan>
                   </ListDetail>
-                  <ListDetail style={{ minWidth: '500px' }}>
+                  <ListDetail>
                     <ItemSpan>
-                      {s.subject_name}
+                      {s.get('section_number')}
                     </ItemSpan>
-                  </ListDetail>
-                  <ListDetail style={{ flex: 2 }}>
-                    <DeleteIcon
-                      className='trash'
-                      onClick={() => handleDeleteSubject(s.id)}
-                    />
                   </ListDetail>
                 </UserDetailGroup>
+                <ListDetail>
+                  <DeleteIcon
+                    className='trash'
+                    onClick={() => handleDeleteSection(s.get('id'))}
+                  />
+                </ListDetail>
               </Row>
             </ItemWrapper>
           ))}
@@ -139,5 +124,5 @@ const ListDetail = styled(OtherWrapper)`
 
 const UserDetailGroup = styled.div`
   display: flex;
-  flex: 4;
+  flex: 3;
 `

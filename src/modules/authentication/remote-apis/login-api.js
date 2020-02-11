@@ -28,7 +28,6 @@ export const loginWithUsername = async (payload) => {
           message,
         }
       }
-console.log('succcess login')
       // return {
       //   data,
       //   message,

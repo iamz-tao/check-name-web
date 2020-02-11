@@ -1,15 +1,10 @@
 import {
   call,
-  put,
 } from 'redux-saga/effects'
 import Cookie from 'js-cookie'
-import isNil from 'lodash/isNil'
-import Router from 'next/router'
 
 import * as http from '~/helpers/axiosWrapperGet'
 import * as httpDel from '~/helpers/axiosWrapperDelete'
-// import { loginAction } from '~/modules/authentication/actions'
-// import { subjectAction } from '../actions'
 
 export function* getSubjectsAPI() {
   const token = Cookie.get('token')
@@ -27,7 +22,7 @@ export function* getSubjectsAPI() {
 }
 
 
-export function* getSubjectProfessorAPI() {
+export function* getSubjectsProfessorAPI() {
   const token = Cookie.get('token')
   const email = Cookie.get('email')
   const data = {}
@@ -42,3 +37,15 @@ export function* getSubjectProfessorAPI() {
   })
 }
 
+export function* deleteSectionAPI(id) {
+  const token = Cookie.get('token')
+  const data = {}
+
+  return yield call(httpDel.post, {
+    url: `/api/deleteSEction/${id}`,
+    payload: {
+      token,
+      data,
+    },
+  })
+}

@@ -34,21 +34,17 @@ const TableHeader = () => (
     />
     <Row>
       <UserDetailGroup>
-        <ListUserEmail>
+        <ListHeader>
           <ItemHeader>
-          SUBJECT CODE
+            SUBJECT CODE
           </ItemHeader>
-        </ListUserEmail>
-        <ListUserName style={{ minWidth: '500px' }}>
+        </ListHeader>
+        <ListHeader>
           <ItemHeader>
-          SUBJECT NAME
+            SUBJECT NAME
           </ItemHeader>
-        </ListUserName>
-        <ListUserName>
-          <ItemHeader>
-          STATUS
-          </ItemHeader>
-        </ListUserName>
+        </ListHeader>
+        <ListHeader style={{ flex: 2 }}/>
       </UserDetailGroup>
     </Row>
   </Wrapper>
@@ -122,7 +118,7 @@ class AdminListSubjects extends Component {
   }
 
   handleMenuClick = () => {
-      //change status
+    //change status
   }
 
   render() {
@@ -153,15 +149,14 @@ class AdminListSubjects extends Component {
               }}
             >
 
-              {
-                <Fragment>
-                  <Space />
-                  {
+              <Fragment>
+                <Space />
+                {
                     subjects === null && (
                       <LoadingPulse />
                     )
                   }
-                  {
+                {
                     subjects !== null && subjects.size > 0 && (
                       <ListCol>
                         <TableHeader />
@@ -177,14 +172,12 @@ class AdminListSubjects extends Component {
                     )
                   }
 
-                  {
+                {
                     subjects !== null && subjects.size === 0 && (
                       <NotFound />
                     )
                   }
-                </Fragment>
-                // )
-              }
+              </Fragment>
             </ListCol>
           </RowContainer>
         </RowContainer>
@@ -270,30 +263,11 @@ const Wrapper = styled.div`
   padding: 0px 0px 16px 0px;
 `
 
-const ListUserEmail = styled(OtherWrapper)`
+const ListHeader = styled(OtherWrapper)`
   flex: 1;
-  display: inline-block;
-  padding-left: 35px;
-  text-align: left;
-  min-width: 250px;
-`
-const ListUserName = styled(OtherWrapper)`
-  flex: 1;
-  display: inline-block;
-  padding-left: 40px;
-  text-align: left;
-  min-width: 250px;
-`
-
-const ListUserStatus = styled(OtherWrapper)`
-  padding-left: 5px;
-`
-const Row = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 32%;
-  width: 100%;
+  padding-left: 35px;
+  text-align: start;
 `
 const UserDetailGroup = styled.div`
   width: 66%;
@@ -301,10 +275,10 @@ const UserDetailGroup = styled.div`
   color: #929598;
   font-size: 16px;
 `
-const UserStatusGroup = styled.div`
-  width: 34%;
+const Row = styled.div`
   display: flex;
-  justify-content: center;
-  padding-right: 108px;
-  font-size: 16px;
+  justify-content: space-between;
+  align-items: center;
+  height: 76px;
+  width: 100%;
 `

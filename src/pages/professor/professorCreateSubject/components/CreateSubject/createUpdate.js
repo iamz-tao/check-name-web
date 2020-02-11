@@ -11,16 +11,21 @@ import DefaultForm from '~/components/DefaultForm'
 import FormButton from '~/components/Form/Button'
 
 const CreateSubject = (props) => {
-//   const handleInput = get(props, 'handleInput')
-//   const options = get(props, 'options')
+  const currentYear = get(props, 'currentYear')
+  const year = currentYear.get('year')
+  const semester = currentYear.get('semester') === 'FIRST' ? 1 : currentYear.get('semester') === 'SECOND' ? 2 : 'SUMMER'
 
   return (
     <Wrapper name='createSubject'>
       <CardForm title='NEW SUBJECT' height='388px'>
         <CustomFormSection name=''>
-        <LabelWrapper>
-          YEAR / SEMESTER : 2563/2
-        </LabelWrapper>
+          <LabelWrapper>
+            YEAR / SEMESTER :
+            {' '}
+            {year}
+            /
+            {semester}
+          </LabelWrapper>
           <DefaultForm
             isRequired
             label='SUBJECT CODE'
@@ -55,7 +60,7 @@ const CreateSubject = (props) => {
             // Router.push('/adminRegister')
             }}
           />
-           <EmptySpace />
+          <EmptySpace />
           <FormButton
             colorButton='#CA5353'
             type='submit'

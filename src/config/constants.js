@@ -17,7 +17,7 @@ module.exports = {
     {
       key: 0,
       value: 'Sunday',
-      tetx: 'Sunday',
+      text: 'Sunday',
     },
     {
       key: 1,

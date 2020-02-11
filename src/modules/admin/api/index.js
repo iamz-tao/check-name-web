@@ -4,7 +4,6 @@ import {
 } from 'redux-saga/effects'
 import Cookie from 'js-cookie'
 import isNil from 'lodash/isNil'
-import Router from 'next/router'
 
 import * as http from '~/helpers/axiosWrapperGet'
 import * as httpDel from '~/helpers/axiosWrapperDelete'
@@ -36,6 +35,19 @@ export function* getYearAllAPI() {
     payload: {
       token,
       email,
+      data,
+    },
+  })
+}
+
+export function* getCurrentYearAPI() {
+  const token = Cookie.get('token')
+  const data = {}
+
+  return yield call(http.post, {
+    url: '/api/getCurrentYear',
+    payload: {
+      token,
       data,
     },
   })

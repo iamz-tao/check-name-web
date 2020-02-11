@@ -1,5 +1,4 @@
 import { fromJS } from 'immutable'
-// import Cookie from 'js-cookie'
 
 import {
   CREATE_SUBJECT,
@@ -16,10 +15,14 @@ import {
   OPEN_SECTION,
   OPEN_SECTION_SUCCESS,
   OPEN_SECTION_FAILED,
+  DELETE_SECTION_SUCCESS,
 } from '../constants'
 
 const initialState = fromJS({
   subjects: null,
+  professor: {
+    subjects: null,
+  },
   httpState: {
     isFetching: false,
     message: '',
@@ -76,7 +79,14 @@ export default (state = initialState, { type, payload }) => {
         .setIn(['httpState', 'isFetching'], false)
     case SET_SUBJECT_PROFESSOR: {
       return state
-        .set('subjectProfessor', fromJS(payload))
+        .setIn(['professor', 'subjects'], fromJS(payload))
+        .set('isFetching', true)
+    }
+    case DELETE_SECTION_SUCCESS: {
+      const removeIndex = state.getIn(['professor', 'subjects']).findIndex(rec => rec.get('id') === payload)
+      return state
+        .removeIn(['professor', 'subjects', removeIndex])
+        .setIn(['httpState', 'isFetching'], false)
     }
     default:
       return state
