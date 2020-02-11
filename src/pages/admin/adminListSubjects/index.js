@@ -34,21 +34,17 @@ const TableHeader = () => (
     />
     <Row>
       <UserDetailGroup>
-        <ListUserEmail>
+        <ListHeader>
           <ItemHeader>
-          SUBJECT CODE
+            SUBJECT CODE
           </ItemHeader>
-        </ListUserEmail>
-        <ListUserName style={{ minWidth: '500px' }}>
+        </ListHeader>
+        <ListHeader style={{ flex: 2 }}>
           <ItemHeader>
-          SUBJECT NAME
+            SUBJECT NAME
           </ItemHeader>
-        </ListUserName>
-        <ListUserName>
-          <ItemHeader>
-          STATUS
-          </ItemHeader>
-        </ListUserName>
+        </ListHeader>
+        <ListHeader />
       </UserDetailGroup>
     </Row>
   </Wrapper>
@@ -122,7 +118,7 @@ class AdminListSubjects extends Component {
   }
 
   handleMenuClick = () => {
-      //change status
+    //change status
   }
 
   render() {
@@ -153,15 +149,14 @@ class AdminListSubjects extends Component {
               }}
             >
 
-              {
-                <Fragment>
-                  <Space />
-                  {
+              <Fragment>
+                <Space />
+                {
                     subjects === null && (
                       <LoadingPulse />
                     )
                   }
-                  {
+                {
                     subjects !== null && subjects.size > 0 && (
                       <ListCol>
                         <TableHeader />
@@ -177,14 +172,12 @@ class AdminListSubjects extends Component {
                     )
                   }
 
-                  {
+                {
                     subjects !== null && subjects.size === 0 && (
                       <NotFound />
                     )
                   }
-                </Fragment>
-                // )
-              }
+              </Fragment>
             </ListCol>
           </RowContainer>
         </RowContainer>
@@ -228,8 +221,7 @@ const ItemHeader = styled.span`
 
 const OtherWrapper = styled.div`
     display: flex;
-    justify-content: center;
-    text-align: center;
+    text-align: start;
 `
 
 const RowContainer = styled.div`
@@ -270,41 +262,20 @@ const Wrapper = styled.div`
   padding: 0px 0px 16px 0px;
 `
 
-const ListUserEmail = styled(OtherWrapper)`
+const ListHeader = styled(OtherWrapper)`
   flex: 1;
-  display: inline-block;
+  display: flex;
   padding-left: 35px;
-  text-align: left;
-  min-width: 250px;
+  text-align: start;
 `
-const ListUserName = styled(OtherWrapper)`
-  flex: 1;
-  display: inline-block;
-  padding-left: 40px;
-  text-align: left;
-  min-width: 250px;
-`
-
-const ListUserStatus = styled(OtherWrapper)`
-  padding-left: 5px;
+const UserDetailGroup = styled.div`
+  display: flex;
+  flex: 4;
+  color: #929598;
+  font-size: 16px;
 `
 const Row = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  height: 32%;
   width: 100%;
-`
-const UserDetailGroup = styled.div`
-  width: 66%;
-  display: flex;
-  color: #929598;
-  font-size: 16px;
-`
-const UserStatusGroup = styled.div`
-  width: 34%;
-  display: flex;
-  justify-content: center;
-  padding-right: 108px;
-  font-size: 16px;
 `

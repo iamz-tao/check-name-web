@@ -15,9 +15,8 @@ import Router from 'next/router'
 import get from 'lodash/get'
 import Cookie from 'js-cookie'
 import isNil from 'lodash/isNil'
-import is from 'is_js'
 
-// import validate from './validate'
+import validate from './validate'
 
 import Avatar from '~/components/UploadProfile'
 import FormButton from '~/components/Form/Button'
@@ -45,29 +44,11 @@ class RegisterPage extends Component {
       }
     }
 
-    return {
-      // errorMessage: '',
-      // register_error_modal: false,
-      // register_confirm_modal: true,
-    }
-  }
-
-  state = {
-    email: '',
-    password: '',
-    professor_id: '',
-    mobile_phone: '',
-    name: '',
-    surname: '',
-    role: 'PROFESSOR',
-    register_confirm_modal: false,
+    return {}
   }
 
   componentDidMount() {
     const authToken = Cookie.get('token')
-    // this.setState({
-    //   role: 'ADMIN',
-    // })
     if (!isNil(authToken)) {
       Router.push('/profile')
     }
@@ -98,19 +79,6 @@ class RegisterPage extends Component {
     const { role } = this.state
     const { registerUser } = this.props
 
-    if (email === undefined || !is.email(email)) {
-      alert('Email invalid format!')
-      return
-    }
-    if (professor_id === undefined || name === undefined || surname === undefined) {
-      alert('This field is required!')
-      return
-    }
-    if (mobile_phone === undefined || !is.nanpPhone(mobile_phone)) {
-      alert('Mobile phone invalid format!')
-      return
-    }
-
     registerUser({
       data: {
         email,
@@ -127,34 +95,12 @@ class RegisterPage extends Component {
   }
 
 
-  checkDisabled = () => {
-    const {
-      email,
-      password,
-      professor_id,
-      mobile_phone,
-      name,
-      surname,
-    } = this.state
-
-    return (
-      email === ''
-      || password === ''
-      || professor_id === ''
-      || mobile_phone === ''
-      || name === ''
-      || surname === ''
-    )
-  }
-
   render() {
     const {
       getAuthenticationRegisterState,
       pristine,
       submitting,
-      valid,
       handleSubmit,
-      // registerUserReset,
     } = this.props
 
 
@@ -166,7 +112,7 @@ class RegisterPage extends Component {
       <form onSubmit={handleSubmit(this.handleRegister)} style={{ display: 'contents' }}>
         <FormWrapper>
           <FormHeader>
-          CREATE YOUR ACCOUNT
+            CREATE YOUR ACCOUNT
           </FormHeader>
           <br />
           <Wrapper>
@@ -180,11 +126,11 @@ class RegisterPage extends Component {
 
               <StyledForm>
                 <Field
-                  label='PROFESSOER ID :'
+                  label='LECTURER ID :'
                   name='professor_id'
                   component={renderInput}
                   type='text'
-                  placeholder='Professor ID'
+                  placeholder='Lecturer ID'
                 />
               </StyledForm>
               <StyledForm>
@@ -207,15 +153,6 @@ class RegisterPage extends Component {
               </StyledForm>
               <StyledForm>
                 <Field
-                  label='MOBILE PHONE :'
-                  name='mobile_phone'
-                  component={renderInput}
-                  type='phone'
-                  placeholder='Mobile Phone'
-                />
-              </StyledForm>
-              <StyledForm>
-                <Field
                   label='EMAIL :'
                   name='email'
                   component={renderInput}
@@ -223,7 +160,7 @@ class RegisterPage extends Component {
                   placeholder='Email'
                 />
               </StyledForm>
-              <StyledForm stylw={{ marginBottom: '0px' }}>
+              <StyledForm>
                 <Field
                   label='PASSWORD :'
                   name='password'
@@ -232,7 +169,17 @@ class RegisterPage extends Component {
                   placeholder='Password'
                 />
               </StyledForm>
+              <StyledForm>
+                <Field
+                  label='PHONE NUMBER:'
+                  name='mobile_phone'
+                  component={renderInput}
+                  type='phone'
+                  placeholder='Mobile Phone'
+                />
+              </StyledForm>
               <FormButton
+                disabled={ pristine || submitting }
                 type='cancel'
                 txtButton='CANCEL'
                 width='50%'
@@ -242,7 +189,7 @@ class RegisterPage extends Component {
               />
                   &nbsp; &nbsp;
               <FormButton
-                disabled={pristine || submitting || !valid}
+                disabled={submitting}
                 colorButton='#006765'
                 type='submit'
                 txtButton='REGISTER'
@@ -261,7 +208,6 @@ class RegisterPage extends Component {
 
 RegisterPage.propTypes = {
   getAuthenticationRegisterState: PropTypes.instanceOf(Object).isRequired,
-
   registerUser: PropTypes.func.isRequired,
   registerUserReset: PropTypes.func.isRequired,
 }
@@ -277,13 +223,12 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 const withForm = reduxForm({
   form: FORM_NAME,
-  // validate,
+  validate,
+  enableReinitialize: true,
 })
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  // withIntl,
-  // withLayout,
   withForm,
 )(RegisterPage)
 
@@ -367,7 +312,7 @@ const StyledForm = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-bottom: 14px;
+  margin-bottom: 0px;
   margin-left: 22px;
     margin-right: 22px;
   @media (max-width: 750px) {

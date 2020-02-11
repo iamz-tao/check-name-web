@@ -81,9 +81,7 @@ class ProfilePage extends Component {
     } = this.state
 
     const {
-    //   valid,
-    //   pristine,
-    //   submitting,
+      submitting,
       handleSubmit,
       userRole,
       profile,
@@ -91,7 +89,6 @@ class ProfilePage extends Component {
 
     return (
       <Form onSubmit={handleSubmit(this.handleSubmitForm)}>
-        {/* <Form> */}
         <Wrapper>
           {
             userRole === 'PROFESSOR' ? (
@@ -113,6 +110,7 @@ class ProfilePage extends Component {
                 names={[
                 ]}
                 profile={profile}
+                submitting={submitting}
                 component={UpdateProfileForm}
                 handleInputChange={this.handleInputChange}
               />
@@ -155,8 +153,6 @@ const mapStateToProps = (state, props) => createStructuredSelector({
   initialValues: userSelector.getProfile,
   userRole: userSelector.getUserRole,
   profile: userSelector.getProfile,
-  // userStateHttp: userSelector.getUserStateHttp,
-  // loadings: employeeSelector.getLoadings,
 })(state, props)
 
 const mapDispatchToProps = dispatch => bindActionCreators({

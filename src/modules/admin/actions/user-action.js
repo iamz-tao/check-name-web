@@ -5,6 +5,7 @@ import {
   SET_TO_USER,
   DELETE_USER,
   REQUEST_SUCCESS,
+  DELETE_USER_SUCCESS,
 } from '../constants'
 
 export const getUsers = payload => ({
@@ -25,6 +26,11 @@ export const getUser = payload => ({
 export const deleteUser = payload => ({
   payload,
   type: DELETE_USER,
+})
+
+export const deleteUserSuccess = payload => ({
+  payload,
+  type: DELETE_USER_SUCCESS,
 })
 
 export const setToUser = payload => ({

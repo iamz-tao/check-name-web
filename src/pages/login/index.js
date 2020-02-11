@@ -8,13 +8,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { reduxForm, Field } from 'redux-form/immutable'
 import Router from 'next/router'
-import PropTypes from 'prop-types'
-import Cookie from 'js-cookie'
-import isNil from 'lodash/isNil'
 import get from 'lodash/get'
 
-import withIntl from '~/helpers/withIntl'
-// import withLayout from '~/hocs/Layouts/withLayout'
 import { loginAction } from '~/modules/authentication/actions'
 import { loginSelector } from '~/modules/authentication/selectors'
 import ErrorModal from '~/components/Modals/Error'
@@ -54,12 +49,6 @@ class LoginPage extends Component {
   }
 
   componentDidMount() {
-    const authToken = Cookie.get('token')
-    if (!isNil(authToken)) {
-      const { handleAlreadyLogin } = this.props
-      // handleAlreadyLogin()
-      return
-    }
   }
 
   handleInputChange = ({ target }) => {
@@ -100,7 +89,6 @@ class LoginPage extends Component {
       getAuthenticationLoginState,
       pristine,
       submitting,
-      valid,
       handleSubmit,
     } = this.props
 
@@ -108,10 +96,11 @@ class LoginPage extends Component {
       login_modal_error,
       errorMessage,
     } = this.state
+
     if (get(getAuthenticationLoginState, 'isFetching')) {
       return (<LoadingPulse />)
     }
-    
+
     return (
       <form onSubmit={handleSubmit(this.handleLogin)}>
         <HomeWrapper>
@@ -119,7 +108,7 @@ class LoginPage extends Component {
             <FormWrapper>
               <HeaderWrapper>
                 <FormHeader>
-                 LOG-IN TO YOUR ACCOUNT
+                  LOG-IN TO YOUR ACCOUNT
                 </FormHeader>
               </HeaderWrapper>
 
@@ -128,7 +117,7 @@ class LoginPage extends Component {
                   label='EMAIL'
                   name='email'
                   component={renderInput}
-                  type='text'
+                  type='email'
                   placeholder='Email'
                 />
                 <Field
@@ -139,10 +128,11 @@ class LoginPage extends Component {
                   placeholder='Password'
                 />
                 <ForgetLink href='/forget-password'>
-                 Forgot password?
+                  Forgot password?
                 </ForgetLink>
 
                 <FormButton
+                  disabled={pristine || submitting}
                   type='cancel'
                   txtButton='CANCEL'
                   width='50%'
@@ -153,7 +143,7 @@ class LoginPage extends Component {
                    &nbsp; &nbsp;
                 <FormButton
                   colorButton='#006765'
-                  disabled={pristine || submitting || !valid}
+                  disabled={submitting}
                   type='submit'
                   txtButton='LOGIN'
                   width='50%'
@@ -194,7 +184,11 @@ const withForm = reduxForm({
   enableReinitialize: true,
 })
 
-// language=SCSS prefix=&{ suffix=}
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withForm,
+)(LoginPage)
+
 const Container = styled.section`
     width: 100%;
     height: calc(100vh - 57px);
@@ -203,22 +197,13 @@ const Container = styled.section`
     align-items: center;
     background-color: white;
 `
-
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  withIntl,
-  // withLayout,
-  withForm,
-)(LoginPage)
-
-// language=SCSS prefix=&{ suffix=}
 const FormWrapper = styled.section`
     max-width: 650px;
     position: absolute;
     top: auto;
     left: auto;
     width: 90%;
-    height: 54% !important;
+    height: fit-content !important;
     display: flex;
     font-size: 1em;
     flex-direction: column;
@@ -227,19 +212,13 @@ const FormWrapper = styled.section`
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 41px;
 `
-
-// language=SCSS prefix=&{ suffix=}
 const HeaderWrapper = styled.header`
 `
-
-// language=SCSS prefix=&{ suffix=}
 const BodyWrapper = styled.div`
     width: 100%;
     margin: 20px 0px;
     height: fit-content;
 `
-
-// language=SCSS prefix=&{ suffix=}
 const HomeWrapper = styled.div`
     display: block;
     position: relative;
@@ -259,8 +238,6 @@ const HomeWrapper = styled.div`
       background: #F37021;
     }
 `
-
-// language=SCSS prefix=&{ suffix=}
 const FormHeader = styled(Header)`
     font-family: Arial, Helvetica, sans-serif !important;
     font-size: 24px !important;
@@ -268,8 +245,6 @@ const FormHeader = styled(Header)`
     text-align: center;
     margin-top:24px !important;
 `
-
-// language=SCSS prefix=&{ suffix=}
 const ForgetLink = styled.a`
     color: #000;
     text-decoration: underline;

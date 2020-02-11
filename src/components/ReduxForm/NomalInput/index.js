@@ -2,15 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
-// language=SCSS prefix=&{ suffix=}
 const FormGroup = styled.div`
     margin: 8px 0;
     position: relative;
     display: flex;
     justify-content: flex-end;
 `
-
-// language=SCSS prefix=&{ suffix=}
 const Label = styled.label`
     position: absolute;
     right: 76%;
@@ -34,14 +31,15 @@ const Label = styled.label`
     }
 `
 
-// language=SCSS prefix=&{ suffix=}
 const Input = styled.input`
     width: 74% !important;
     height: 38px;
-    border: 1px solid #DADDE1 !important;
+    border: 1px solid ${props => (props.error ? '#CA5353' : '#DADDE1')} !important;
     border-radius: 27px !important;
     font-family: Kanit !important;
     padding-left: 10px;
+    background-color: ${props => props.error && '#FEE8E8'};
+
     
     :disabled {
       background-color: #f5f6f7 !important;
@@ -56,6 +54,10 @@ const Input = styled.input`
       width: 90% !important;
     }
 `
+const CustomLabel = styled.span`
+    font-family: kanit;
+    color: #CA5353;
+`
 
 const FormNomalInput = (field) => {
   const {
@@ -67,6 +69,7 @@ const FormNomalInput = (field) => {
   } = field
 
   return (
+    <div>
     <FormGroup>
       <Label>{label}</Label>
       <Input
@@ -76,7 +79,13 @@ const FormNomalInput = (field) => {
         error={touched && visited && error}
         placeholder={placeholder}
       />
+     
     </FormGroup>
+     <div style={{ display: 'flex', justifyContent: 'flex-end'}}>
+        {touched
+        && (error && <CustomLabel>{error}</CustomLabel>)}
+      </div>
+    </div>
   )
 }
 

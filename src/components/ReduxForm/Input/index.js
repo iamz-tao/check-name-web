@@ -2,13 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
-// language=SCSS prefix=&{ suffix=}
 const FormGroup = styled.div`
     margin: 30px 0;
     position: relative;
 `
 
-// language=SCSS prefix=&{ suffix=}
 const Label = styled.label`
     position: absolute;
     right: 80%;
@@ -31,15 +29,15 @@ const Label = styled.label`
     }
 `
 
-// language=SCSS prefix=&{ suffix=}
 const Input = styled.input`
     width: 56% !important;
     height: 40px;
-    border: 1px solid #DADDE1 !important;
+    border: 1px solid ${props => (props.error ? '#CA5353' : '#DADDE1')} !important;
     border-radius: 27px !important;
     font-family: Kanit !important;
     padding-left: 10px;
-    
+    background-color: ${props => props.error && '#FEE8E8'};
+
     :disabled {
       background-color: #f5f6f7 !important;
       color: #929598 !important;
@@ -53,6 +51,10 @@ const Input = styled.input`
       width: 90% !important;
     }
 `
+const CustomLabel = styled.span`
+    font-family: kanit;
+    color: #CA5353;
+`
 
 const FormInput = (field) => {
   const {
@@ -60,7 +62,11 @@ const FormInput = (field) => {
     type = 'text',
     disabled = false,
     placeholder,
-    meta: { visited, touched, error },
+    meta: {
+      visited,
+      touched,
+      error,
+    },
   } = field
 
   return (
@@ -73,6 +79,10 @@ const FormInput = (field) => {
         error={touched && visited && error}
         placeholder={placeholder}
       />
+      <div>
+        {touched
+        && (error && <CustomLabel>{error}</CustomLabel>)}
+      </div>
     </FormGroup>
   )
 }

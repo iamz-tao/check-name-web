@@ -2,9 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { Segment } from 'semantic-ui-react'
 import {
-  Menu, Dropdown, Button, Icon,
+  Menu,
 } from 'antd'
-import FormButton from '~/components/Form/Button'
 import DeleteIcon from '~/components/DeleteIcon'
 
 const SubjectsList = (props) => {
@@ -15,17 +14,6 @@ const SubjectsList = (props) => {
     handleMenuClick,
   } = props
 
-  const menu = (
-    <Menu onClick={handleMenuClick}>
-      <Menu.Item key='ACTIVE'>
-        ACTIVE
-      </Menu.Item>
-      <Menu.Item key='CLOSE'>
-        CLOSE
-      </Menu.Item>
-    </Menu>
-  )
-
   return (
     <Column>
       <Wrapper>
@@ -34,34 +22,23 @@ const SubjectsList = (props) => {
             <ItemWrapper>
               <Row>
                 <UserDetailGroup>
-                  <ListUserName>
+                  <ListDetail>
                     <ItemSpan>
                       {s.subject_code}
                     </ItemSpan>
-                  </ListUserName>
-                  <ListUserName style={{ minWidth: '500px' }}>
+                  </ListDetail>
+                  <ListDetail style={{ flex: 2 }}>
                     <ItemSpan>
                       {s.subject_name}
                     </ItemSpan>
-                  </ListUserName>
-                  <ListUserName style={{ paddingLeft: '19px' }}>
-                    <ItemSpan>
-                      <Dropdown overlay={menu}>
-                        <Button>
-                          ACTIVE
-                          {' '}
-                          <Icon type='down' />
-                        </Button>
-                      </Dropdown>
-                    </ItemSpan>
-                  </ListUserName>
+                  </ListDetail>
+                  <DeleteIconWrapper>
+                    <DeleteIcon
+                      className='trash'
+                      onClick={() => handleDeleteSubject(s.id)}
+                    />
+                  </DeleteIconWrapper>
                 </UserDetailGroup>
-                <UserStatusGroup>
-                  <DeleteIcon
-                    className='trash'
-                    onClick={() => handleDeleteSubject(s.id)}
-                  />
-                </UserStatusGroup>
               </Row>
             </ItemWrapper>
           ))}
@@ -136,27 +113,27 @@ const ItemSpan = styled.span`
 `
 
 const OtherWrapper = styled.div`
-    width: 150px;
     display: flex;
     line-height: 40px;
     padding-left: 8px;
 `
 
-const ListUserName = styled(OtherWrapper)`
+const ListDetail = styled(OtherWrapper)`
+  display: flex;
   flex: 1;
-  display: inline-block;
   padding-left: 40px;
-  text-align: left;
-  min-width: 250px;
+  text-align: start ;
 `
 
 const UserDetailGroup = styled.div`
-  width: 66%;
   display: flex;
+  flex: 4;
 `
 
-const UserStatusGroup = styled.div`
-  width: 16%;
+const DeleteIconWrapper = styled(OtherWrapper)`
   display: flex;
+  flex: 1;
+  padding-left: 40px;
+  text-align: center;
   justify-content: center;
 `

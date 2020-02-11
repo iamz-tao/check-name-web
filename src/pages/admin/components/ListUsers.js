@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { Segment } from 'semantic-ui-react'
 import { Button } from 'antd'
-import { FormattedMessage } from 'react-intl'
 import FormButton from '~/components/Form/Button'
 import DeleteIcon from '~/components/DeleteIcon'
 
@@ -25,26 +24,24 @@ const UserList = (props) => {
             <ItemWrapper>
               <Row>
                 <UserDetailGroup>
-                  <ListUserName>
+                  <ListDetail style={{ paddingLeft: '40px' }}>
                     <ItemSpan>
                       {user.get('id')}
                     </ItemSpan>
-                  </ListUserName>
-                  <ListUserName>
+                  </ListDetail>
+                  <ListDetail style={{ flex: 2 }}>
                     <ItemSpan>
                       {user.get('firstname')}
                     &nbsp;
                       {user.get('lastname')}
                     </ItemSpan>
-                  </ListUserName>
-                  <ListUserName>
+                  </ListDetail>
+                  <ListDetail style={{ flex: 2 }}>
                     <ItemSpan>
                       {user.get('email')}
                     </ItemSpan>
-                  </ListUserName>
-                </UserDetailGroup>
-                <UserStatusGroup>
-                  <ListUserStatus>
+                  </ListDetail>
+                  <ListDetail style={{ justifyContent: 'center' }}>
                     <ItemSpan>
                       {
                         user.get('role') === 'ADMIN' && (
@@ -56,29 +53,31 @@ const UserList = (props) => {
                       {
                         user.get('role') === 'PROFESSOR' && (
                           <ItemSpan style={{ color: '#F08282' }}>
-                            PROFESSOR
+                            LECTURER
                           </ItemSpan>
                         )
                       }
                       {
                         user.get('role') === 'NISIT' && (
                           <ItemSpan style={{ color: '#1AB433' }}>
-                            NISIT
+                            STUDENT
                           </ItemSpan>
                         )
                       }
                     </ItemSpan>
-                  </ListUserStatus>
+                  </ListDetail>
+                  <CustomDelete>
+                    <DeleteIcon
+                      className='trash'
+                      onClick={(e) => {
+                        e.preventDefault()
+                        handleDeleteUser(user.get('uid'))
+                      }
+                      }
+                    />
+                  </CustomDelete>
+                </UserDetailGroup>
 
-                </UserStatusGroup>
-                <Button
-                  type='dashed'
-                  onClick={() => {
-                    handleDeleteUser(user.get('uid'))
-                  }}
-                >
-                  DELETE
-                  </Button>
               </Row>
             </ItemWrapper>
           ))}
@@ -116,7 +115,7 @@ const ItemWrapper = styled(Segment)`
   border-radius: 4px;
   margin-bottom: 0px !important;
   padding: 0 !important;
-  // cursor: pointer;
+  cursor: pointer;
   background: #FFFFFF !important;
   border: 1px solid #D0CDCD !important;
   box-sizing: border-box !important;
@@ -140,7 +139,6 @@ const Row = styled.div`
   width: 100%;
 `
 
-// language=SCSS prefix=&{ suffix=}
 const ItemSpan = styled.span`
     font-size: 14px;
     font-family: Sarabun;
@@ -152,34 +150,24 @@ const ItemSpan = styled.span`
     }
 `
 
-// language=SCSS prefix=&{ suffix=}
 const OtherWrapper = styled.div`
-    width: 150px;
     display: flex;
     line-height: 40px;
-    padding-left: 8px;
 `
 
-const ListUserName = styled(OtherWrapper)`
+const ListDetail = styled(OtherWrapper)`
   flex: 1;
-  display: inline-block;
-  padding-left: 40px;
-  text-align: left;
-  min-width: 250px;
+  display: flex;
+  text-align: start;
 `
 
-const ListUserStatus = styled(OtherWrapper)`
-  line-height: 40px;
-  width: 116px;
-  padding-left: 8px;
+const CustomDelete = styled(OtherWrapper)`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding-top: 8px;
 `
 const UserDetailGroup = styled.div`
-  width: 66%;
   display: flex;
-`
-
-const UserStatusGroup = styled.div`
-  width: 16%;
-  display: flex;
-  justify-content: flex-end;
+  flex: 5;
 `

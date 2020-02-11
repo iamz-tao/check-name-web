@@ -18,6 +18,7 @@ import Cookie from 'js-cookie'
 import isNil from 'lodash/isNil'
 
 import validate from './validate'
+
 import HeaderAdmin from '~/components/HeaderNavbar/Admin'
 import Avatar from '~/components/UploadProfile'
 import FormButton from '~/components/Form/Button'
@@ -46,23 +47,9 @@ class RegisterPage extends Component {
       }
     }
 
-    return {
-      // errorMessage: '',
-      // register_error_modal: false,
-      // register_confirm_modal: true,
-    }
+    return {}
   }
 
-  state = {
-    email: '',
-    password: '',
-    professor_id: '',
-    mobile_phone: '',
-    name: '',
-    surname: '',
-    role: 'ADMIN',
-    register_confirm_modal: false,
-  }
 
   componentDidMount() {
     const authToken = Cookie.get('token')
@@ -96,19 +83,6 @@ class RegisterPage extends Component {
 
     const { role } = this.state
     const { registerUser } = this.props
-    
-    if (email === undefined || !is.email(email)) {
-      alert('Email invalid format!')
-      return
-    }
-    if (professor_id === undefined || name === undefined || surname === undefined) {
-      alert('This field is required!')
-      return
-    }
-    if (mobile_phone === undefined || !is.nanpPhone(mobile_phone)) {
-      alert('Mobile phone invalid format!')
-      return
-    }
 
     registerUser({
       data: {
@@ -128,22 +102,21 @@ class RegisterPage extends Component {
   render() {
     const {
       getAuthenticationRegisterState,
-      // pristine,
-      // submitting,
-      // invalid,
+      pristine,
+      submitting,
+      reset,
       handleSubmit,
-      // registerUserReset,
     } = this.props
-    
+
     if (get(getAuthenticationRegisterState, 'isFetching')) {
       return (<LoadingPulse />)
     }
     return (
       <form onSubmit={handleSubmit(this.handleRegister)} style={{ display: 'contents' }}>
-          <HeaderAdmin />
+        <HeaderAdmin />
         <FormWrapper>
           <FormHeader>
-          CREATE ADMIN ACCOUNT
+            CREATE ADMIN ACCOUNT
           </FormHeader>
           <br />
           <Wrapper>
@@ -184,24 +157,14 @@ class RegisterPage extends Component {
               </StyledForm>
               <StyledForm>
                 <Field
-                  label='MOBILE PHONE :'
-                  name='mobile_phone'
-                  component={renderInput}
-                  type='phone'
-                  placeholder='Mobile Phone'
-                />
-              </StyledForm>
-              <StyledForm>
-                <Field
                   label='EMAIL :'
                   name='email'
                   component={renderInput}
-                  // error={email !== '' ? !is.email(email) : false}
                   type='email'
                   placeholder='Email'
                 />
               </StyledForm>
-              <StyledForm style={{ marginBottom: '0px' }}>
+              <StyledForm>
                 <Field
                   label='PASSWORD :'
                   name='password'
@@ -210,17 +173,28 @@ class RegisterPage extends Component {
                   placeholder='Password'
                 />
               </StyledForm>
+              <StyledForm>
+                <Field
+                  label='PHONE NUMBER :'
+                  name='mobile_phone'
+                  component={renderInput}
+                  type='phone'
+                  placeholder='Mobile Phone'
+                />
+              </StyledForm>
               <FormButton
+                disabled={pristine || submitting}
                 type='cancel'
                 txtButton='CANCEL'
                 width='50%'
                 onClick={() => {
+                  reset()
                   Router.replace('/admin')
                 }}
               />
                   &nbsp; &nbsp;
               <FormButton
-                // disabled={invalid}
+                disabled={submitting}
                 colorButton='#006765'
                 type='submit'
                 txtButton='REGISTER'
@@ -228,7 +202,6 @@ class RegisterPage extends Component {
                 onClick={() => {
                 }}
               />
-
             </StyleBorder>
           </Wrapper>
         </FormWrapper>
@@ -239,9 +212,7 @@ class RegisterPage extends Component {
 
 RegisterPage.propTypes = {
   getAuthenticationRegisterState: PropTypes.instanceOf(Object).isRequired,
-
   registerUser: PropTypes.func.isRequired,
-  registerUserReset: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state, props) => createStructuredSelector({
@@ -255,7 +226,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 const withForm = reduxForm({
   form: FORM_NAME,
-  // validate,
+  validate,
 })
 
 export default compose(
@@ -270,6 +241,7 @@ const FormWrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin: 36px 90px 0px 90px;
+
   @media (max-width: 750px) {
     margin-top: 16px;
     margin-bottom: 16px;
@@ -343,48 +315,13 @@ const StyledForm = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-bottom: 14px;
+  margin-bottom: 0px;
   margin-left: 22px;
     margin-right: 22px;
   @media (max-width: 750px) {
     flex-direction: column;
   }
   
-`
-
-const StyledLabel = styled.label`
-  text-align: left;
-  line-height: 32px;
-  padding-right: 10px;
-  width: 177px;
-  font-family: kanit;
-  font-weight: 400;
-  font-size: 14px;
-  @media (max-width: 750px) {
-    text-align: left;
-  }
-`
-
-const StyledInput = styled(Form.Input)`
-  width: 100%;
-  input {
-    background: #f1f1f1 !important;
-    mix-blend-mode: normal;
-    border: 1px solid rgba(148, 148, 148, 0.5) !important;
-    box-sizing: border-box;
-    border-radius: 28px !important;
-    height: 46px !important;
-  }
-
-`
-
-const StyledStar = styled.span`
-  color: red;
-`
-
-const FormInput = styled(Form)`
-  width: 100%;
-  display: flex;
 `
 
 const StyleBorder = styled(Grid)`

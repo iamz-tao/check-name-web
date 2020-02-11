@@ -182,7 +182,7 @@ export function* approveSubjects({ payload }) {
     if (error) {
       return
     }
-    Router.replace('/approveSubject')
+    // Router.replace('/approveSubject')
     yield put(subjectAction.approveSubjectSuccess())
   } catch (error) {
     console.log('error', error)
@@ -204,7 +204,7 @@ export function* rejectSubjects({ payload }) {
       return
     }
 
-    Router.replace('/approveSubject')
+    // Router.replace('/approveSubject')
     yield put(subjectAction.rejectSubjectSuccess())
   } catch (error) {
     console.log('error', error)
