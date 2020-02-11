@@ -22,13 +22,18 @@ export function* getSubjectsAPI() {
 }
 
 
-export function* getSubjectsProfessorAPI() {
+export function* getSubjectsProfessorAPI(payload) {
+  console.log(payload,'apiiiiiiiiiiiiiii')
   const token = Cookie.get('token')
   const email = Cookie.get('email')
   const data = {}
-
+  const {
+    year,
+    semester,
+  } = payload.payload
+console.log('year',year)
   return yield call(http.post, {
-    url: '/api/getSubjects',
+    url: `/api/getSubjects?year=${year}&semester=${semester}`,
     payload: {
       token,
       email,

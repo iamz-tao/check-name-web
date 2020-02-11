@@ -16,6 +16,8 @@ import withLayout from '~/hocs/Layouts/withLayout'
 import { Link } from '~/routes'
 import { subjectAction } from '~/modules/subject/actions'
 import { subjectsSelector } from '~/modules/subject/selectors'
+import { yearAction } from '~/modules/admin/actions'
+import { yearSelector } from '~/modules/admin/selectors'
 
 const { confirm } = Modal
 
@@ -48,8 +50,14 @@ class HomePageProfessor extends Component {
   }
 
   componentDidMount() {
-    const { getSubjects } = this.props
-    getSubjects({})
+    const { getSubjects, getCurrentYear, currentYear } = this.props
+    getCurrentYear({})
+    if (currentYear !== null && currentYear.size > 0) {
+      getSubjects({
+        year: currentYear.get('year'),
+        semester: currentYear.get('semester'),
+      })
+    }
   }
 
   fetch = () => {
@@ -114,7 +122,7 @@ class HomePageProfessor extends Component {
     const {
       filter,
     } = this.state
-    
+
     return (
       <PageWrapper>
         <HeaderProfessor />
@@ -170,11 +178,13 @@ class HomePageProfessor extends Component {
 
 const mapStateToProps = (state, props) => createStructuredSelector({
   subjects: subjectsSelector.getSubjectsProfessor,
+  currentYear: yearSelector.getCurrentYear,
 })(state, props)
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getSubjects: subjectAction.getSubjectsProfessor,
   deleteSection: subjectAction.deleteSection,
+  getCurrentYear: yearAction.getCurrentYear,
 }, dispatch)
 
 export default compose(
