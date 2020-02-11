@@ -2,6 +2,9 @@ export const CREATE_SUBJECT = 'app/subject/CREATE_SUBJECT'
 export const CREATE_SUBJECT_SUCCESS = 'app/subject/CREATE_SUBJECT_SUCCESS'
 export const CREATE_SUBJECT_FAILED = 'app/subject/CREATE_SUBJECT_FAILED'
 
+export const DELETE_SUBJECT = 'app/subject/DELETE_SUBJECT'
+export const DELETE_SUBJECT_SUCCESS = 'app/subject/DELETE_SUBJECT_SUCCESS'
+
 export const GET_SUBJECTS = 'app/subject/GET_SUBJECTS'
 export const SET_TO_SUBJECTS = 'app/subject/SET_TO_SUBJECTS'
 export const APPROVE_SUBJECT = 'app/subject/APPROVE_SUBJECT'

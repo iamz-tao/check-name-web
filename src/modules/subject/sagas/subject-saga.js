@@ -19,8 +19,14 @@ import {
   OPEN_SECTION,
   GET_SUBJECTS_PROFESSOR,
   DELETE_SECTION,
+  DELETE_SUBJECT,
 } from '../constants'
-import { getSubjectsAPI, getSubjectsProfessorAPI, deleteSectionAPI } from '../api'
+import {
+  getSubjectsAPI,
+  getSubjectsProfessorAPI,
+  deleteSectionAPI,
+  deleteSubjectAPI,
+} from '../api'
 
 import * as http from '~/helpers/axiosWrapperPostToken'
 import * as httpPut from '~/helpers/axiosWrapperPut'
@@ -228,12 +234,28 @@ export function* deleteSection({ payload }) {
       if (error) {
         return
       }
-    yield put(subjectAction.deleteSectionSuccess(payload.id))
+      yield put(subjectAction.deleteSectionSuccess(payload.id))
     }
   } catch (error) {
     console.log('error', error)
   }
 }
+
+export function* deleteSubject({ payload }) {
+  try {
+    const token = Cookie.get('token')
+    if (!isNil(token)) {
+      const { data, error } = yield deleteSubjectAPI(payload.id)
+      if (error) {
+        return
+      }
+      yield put(subjectAction.deleteSubjectSuccess(payload.id))
+    }
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
 export default function* authSaga() {
   yield all([
     takeLatest(CREATE_SUBJECT, createSubject),
@@ -245,5 +267,6 @@ export default function* authSaga() {
     takeLatest(OPEN_SECTION, openSection),
     takeLatest(GET_SUBJECTS_PROFESSOR, getSubjectsProfessor),
     takeLatest(DELETE_SECTION, deleteSection),
+    takeLatest(DELETE_SUBJECT, deleteSubject),
   ])
 }
