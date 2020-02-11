@@ -39,12 +39,12 @@ const TableHeader = () => (
             SUBJECT CODE
           </ItemHeader>
         </ListHeader>
-        <ListHeader>
+        <ListHeader style={{ flex: 2 }}>
           <ItemHeader>
             SUBJECT NAME
           </ItemHeader>
         </ListHeader>
-        <ListHeader style={{ flex: 2 }}/>
+        <ListHeader />
       </UserDetailGroup>
     </Row>
   </Wrapper>
@@ -221,8 +221,7 @@ const ItemHeader = styled.span`
 
 const OtherWrapper = styled.div`
     display: flex;
-    justify-content: center;
-    text-align: center;
+    text-align: start;
 `
 
 const RowContainer = styled.div`
@@ -270,15 +269,13 @@ const ListHeader = styled(OtherWrapper)`
   text-align: start;
 `
 const UserDetailGroup = styled.div`
-  width: 66%;
   display: flex;
+  flex: 4;
   color: #929598;
   font-size: 16px;
 `
 const Row = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  height: 76px;
   width: 100%;
 `

@@ -14,17 +14,6 @@ const SubjectsList = (props) => {
     handleMenuClick,
   } = props
 
-  const menu = (
-    <Menu onClick={handleMenuClick}>
-      <Menu.Item key='ACTIVE'>
-        ACTIVE
-      </Menu.Item>
-      <Menu.Item key='CLOSE'>
-        CLOSE
-      </Menu.Item>
-    </Menu>
-  )
-
   return (
     <Column>
       <Wrapper>
@@ -38,17 +27,17 @@ const SubjectsList = (props) => {
                       {s.subject_code}
                     </ItemSpan>
                   </ListDetail>
-                  <ListDetail style={{ minWidth: '500px' }}>
+                  <ListDetail style={{ flex: 2 }}>
                     <ItemSpan>
                       {s.subject_name}
                     </ItemSpan>
                   </ListDetail>
-                  <ListDetail style={{ flex: 2 }}>
+                  <DeleteIconWrapper>
                     <DeleteIcon
                       className='trash'
                       onClick={() => handleDeleteSubject(s.id)}
                     />
-                  </ListDetail>
+                  </DeleteIconWrapper>
                 </UserDetailGroup>
               </Row>
             </ItemWrapper>
@@ -124,20 +113,27 @@ const ItemSpan = styled.span`
 `
 
 const OtherWrapper = styled.div`
-    width: 150px;
     display: flex;
     line-height: 40px;
     padding-left: 8px;
 `
 
 const ListDetail = styled(OtherWrapper)`
+  display: flex;
   flex: 1;
-  display: inline-block;
   padding-left: 40px;
-  text-align: left;
+  text-align: start ;
 `
 
 const UserDetailGroup = styled.div`
   display: flex;
   flex: 4;
+`
+
+const DeleteIconWrapper = styled(OtherWrapper)`
+  display: flex;
+  flex: 1;
+  padding-left: 40px;
+  text-align: center;
+  justify-content: center;
 `
