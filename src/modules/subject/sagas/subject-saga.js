@@ -212,7 +212,6 @@ export function* rejectSubjects({ payload }) {
 }
 
 export function* getSubjectsProfessor(payload) {
-  console.log('xxxx',payload)
   try {
     const token = Cookie.get('token')
     if (!isNil(token)) {

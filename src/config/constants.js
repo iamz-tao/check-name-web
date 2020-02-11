@@ -5,11 +5,11 @@ module.exports = {
       value: 'ADMIN',
     },
     {
-      label: 'Professor',
+      label: 'Lecturer',
       value: 'PROFESSOR',
     },
     {
-      label: 'Nisit',
+      label: 'Student',
       value: 'NISIT',
     },
   ],

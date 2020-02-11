@@ -7,8 +7,9 @@ import { Modal, notification } from 'antd'
 
 import FilterAndCriteria from './components/FilterAndCriteria'
 import SubjectsList from './components/ListSubjects'
-import HeaderProfessor from '~/components/HeaderNavbar/Professor'
+import UpdateSection from './components/updateSection'
 
+import HeaderProfessor from '~/components/HeaderNavbar/Professor'
 import NotFound from '~/components/Table/NotFound'
 import LoadingPulse from '~/components/LoadingPulse'
 
@@ -47,6 +48,8 @@ class HomePageProfessor extends Component {
     filter: {
       keyword: '',
     },
+    addDay: false,
+    open: false,
   }
 
   componentDidMount() {
@@ -113,6 +116,15 @@ class HomePageProfessor extends Component {
     // })
   }
 
+  handleModal = () => {
+    console.log('xxx')
+    const { open } = this.state
+    this.setState({
+      open: !open,
+      addDay: false,
+    })
+  }
+
 
   render() {
     const {
@@ -121,10 +133,15 @@ class HomePageProfessor extends Component {
 
     const {
       filter,
+      open,
     } = this.state
 
     return (
       <PageWrapper>
+        <UpdateSection
+          open={open}
+          handleModal={this.handleModal}
+        />
         <HeaderProfessor />
         <RowContainer>
           <FilterWrapper>
@@ -156,6 +173,7 @@ class HomePageProfessor extends Component {
                             subjects={subjects}
                             filter={filter}
                             handleDeleteSection={this.handleDeleteSection}
+                            handleModal={this.handleModal}
                           />
                         </ListCol>
                       </ListCol>

@@ -13,7 +13,7 @@ routes
   .add('professor', '/professor', '/professor')
   .add('professor-create-subject', '/professor-create-subject', '/professor/professorCreateSubject')
   .add('open-section', '/open-section', '/professor/openSection')
-
+  
   // Admin
   .add('admin', '/admin', '/admin')
   .add('list-users', '/users', '/admin')

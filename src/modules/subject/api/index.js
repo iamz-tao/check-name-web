@@ -23,7 +23,6 @@ export function* getSubjectsAPI() {
 
 
 export function* getSubjectsProfessorAPI(payload) {
-  console.log(payload,'apiiiiiiiiiiiiiii')
   const token = Cookie.get('token')
   const email = Cookie.get('email')
   const data = {}
@@ -31,7 +30,7 @@ export function* getSubjectsProfessorAPI(payload) {
     year,
     semester,
   } = payload.payload
-console.log('year',year)
+  
   return yield call(http.post, {
     url: `/api/getSubjects?year=${year}&semester=${semester}`,
     payload: {

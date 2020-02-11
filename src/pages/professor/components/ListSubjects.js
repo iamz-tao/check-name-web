@@ -8,6 +8,7 @@ const SubjectsList = (props) => {
     subjects,
     filter,
     handleDeleteSection,
+    handleModal,
   } = props
 
   return (
@@ -17,24 +18,27 @@ const SubjectsList = (props) => {
           {subjects.map(s => (
             <ItemWrapper>
               <Row>
-                <UserDetailGroup>
+                {/* <a href={`update-section/${s.get('id')}`}> */}
+                <a onClick={() => handleModal()}>
+                  <UserDetailGroup>
+                    <ListDetail>
+                      <ItemSpan>
+                        {s.getIn(['Subject', 'subject_name'])}
+                      </ItemSpan>
+                    </ListDetail>
+                    <ListDetail>
+                      <ItemSpan>
+                        {s.get('section_number')}
+                      </ItemSpan>
+                    </ListDetail>
+                  </UserDetailGroup>
                   <ListDetail>
-                    <ItemSpan>
-                      {s.getIn(['Subject', 'subject_name'])}
-                    </ItemSpan>
+                    <DeleteIcon
+                      className='trash'
+                      onClick={() => handleDeleteSection(s.get('id'))}
+                    />
                   </ListDetail>
-                  <ListDetail>
-                    <ItemSpan>
-                      {s.get('section_number')}
-                    </ItemSpan>
-                  </ListDetail>
-                </UserDetailGroup>
-                <ListDetail>
-                  <DeleteIcon
-                    className='trash'
-                    onClick={() => handleDeleteSection(s.get('id'))}
-                  />
-                </ListDetail>
+                </a>
               </Row>
             </ItemWrapper>
           ))}
