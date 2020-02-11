@@ -223,7 +223,7 @@ const AddSectionForm = (props) => {
             // disabled={!invalid}
             colorButton='#CA5353'
             type='submit'
-            txtButton='REQUEST'
+            txtButton='OPEN'
             width='50%'
             onClick={() => {
             // Router.push('/adminRegister')
