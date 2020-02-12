@@ -20,12 +20,14 @@ import {
   GET_SUBJECTS_PROFESSOR,
   DELETE_SECTION,
   DELETE_SUBJECT,
+  GET_SUBJECT,
 } from '../constants'
 import {
   getSubjectsAPI,
   getSubjectsProfessorAPI,
   deleteSectionAPI,
   deleteSubjectAPI,
+  getSubjectAPI,
 } from '../api'
 
 import * as http from '~/helpers/axiosWrapperPostToken'
@@ -126,6 +128,23 @@ export function* getSubjects() {
     console.log('error', error)
   }
 }
+//admin get subject
+export function* getSubject(payload) {
+  console.log('payyyy',payload)
+  try {
+    // const token = Cookie.get('token')
+    // if (!isNil(token)) {
+    //   const { data, error } = yield getSubjectAPI()
+    //   if (error) {
+    //     return
+    //   }
+    //   yield put(subjectAction.setSubject(data.data))
+    // }
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
 
 export function* approveSubject({ payload }) {
   try {
@@ -268,5 +287,6 @@ export default function* authSaga() {
     takeLatest(GET_SUBJECTS_PROFESSOR, getSubjectsProfessor),
     takeLatest(DELETE_SECTION, deleteSection),
     takeLatest(DELETE_SUBJECT, deleteSubject),
+    takeLatest(GET_SUBJECT, getSubject),
   ])
 }

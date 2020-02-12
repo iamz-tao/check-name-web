@@ -12,6 +12,7 @@ const SubjectsList = (props) => {
     filter,
     handleDeleteSubject,
     handleMenuClick,
+    handleModal,
   } = props
 
   return (
@@ -20,6 +21,7 @@ const SubjectsList = (props) => {
         <Column>
           {subjects.map(s => (
             <ItemWrapper>
+              <a onClick={() => handleModal(s.id)}>
               <Row>
                 <UserDetailGroup>
                   <ListDetail>
@@ -35,11 +37,15 @@ const SubjectsList = (props) => {
                   <DeleteIconWrapper>
                     <DeleteIcon
                       className='trash'
-                      onClick={() => handleDeleteSubject(s.id)}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleDeleteSubject(s.id)
+                      }}
                     />
                   </DeleteIconWrapper>
                 </UserDetailGroup>
               </Row>
+              </a>
             </ItemWrapper>
           ))}
         </Column>
@@ -106,7 +112,7 @@ const ItemSpan = styled.span`
     font-family: Sarabun;
     font-weight: 600;
     word-break: break-word;
-
+    color: #575757;
     .b {
       font-weight: bold;
     }

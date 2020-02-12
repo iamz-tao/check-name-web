@@ -8,8 +8,9 @@ import Router from 'next/router'
 
 import FilterAndCriteria from './components/FilterAndCriteria'
 import SubjectsList from './components/ListSubjects'
-import HeaderAdmin from '~/components/HeaderNavbar/Admin'
+import UpdateSubject from './components/updateSubject'
 
+import HeaderAdmin from '~/components/HeaderNavbar/Admin'
 import NotFound from '~/components/Table/NotFound'
 import LoadingPulse from '~/components/LoadingPulse'
 import FormButton from '~/components/Form/Button'
@@ -57,6 +58,8 @@ class AdminListSubjects extends Component {
       user_role: [],
       keyword: '',
     },
+    open: false,
+    id: '',
   }
 
   componentDidMount() {
@@ -97,6 +100,14 @@ class AdminListSubjects extends Component {
   }
 
 
+  handleModal = (id) => {
+    const { open } = this.state
+    this.setState({
+      open: !open,
+      id,
+    })
+  }
+
   handleInputChange = async ({ target }) => {
     await this.setState(state => ({
       ...state,
@@ -128,12 +139,19 @@ class AdminListSubjects extends Component {
 
     const {
       filter,
+      open,
+      id,
     } = this.state
 
     const subjectApprove = subjects ? subjects.toJS().filter(s => s.approved_status === 'APPROVE') : []
     return (
       <PageWrapper>
         <HeaderAdmin />
+        <UpdateSubject
+          open={open}
+          handleModal={this.handleModal}
+          id={id}
+        />
         <RowContainer>
           <FilterWrapper>
             <FilterAndCriteria
@@ -166,6 +184,7 @@ class AdminListSubjects extends Component {
                             filter={filter}
                             handleDeleteSubject={this.handleDeleteSubject}
                             handleMenuClick={this.handleMenuClick}
+                            handleModal={this.handleModal}
                           />
                         </ListCol>
                       </ListCol>
