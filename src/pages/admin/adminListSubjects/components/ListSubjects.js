@@ -136,4 +136,5 @@ const DeleteIconWrapper = styled(OtherWrapper)`
   padding-left: 40px;
   text-align: center;
   justify-content: center;
+  padding-top: 9px;
 `
