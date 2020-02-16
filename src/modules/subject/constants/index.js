@@ -23,3 +23,8 @@ export const OPEN_SECTION_FAILED = 'app/subject/OPEN_SECTION_FAILED'
 
 export const DELETE_SECTION = 'app/subject/DELETE_SECTION'
 export const DELETE_SECTION_SUCCESS = 'app/subject/DELETE_SECTION_SUCCESS'
+
+export const GET_SUBJECT = 'app/subject/GET_SUBJECT'
+export const SET_SUBJECT = 'app/subject/SET_SUBJECT'
+export const UPDATE_SUBJECT = 'app/subject/UPDATE_SUBJECT'
+export const UPDATE_SUBJECT_SUCCESS = 'app/subject/UPDATE_SUBJECT_SUCCESS'

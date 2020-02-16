@@ -66,3 +66,16 @@ export function* deleteSubjectAPI(id) {
     },
   })
 }
+
+export function* getSubjectAPI(id) {
+  const token = Cookie.get('token')
+  const data = {}
+
+  return yield call(http.post, {
+    url: `/api/getSubject/${id}`,
+    payload: {
+      token,
+      data,
+    },
+  })
+}

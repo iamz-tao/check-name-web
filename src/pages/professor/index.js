@@ -117,7 +117,6 @@ class HomePageProfessor extends Component {
   }
 
   handleModal = () => {
-    console.log('xxx')
     const { open } = this.state
     this.setState({
       open: !open,

@@ -19,6 +19,10 @@ import {
   DELETE_SECTION_SUCCESS,
   DELETE_SUBJECT,
   DELETE_SUBJECT_SUCCESS,
+  GET_SUBJECT,
+  SET_SUBJECT,
+  UPDATE_SUBJECT,
+  UPDATE_SUBJECT_SUCCESS,
 } from '../constants'
 
 export const createSubject = payload => ({
@@ -119,4 +123,24 @@ export const deleteSubject = payload => ({
 export const deleteSubjectSuccess = payload => ({
   payload,
   type: DELETE_SUBJECT_SUCCESS,
+})
+
+export const getSubject = payload => ({
+  payload,
+  type: GET_SUBJECT,
+})
+
+export const setSubject = payload => ({
+  payload,
+  type: SET_SUBJECT,
+})
+
+export const updateSubject = payload => ({
+  payload,
+  type: UPDATE_SUBJECT,
+})
+
+export const updateSubjectSuccess = payload => ({
+  payload,
+  type: UPDATE_SUBJECT_SUCCESS,
 })

@@ -17,10 +17,13 @@ import {
   OPEN_SECTION_FAILED,
   DELETE_SECTION_SUCCESS,
   DELETE_SUBJECT_SUCCESS,
+  SET_SUBJECT,
+  UPDATE_SUBJECT_SUCCESS,
 } from '../constants'
 
 const initialState = fromJS({
   subjects: null,
+  subject: null,
   professor: {
     subjects: null,
   },
@@ -93,6 +96,20 @@ export default (state = initialState, { type, payload }) => {
       const removeIndex = state.getIn(['subjects']).findIndex(rec => rec.get('id') === payload)
       return state
         .removeIn(['subjects', removeIndex])
+        .setIn(['httpState', 'isFetching'], false)
+    }
+    case SET_SUBJECT: {
+      return state
+        .setIn(['subject'], fromJS(payload))
+        .set('isFetching', true)
+    }
+    case UPDATE_SUBJECT_SUCCESS: {
+      const { id, subject_code, subject_name } = payload
+      const subjectIndex = state.getIn(['subjects'])
+        .findIndex(rec => rec.get('id') === id)
+      return state
+        .setIn(['subjects', subjectIndex, 'subject_code'], subject_code)
+        .setIn(['subjects', subjectIndex, 'subject_name'], subject_name)
         .setIn(['httpState', 'isFetching'], false)
     }
     default:

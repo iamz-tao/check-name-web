@@ -20,12 +20,15 @@ import {
   GET_SUBJECTS_PROFESSOR,
   DELETE_SECTION,
   DELETE_SUBJECT,
+  GET_SUBJECT,
+  UPDATE_SUBJECT,
 } from '../constants'
 import {
   getSubjectsAPI,
   getSubjectsProfessorAPI,
   deleteSectionAPI,
   deleteSubjectAPI,
+  getSubjectAPI,
 } from '../api'
 
 import * as http from '~/helpers/axiosWrapperPostToken'
@@ -126,6 +129,22 @@ export function* getSubjects() {
     console.log('error', error)
   }
 }
+//admin get subject
+export function* getSubject(payload) {
+  try {
+    const token = Cookie.get('token')
+    if (!isNil(token)) {
+      const { data, error } = yield getSubjectAPI(payload.payload.id)
+      if (error) {
+        return
+      }
+      yield put(subjectAction.setSubject(data.data))
+    }
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
 
 export function* approveSubject({ payload }) {
   try {
@@ -256,6 +275,27 @@ export function* deleteSubject({ payload }) {
   }
 }
 
+export function* updateSubject({ payload }) {
+  try {
+    const response = yield call(httpPut.post, {
+      url: `/api/updateSubject/${payload.data.id}`,
+      payload: {
+        subject_code: payload.data.subject_code,
+        subject_name: payload.data.subject_name,
+      }
+    })
+
+    const { error } = response
+    if (error) {
+      return
+    }
+    Router.replace('/list-subjects')
+    yield put(subjectAction.updateSubjectSuccess(payload.data))
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
 export default function* authSaga() {
   yield all([
     takeLatest(CREATE_SUBJECT, createSubject),
@@ -268,5 +308,7 @@ export default function* authSaga() {
     takeLatest(GET_SUBJECTS_PROFESSOR, getSubjectsProfessor),
     takeLatest(DELETE_SECTION, deleteSection),
     takeLatest(DELETE_SUBJECT, deleteSubject),
+    takeLatest(GET_SUBJECT, getSubject),
+    takeLatest(UPDATE_SUBJECT, updateSubject),
   ])
 }

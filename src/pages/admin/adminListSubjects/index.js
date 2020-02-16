@@ -5,17 +5,16 @@ import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
 import { Modal, notification } from 'antd'
 import Router from 'next/router'
-
 import FilterAndCriteria from './components/FilterAndCriteria'
 import SubjectsList from './components/ListSubjects'
-import HeaderAdmin from '~/components/HeaderNavbar/Admin'
+import UpdateSubject from './components/updateSubject'
 
+import HeaderAdmin from '~/components/HeaderNavbar/Admin'
 import NotFound from '~/components/Table/NotFound'
 import LoadingPulse from '~/components/LoadingPulse'
 import FormButton from '~/components/Form/Button'
 
 import withLayout from '~/hocs/Layouts/withLayout'
-import { Link } from '~/routes'
 import { subjectAction } from '~/modules/subject/actions'
 import { subjectsSelector } from '~/modules/subject/selectors'
 
@@ -57,6 +56,8 @@ class AdminListSubjects extends Component {
       user_role: [],
       keyword: '',
     },
+    open: false,
+    id: '',
   }
 
   componentDidMount() {
@@ -96,6 +97,31 @@ class AdminListSubjects extends Component {
     })
   }
 
+  handleUppdateSubject = () => {
+    const success = 'success'
+    notification[success]({
+      message: 'Update Success!',
+      description:
+            'Action completed successfully.',
+    })
+  }
+
+  handleModal = (id) => {
+    const { open } = this.state
+    const {
+      getSubject,
+    } = this.props
+    if (id) {
+      getSubject({
+        id,
+      })
+    }
+
+    this.setState({
+      open: !open,
+      id,
+    })
+  }
 
   handleInputChange = async ({ target }) => {
     await this.setState(state => ({
@@ -121,19 +147,41 @@ class AdminListSubjects extends Component {
     //change status
   }
 
+  handleUpdate = (values) => {
+    const { updateSubject } = this.props
+    const data = {
+      subject_code: values.get('subject_code'),
+      subject_name: values.get('subject_name'),
+      id: values.get('id'),
+    }
+    updateSubject({ data })
+    this.handleModal()
+    this.handleUppdateSubject()
+  }
+
   render() {
     const {
       subjects,
+      subject,
     } = this.props
 
     const {
       filter,
+      open,
+      id,
     } = this.state
 
     const subjectApprove = subjects ? subjects.toJS().filter(s => s.approved_status === 'APPROVE') : []
     return (
       <PageWrapper>
         <HeaderAdmin />
+        <UpdateSubject
+          open={open}
+          handleModal={this.handleModal}
+          id={id}
+          handleUpdate={this.handleUpdate}
+          subject={subject}
+        />
         <RowContainer>
           <FilterWrapper>
             <FilterAndCriteria
@@ -166,6 +214,7 @@ class AdminListSubjects extends Component {
                             filter={filter}
                             handleDeleteSubject={this.handleDeleteSubject}
                             handleMenuClick={this.handleMenuClick}
+                            handleModal={this.handleModal}
                           />
                         </ListCol>
                       </ListCol>
@@ -186,14 +235,20 @@ class AdminListSubjects extends Component {
   }
 }
 
+
 const mapStateToProps = (state, props) => createStructuredSelector({
+  initialValues: subjectsSelector.getSubject,
   subjects: subjectsSelector.getSubjects,
+  subject: subjectsSelector.getSubject,
 })(state, props)
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getSubjects: subjectAction.getSubjects,
+  getSubject: subjectAction.getSubject,
   deleteSubject: subjectAction.deleteSubject,
+  updateSubject: subjectAction.updateSubject,
 }, dispatch)
+
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
