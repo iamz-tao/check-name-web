@@ -17,7 +17,6 @@ const UpdateProfileForm = (props) => {
   const {
     submitting,
   } = props
-
   return (
     <FormWrapper>
       <br />

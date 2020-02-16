@@ -165,66 +165,15 @@ export default compose(
   withForm,
 )(ProfilePage)
 
-const FormContainer = styled.div`
-  max-width: 100%;
-  position: relative;
-`
-
 const FormItem = styled.div`
     position: relative;
     background: transparent;
     width: 100%;
 `
 
-// language=SCSS prefix=&{ suffix=}
 const Wrapper = styled.div`
     display: block;
     position: relative;
     min-height: 80vh;
 `
 
-// language=SCSS prefix=&{ suffix=}
-const NavBar = styled.nav`
-  background-color: ${props => (props.color ? '#fff' : '#F37021')};
-  flex: 1;
-  min-height: 62px;
-  display: flex;
-  position: fixed;
-  width: 100%;
-  z-index: 1;
-`
-
-// language=SCSS prefix=&{ suffix=}
-const FloatLeft = styled.section`
-    flex: 1;
-    margin: auto 30px;
-`
-// language=SCSS prefix=&{ suffix=}
-const FloatRight = styled.section`
-    flex: 1;
-    text-align: right;
-    margin: auto;
-`
-
-// language=SCSS prefix=&{ suffix=}
-const PageTitle = styled.label`
-    flex: 1;
-    font-size: 18px;
-`
-
-// language=SCSS prefix=&{ suffix=}
-const Button = styled.button`
-  cursor: pointer;
-  border: none;
-  box-shadow: none;
-  margin-right: 25px;
-  text-transform: uppercase;
-  padding: 10px 40px;
-  background-color: ${props => (props.disabled ? '#DADDE1' : '#F37021')};
-  border-radius: 4px;
-  color: #fff;
-`
-const Box = styled.div`
-  width: 62px;
-  height: 62px;
-`

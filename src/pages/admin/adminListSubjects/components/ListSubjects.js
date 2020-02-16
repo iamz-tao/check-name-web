@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Segment } from 'semantic-ui-react'
+import { Segment, Form } from 'semantic-ui-react'
 import {
   Menu,
 } from 'antd'

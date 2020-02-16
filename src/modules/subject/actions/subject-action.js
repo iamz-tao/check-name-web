@@ -21,6 +21,8 @@ import {
   DELETE_SUBJECT_SUCCESS,
   GET_SUBJECT,
   SET_SUBJECT,
+  UPDATE_SUBJECT,
+  UPDATE_SUBJECT_SUCCESS,
 } from '../constants'
 
 export const createSubject = payload => ({
@@ -131,4 +133,14 @@ export const getSubject = payload => ({
 export const setSubject = payload => ({
   payload,
   type: SET_SUBJECT,
+})
+
+export const updateSubject = payload => ({
+  payload,
+  type: UPDATE_SUBJECT,
+})
+
+export const updateSubjectSuccess = payload => ({
+  payload,
+  type: UPDATE_SUBJECT_SUCCESS,
 })
