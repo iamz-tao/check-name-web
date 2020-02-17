@@ -23,6 +23,10 @@ import {
   SET_SUBJECT,
   UPDATE_SUBJECT,
   UPDATE_SUBJECT_SUCCESS,
+  GET_SECTION,
+  SET_SECTION,
+  UPDATE_SECTION,
+  UPDATE_SECTION_SUCCESS,
 } from '../constants'
 
 export const createSubject = payload => ({
@@ -143,4 +147,24 @@ export const updateSubject = payload => ({
 export const updateSubjectSuccess = payload => ({
   payload,
   type: UPDATE_SUBJECT_SUCCESS,
+})
+
+export const getSection = payload => ({
+  payload,
+  type: GET_SECTION,
+})
+
+export const setSection = payload => ({
+  payload,
+  type: SET_SECTION,
+})
+
+export const updateSection = payload => ({
+  payload,
+  type: UPDATE_SECTION,
+})
+
+export const updateSectionSuccess = payload => ({
+  payload,
+  type: UPDATE_SECTION_SUCCESS,
 })

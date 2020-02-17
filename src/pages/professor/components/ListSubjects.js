@@ -18,8 +18,7 @@ const SubjectsList = (props) => {
           {subjects.map(s => (
             <ItemWrapper>
               <Row>
-                {/* <a href={`update-section/${s.get('id')}`}> */}
-                <a onClick={() => handleModal()}>
+                <a onClick={() => handleModal(s.get('id'))}>
                   <UserDetailGroup>
                     <ListDetail>
                       <ItemSpan>

@@ -7,7 +7,9 @@ import {
   Form as SemanticForm,
 } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { reduxForm, Field, FormSection } from 'redux-form/immutable'
+import {
+  reduxForm, Field, FormSection, FieldArray,
+} from 'redux-form/immutable'
 import { createStructuredSelector } from 'reselect'
 import {
   notification,
@@ -15,8 +17,8 @@ import {
   Button as ButtonAntd,
   Button,
 } from 'antd'
-import Router from 'next/router'
 import moment from 'moment'
+import { fromJS } from 'immutable'
 
 import {
   SemanticInput,
@@ -27,7 +29,6 @@ import { subjectAction } from '~/modules/subject/actions'
 import { subjectsSelector } from '~/modules/subject/selectors'
 import { yearAction } from '~/modules/admin/actions'
 import { yearSelector } from '~/modules/admin/selectors'
-
 
 import { day } from '~/config/constants'
 import DefaultForm from '~/components/DefaultForm'
@@ -207,7 +208,10 @@ const UpdateSection = class extends React.Component {
   render() {
     const {
       handleSubmit,
-      subjects,
+      handleModal,
+      open,
+      section,
+      initialValues,
     } = this.props
 
     const {
@@ -217,7 +221,6 @@ const UpdateSection = class extends React.Component {
       day2,
       startTime2,
       endTime2,
-      open,
       addDay,
     } = this.state
 
@@ -229,12 +232,14 @@ const UpdateSection = class extends React.Component {
       startTime2,
       endTime2,
     }
+    const newForm =initialValues &&  initialValues.getIn(['Time', 0]).map(arr => arr).toJS().start_time
 
+    // console.log('propsss',newForm)
     return (
       <StyledWrapper
         closeOnDimmerClick={false}
         closeIcon
-        open
+        open={open}
         onClose={() => handleModal()}
       >
         <Modal.Content>
@@ -242,50 +247,54 @@ const UpdateSection = class extends React.Component {
             UPDATE SECTION
           </Header>
           <LabelWrapper>
-            SUBJECT NAME : DIGITAL LAB
+            SUBJECT NAME :
+            {' '}
+            {section && section.getIn(['Subject', 'subject_name'])}
           </LabelWrapper>
           <LabelWrapper>
-            SECTION NUMBER : 701
+            SECTION NUMBER :
+            {' '}
+            {section && section.get('section_number')}
           </LabelWrapper>
           <Wrapper>
             <Form onSubmit={handleSubmit(this.submitForm)}>
-              <CustomFormSection>
+              <DefaultForm
+                label='DAY :'
+                width='176px'
+                marginBottom='6px'
+              >
+                <Field
+                  name='Time.day.0.day'
+                  placeholder='Select Day'
+                  component={DropdownWithLabel}
+                  options={day}
+                  handleInput={this.handleInput}
+                />
+              </DefaultForm>
+              <BlankWrapper>
                 <DefaultForm
-                  label='DAY :'
+                  isFeature
+                  label=''
                   width='176px'
-                  marginBottom='6px'
+                  marginBottom='10px'
                 >
-                  <Field
-                    name='day'
-                    placeholder='Select Day'
-                    component={DropdownWithLabel}
-                    options={day}
-                    handleInput={this.handleInput}
-                  />
-                </DefaultForm>
-                <BlankWrapper>
-                  <DefaultForm
-                    isFeature
-                    label=''
-                    width='176px'
-                    marginBottom='10px'
-                  >
-                    <ShowTimeWrapper>
-                      <TimePicker
-                        format={format}
-                        placeholder='Start Time'
-                        onChange={this.getTimeFrom}
-                      />
+                  <ShowTimeWrapper>
+                    <TimePicker
+                      format={format}
+                      placeholder='Start Time'
+                      onChange={this.getTimeFrom}
+                      defaultValue={moment(newForm, 'h:mm A')}
+                    />
         &nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;
-                      <TimePicker
-                        format={format}
-                        placeholder='End Time'
-                        onChange={this.getTimeTo}
-                      />
-                    </ShowTimeWrapper>
-                  </DefaultForm>
-                </BlankWrapper>
-                {
+                    <TimePicker
+                      format={format}
+                      placeholder='End Time'
+                      onChange={this.getTimeTo}
+                    />
+                  </ShowTimeWrapper>
+                </DefaultForm>
+              </BlankWrapper>
+              {
               addDay && (
               <div>
                 <DefaultForm
@@ -328,7 +337,7 @@ const UpdateSection = class extends React.Component {
               </div>
               )
             }
-                {
+              {
               !addDay && (
                 <PlusWrapper>
                   <LabelWrapper style={{ paddingRight: '8px' }}>
@@ -341,46 +350,46 @@ const UpdateSection = class extends React.Component {
               )
             }
 
-                <DefaultForm
-                  label='LATE TIME (Minute) :'
-                  width='176px'
-                  marginBottom='6px'
-                >
-                  <Field
-                    required
-                    name='late_time'
-                    placeholder='Late Time'
-                    component={SemanticInput}
-                  />
-                </DefaultForm>
-                <DefaultForm
-                  label='ABSENT TIME (Minute) :'
-                  width='176px'
-                  marginBottom='6px'
-                >
-                  <Field
-                    name='absent_time'
-                    placeholder='Absent Time'
-                    component={SemanticInput}
-                  />
-                </DefaultForm>
-                <DefaultForm
-                  label='TOTAL MARK :'
-                  width='176px'
-                >
-                  <Field
-                    required
-                    name='total_mark'
-                    placeholder='Total Mark'
-                    component={SemanticInput}
-                  />
-                </DefaultForm>
-              </CustomFormSection>
-              <ButtonWrapper>
+              <DefaultForm
+                label='LATE TIME (Minute) :'
+                width='176px'
+                marginBottom='6px'
+              >
+                <Field
+                  required
+                  name='time_late'
+                  placeholder='Late Time'
+                  component={SemanticInput}
+                />
+              </DefaultForm>
+              <DefaultForm
+                label='ABSENT TIME (Minute) :'
+                width='176px'
+                marginBottom='6px'
+              >
+                <Field
+                  name='time_absent'
+                  placeholder='Absent Time'
+                  component={SemanticInput}
+                />
+              </DefaultForm>
+              <DefaultForm
+                label='TOTAL MARK :'
+                width='176px'
+              >
+                <Field
+                  required
+                  name='total_mark'
+                  placeholder='Total Mark'
+                  component={SemanticInput}
+                />
+              </DefaultForm>
+              {/* <ButtonWrapper>
                 <ButtonCancel onClick={this.handleCancel}>CANCEL</ButtonCancel>
               &nbsp;&nbsp;&nbsp;
                 <ButtonSave onClick={this.handleModal}>SAVE</ButtonSave>
-              </ButtonWrapper>
+              </ButtonWrapper> */}
+              <button>xxx</button>
             </Form>
           </Wrapper>
         </Modal.Content>
@@ -391,15 +400,20 @@ const UpdateSection = class extends React.Component {
 
 const FORM_NAME = 'UPDATE_SECTION'
 
+UpdateSection.defaultProps = {
+  section: fromJS({}),
+  handleSubmit: () => {
+  },
+}
 
 const mapStateToProps = (state, props) => createStructuredSelector({
-  currentYear: yearSelector.getCurrentYear,
+  section: subjectsSelector.getSection,
+  initialValues: subjectsSelector.getSection,
 })(state, props)
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  getSubjects: subjectAction.getSubjects,
+  getSection: subjectAction.getSection,
   openSection: subjectAction.openSection,
-  getCurrentYear: yearAction.getCurrentYear,
 }, dispatch)
 
 const withForm = reduxForm({

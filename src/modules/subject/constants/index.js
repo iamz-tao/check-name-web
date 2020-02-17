@@ -24,6 +24,12 @@ export const OPEN_SECTION_FAILED = 'app/subject/OPEN_SECTION_FAILED'
 export const DELETE_SECTION = 'app/subject/DELETE_SECTION'
 export const DELETE_SECTION_SUCCESS = 'app/subject/DELETE_SECTION_SUCCESS'
 
+export const GET_SECTION = 'app/subject/GET_SECTION'
+export const SET_SECTION = 'app/subject/SET_SECTION'
+export const UPDATE_SECTION = 'app/subject/UPDATE_SECTION'
+export const UPDATE_SECTION_SUCCESS = 'app/subject/UPDATE_SECTION_SUCCESS'
+
+
 export const GET_SUBJECT = 'app/subject/GET_SUBJECT'
 export const SET_SUBJECT = 'app/subject/SET_SUBJECT'
 export const UPDATE_SUBJECT = 'app/subject/UPDATE_SUBJECT'
