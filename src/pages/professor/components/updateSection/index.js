@@ -19,10 +19,10 @@ import {
 } from 'antd'
 import moment from 'moment'
 import { fromJS } from 'immutable'
+import CustomDropdown from '../CustomDropdown'
 
 import {
   SemanticInput,
-  DropdownWithLabel,
 } from '~/components/ReduxForm'
 
 import { subjectAction } from '~/modules/subject/actions'
@@ -37,10 +37,10 @@ const format = 'h:mm A'
 
 const UpdateSection = class extends React.Component {
   state = {
-    day1: '',
+    day_1: '',
     startTime1: '',
     endTime1: '',
-    day2: '',
+    day_2: '',
     startTime2: '',
     endTime2: '',
     keyword: '',
@@ -61,8 +61,9 @@ const UpdateSection = class extends React.Component {
   }
 
   handleInput = (type, e) => {
-    const { change } = this.props
-    change(type, e)
+    this.setState({
+      [type]: e,
+    })
   }
 
   handleInputChange = (event) => {
@@ -71,7 +72,6 @@ const UpdateSection = class extends React.Component {
       [name]: value,
     })
   }
-
 
   openNotificationWithIcon = (type) => {
     notification.config({
@@ -86,68 +86,65 @@ const UpdateSection = class extends React.Component {
   }
 
   submitForm = (values) => {
-    console.log('values', values)
-    // const {
-    //   subject_code,
-    //   subject_name,
-    //   approved_status,
-    //   year,
-    //   semester,
-    // } = values.toJS().subject
+    const { updateSection } = this.props
+    const {
+      time_late,
+      time_absent,
+      total_mark,
+      start_time1,
+      start_time2,
+      finish_time1,
+      finish_time2,
+      day1,
+      day2,
+      section_id,
+    } = values.toJS()
 
-    // const {
-    //   section_number,
-    //   late_time,
-    //   absent_time,
-    //   total_mark,
-    // } = values.toJS()
+    const {
+      day_1,
+      startTime1,
+      endTime1,
+      day_2,
+      startTime2,
+      endTime2,
+    } = this.state
 
-    // const {
-    //   day1,
-    //   startTime1,
-    //   endTime1,
-    //   day2,
-    //   startTime2,
-    //   endTime2,
-    // } = this.state
+    const stime1 = start_time1 === startTime1 || startTime1 === '' ? start_time1 : startTime1
+    const stime2 = start_time2 === startTime2 || startTime2 === '' ? start_time2 : startTime2
+    const etime1 = finish_time1 === endTime1 || endTime1 === '' ? finish_time1 : endTime1
+    const etime2 = finish_time2 === endTime2 || endTime2 === '' ? finish_time2 : endTime2
+    const daySelect1 = day1 === day_1 || day_1 === '' ? day1 : day_1
+    const daySelect2 = day2 === day_2 || day_2 === '' ? day2 : day_2
 
-    // const { UpdateSection } = this.props
-    // const Time = []
-    // if (day2 === '') {
-    //   Time.push({
-    //     day: day1,
-    //     start_time: startTime1,
-    //     end_Time: endTime1,
-    //   })
-    // } else {
-    //   Time.push({
-    //     day: day1,
-    //     start_time: startTime1,
-    //     end_Time: endTime1,
-    //   },
-    //   {
-    //     day: day2,
-    //     start_time: startTime2,
-    //     end_Time: endTime2,
-    //   })
-    // }
+    const Time = []
+    if (!day2) {
+      Time.push({
+        day: daySelect1,
+        start_time: stime1,
+        end_Time: etime1,
+      })
+    } else {
+      Time.push({
+        day: daySelect1,
+        start_time: stime1,
+        end_Time: etime1,
+      },
+      {
+        day: daySelect2,
+        start_time: stime2,
+        end_Time: etime2,
+      })
+    }
 
-    // const data = {
-    //   year,
-    //   semester,
-    //   Subject: {
-    //     subject_code,
-    //     subject_name,
-    //     approved_status,
-    //   },
-    //   section_number,
-    //   Time,
-    //   time_late: late_time,
-    //   time_absent: absent_time,
-    //   total_mark,
-    // }
-
-    // UpdateSection({ data })
+    const data = {
+      Time,
+      time_late,
+      time_absent,
+      total_mark,
+      section_id,
+    }
+   
+    updateSection({ data })
     this.openNotificationWithIcon('success')
   }
 
@@ -215,26 +212,14 @@ const UpdateSection = class extends React.Component {
     } = this.props
 
     const {
-      day1,
-      startTime1,
-      endTime1,
-      day2,
-      startTime2,
-      endTime2,
       addDay,
     } = this.state
 
-    const settingSec = {
-      day1,
-      startTime1,
-      endTime1,
-      day2,
-      startTime2,
-      endTime2,
-    }
-    const newForm =initialValues &&  initialValues.getIn(['Time', 0]).map(arr => arr).toJS().start_time
+    const start_time1 = initialValues && initialValues.getIn(['start_time1'])
+    const end_time1 = initialValues && initialValues.getIn(['finish_time1'])
+    const start_time2 = initialValues && initialValues.getIn(['start_time2'])
+    const end_time2 = initialValues && initialValues.getIn(['finish_time2'])
 
-    // console.log('propsss',newForm)
     return (
       <StyledWrapper
         closeOnDimmerClick={false}
@@ -264,13 +249,15 @@ const UpdateSection = class extends React.Component {
                 marginBottom='6px'
               >
                 <Field
-                  name='Time.day.0.day'
-                  placeholder='Select Day'
-                  component={DropdownWithLabel}
+                  name='day_1'
+                  placeholder={section && section.getIn(['day1'])}
+                  component={CustomDropdown}
                   options={day}
                   handleInput={this.handleInput}
                 />
               </DefaultForm>
+              {
+             section && section.getIn(['day1']) && (
               <BlankWrapper>
                 <DefaultForm
                   isFeature
@@ -283,29 +270,32 @@ const UpdateSection = class extends React.Component {
                       format={format}
                       placeholder='Start Time'
                       onChange={this.getTimeFrom}
-                      defaultValue={moment(newForm, 'h:mm A')}
+                      defaultValue={moment(start_time1, 'h:mm A')}
                     />
         &nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;
                     <TimePicker
                       format={format}
                       placeholder='End Time'
                       onChange={this.getTimeTo}
+                      defaultValue={moment(end_time1, 'h:mm A')}
                     />
                   </ShowTimeWrapper>
                 </DefaultForm>
               </BlankWrapper>
+             )
+  }
               {
-              addDay && (
+             section && section.getIn(['day2']) && (
               <div>
                 <DefaultForm
-                  label='SELECT DAY 2 :'
-                  width='103px'
+                  label='DAY 2 :'
+                  width='176px'
                   marginBottom='6px'
                 >
                   <Field
-                    name='day'
-                    placeholder='Select Day'
-                    component={DropdownWithLabel}
+                    name='day_2'
+                    placeholder={section && section.getIn(['day2'])}
+                    component={CustomDropdown}
                     options={day}
                     handleInput={this.handleInput}
                   />
@@ -315,7 +305,7 @@ const UpdateSection = class extends React.Component {
                   <DefaultForm
                     isFeature
                     label=''
-                    width='103px'
+                    width='176px'
                     marginBottom='20px'
                   >
                     <ShowTimeWrapper>
@@ -324,12 +314,14 @@ const UpdateSection = class extends React.Component {
                         format={format}
                         placeholder='Start Time'
                         onChange={this.getTimeFrom2}
+                        defaultValue={moment(start_time2, 'h:mm A')}
                       />
         &nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;
                       <TimePicker
                         format={format}
                         placeholder='End Time'
                         onChange={this.getTimeTo2}
+                        defaultValue={moment(end_time2, 'h:mm A')}
                       />
                     </ShowTimeWrapper>
                   </DefaultForm>
@@ -338,7 +330,7 @@ const UpdateSection = class extends React.Component {
               )
             }
               {
-              !addDay && (
+              section && !section.getIn(['day2']) && !addDay && (
                 <PlusWrapper>
                   <LabelWrapper style={{ paddingRight: '8px' }}>
                     ADD DAY
@@ -414,6 +406,7 @@ const mapStateToProps = (state, props) => createStructuredSelector({
 const mapDispatchToProps = dispatch => bindActionCreators({
   getSection: subjectAction.getSection,
   openSection: subjectAction.openSection,
+  updateSection: subjectAction.updateSection,
 }, dispatch)
 
 const withForm = reduxForm({

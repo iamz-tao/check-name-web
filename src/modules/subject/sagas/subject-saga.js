@@ -280,31 +280,20 @@ export function* deleteSubject({ payload }) {
 
 export function* updateSection({ payload }) {
   try {
-  //   const response = yield call(httpPut.post, {
-  //     url: `/api/updateSection/${payload.data.id}`,
-  //     payload: {
-  //       Time:[{
-  //         day,
-  //         start_time,
-  //         end_time,
-  //      },
-  //      {
-  //         day:,
-  //         start_time,
-  //         end_time,
-  //      }],
-  //      time_late,
-  //      time_absent,
-  //      total_mark,
-  //  }
-  //   })
+    const { data } = payload
+    const response = yield call(httpPut.post, {
+      url: `/api/updateSection/${payload.data.section_id}`,
+      payload: {
+        ...data,
+      },
+    })
 
-  //   const { error } = response
-  //   if (error) {
-  //     return
-  //   }
-  //   Router.replace('/professor')
-    // yield put(subjectAction.updateSectionSuccess(payload.data))
+    const { error } = response
+    if (error) {
+      return
+    }
+    Router.replace('/professor')
+    yield put(subjectAction.updateSectionSuccess(payload.data))
   } catch (error) {
     console.log('error', error)
   }
@@ -332,7 +321,7 @@ export function* updateSubject({ payload }) {
       payload: {
         subject_code: payload.data.subject_code,
         subject_name: payload.data.subject_name,
-      }
+      },
     })
 
     const { error } = response

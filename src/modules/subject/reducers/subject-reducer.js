@@ -119,6 +119,10 @@ export default (state = initialState, { type, payload }) => {
       return state
         .setIn(['professor', 'section'], fromJS(payload))
     }
+    case UPDATE_SECTION_SUCCESS: {
+      return state
+        .setIn(['httpState', 'isFetching'], false)
+    }
     default:
       return state
   }
