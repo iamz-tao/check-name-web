@@ -51,7 +51,10 @@ const HeaderProfessor = () => (
         </Dropdown.Menu>
       </CustomDropdown>
 
-      <Link>
+      <Link
+        to='/approve-student'
+        href='/approve-studentv'
+      >
         <CustomMenuItem
           link
         >

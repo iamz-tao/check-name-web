@@ -234,7 +234,7 @@ const UpdateSection = class extends React.Component {
       <StyledWrapper
         closeOnDimmerClick={false}
         closeIcon
-        open
+        open={false}
         onClose={() => handleModal()}
       >
         <Modal.Content>
