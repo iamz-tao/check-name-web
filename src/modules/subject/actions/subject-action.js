@@ -27,6 +27,8 @@ import {
   SET_SECTION,
   UPDATE_SECTION,
   UPDATE_SECTION_SUCCESS,
+  SET_STUDENTS_SECTION,
+  GET_STUDENTS_SECTION,
 } from '../constants'
 
 export const createSubject = payload => ({
@@ -167,4 +169,14 @@ export const updateSection = payload => ({
 export const updateSectionSuccess = payload => ({
   payload,
   type: UPDATE_SECTION_SUCCESS,
+})
+
+export const getStudentsSection = payload => ({
+  payload,
+  type: GET_STUDENTS_SECTION,
+})
+
+export const setStudentsSection = payload => ({
+  payload,
+  type: SET_STUDENTS_SECTION,
 })

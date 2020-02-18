@@ -24,6 +24,7 @@ import {
   UPDATE_SUBJECT,
   GET_SECTION,
   UPDATE_SECTION,
+  GET_STUDENTS_SECTION,
 } from '../constants'
 import {
   getSubjectsAPI,
@@ -335,6 +336,26 @@ export function* updateSubject({ payload }) {
   }
 }
 
+export function* getStudentsSection({ payload }) {
+  try {
+    const response = yield call(http.post, {
+      url: '/api/listSecStudent',
+      payload: {
+        ...payload,
+      },
+    })
+    const { error } = response
+    if (error) {
+      // yield put(subjectAction.openSectionFailure({ message: response.message || 'Error has been occured' }))
+      return
+    }
+    yield put(subjectAction.setStudentsSection(response.data.data))
+    // Router.replace('/approve-student')
+  } catch (exception) {
+    // yield put(subjectAction.openSectionFailure({ message: 'Internal Error' }))
+  }
+}
+
 export default function* authSaga() {
   yield all([
     takeLatest(CREATE_SUBJECT, createSubject),
@@ -351,5 +372,6 @@ export default function* authSaga() {
     takeLatest(UPDATE_SUBJECT, updateSubject),
     takeLatest(GET_SECTION, getSection),
     takeLatest(UPDATE_SECTION, updateSection),
+    takeLatest(GET_STUDENTS_SECTION, getStudentsSection),
   ])
 }

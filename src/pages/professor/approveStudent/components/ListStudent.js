@@ -5,7 +5,7 @@ import { Table, Button } from 'antd'
 
 const ListStudent = (props) => {
   const {
-    subjects,
+    students,
     // filter,
     // handleDeleteUser,
     hasSelected,
@@ -20,42 +20,43 @@ const ListStudent = (props) => {
 
   const columns = [
     {
-      title: 'SUBJECT CODE',
+      title: 'STUDENT ID',
       dataIndex: 'student_id',
     },
     {
-      title: 'SUBJECT NAME',
+      title: 'NAME',
       dataIndex: 'name',
     },
-    // {
-    //   key: 'subject_id',
-    //   // render: id => id,
-    //   render: '215748548',
-    // },
-    // {
-    //   title: '',
-    //   key: 'action',
-    //   render: '215748548' => (
-    //     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-    //       <Button style={{ backgroundColor: '#1AB433', border: '0.8px solid #1AB433' }} onClick={() => handleApprove('215748548')}>Approve</Button>
-    //       <Button style={{ backgroundColor: '#CA5353', border: '0.8px solid #CA5353' }} onClick={() => handleReject('215748548')}>Reject</Button>
-    //     </div>
-    //   ),
-    // },
+    {
+      title: 'STATUS',
+      dataIndex: 'status',
+    },
+    {
+      key: 'id',
+      render: id => id,
+    },
+    {
+      title: '',
+      key: 'action',
+      render: id => (
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button style={{ backgroundColor: '#1AB433', border: '0.8px solid #1AB433' }} onClick={() => handleApprove(id)}>Approve</Button>
+          <Button style={{ backgroundColor: '#CA5353', border: '0.8px solid #CA5353' }} onClick={() => handleReject(id)}>Reject</Button>
+        </div>
+      ),
+    },
   ]
-
+  
   const data = []
-  // student.map((s, index) => {
+  students.toJS().map((s, index) => {
     data.push({
-      key: 1111,
-      student_id: '215748548',
-      name: 'xxxxxxx',
-      status: 'PENDING',
+      key: index,
+      student_id: s.std_id,
+      name: `${s.firstname} ${s.lastname}`,
+      status: s.status,
+      id: s.std_id,
     })
-  // })
-  // const types = filter.user_role.reduce((acc, curr) => [...acc, ...curr], [])
-
-  // const keyword_lower = filter.keyword.toLowerCase()
+  })
 
   return (
     <Column>

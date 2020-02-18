@@ -21,6 +21,7 @@ import {
   UPDATE_SUBJECT_SUCCESS,
   SET_SECTION,
   UPDATE_SECTION_SUCCESS,
+  SET_STUDENTS_SECTION,
 } from '../constants'
 
 const initialState = fromJS({
@@ -29,6 +30,7 @@ const initialState = fromJS({
   professor: {
     subjects: null,
     section: null,
+    studentApprove: null,
   },
   httpState: {
     isFetching: false,
@@ -121,6 +123,11 @@ export default (state = initialState, { type, payload }) => {
     }
     case UPDATE_SECTION_SUCCESS: {
       return state
+        .setIn(['httpState', 'isFetching'], false)
+    }
+    case SET_STUDENTS_SECTION: {
+      return state
+        .setIn(['professor', 'studentApprove'], fromJS(payload))
         .setIn(['httpState', 'isFetching'], false)
     }
     default:

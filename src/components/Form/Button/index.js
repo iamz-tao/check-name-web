@@ -6,7 +6,7 @@ const CustomButton = styled.button`
   width: ${props => (props.isFilter ? '96px' : '142px')} !important;
   background-color: ${props => (props.typeButton === 'cancel' ? '#E5E5E5' : props.colorButton)} !important;
   color: ${props => (props.typeButton === 'cancel' ? '#6f6f6f' : '#fff')} !important;
-  margin: 25px 0 25px 0 !important;
+  margin: ${props => (props.margin ? props.margin : '25px 0 25px 0')} !important;
   padding: ${props => (props.isFilter && '8px 0px')} !important;
   height:  ${props => (props.isFilter ? '48px' : '56px')} !important;
   border-radius: 28px !important;
@@ -44,6 +44,7 @@ const Button = (props) => {
     onClick,
     txtButton,
     type,
+    margin,
     disabled = false,
     ...restInput
   } = props
@@ -56,6 +57,7 @@ const Button = (props) => {
       colorButton={colorButton}
       typeButton={type}
       onClick={onClick}
+      margin={margin}
       {...restInput}
     >
       <Label>{txtButton}</Label>

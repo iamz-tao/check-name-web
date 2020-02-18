@@ -14,21 +14,24 @@ import HeaderAdmin from '~/components/HeaderNavbar/Admin'
 import withLayout from '~/hocs/Layouts/withLayout'
 import { subjectAction } from '~/modules/subject/actions'
 import { subjectsSelector } from '~/modules/subject/selectors'
-
+import { yearSelector } from '~/modules/admin/selectors'
+import { yearAction } from '~/modules/admin/actions'
 
 class ApproveStudent extends Component {
   state = {
     subjects: null,
     filter: {
-      year: [],
-      keyword: '',
+      subject: '',
+      section: '',
     },
     selectedRowKeys: [],
     loading: false,
   }
 
   componentDidMount() {
-
+    const { getCurrentYear, getSubjects } = this.props
+    getCurrentYear()
+    getSubjects()
   }
 
   start = () => {
@@ -47,67 +50,95 @@ class ApproveStudent extends Component {
   }
 
   handleApprove = (id) => {
-    const {
-      subject_id,
-    } = id
-    const {
-      approveSubject,
-    } = this.props
-    approveSubject({ subject_id })
+    console.log('sss',id)
+    // const {
+    //   subject_id,
+    // } = id
+    // const {
+    //   approveSubject,
+    // } = this.props
+    // approveSubject({ subject_id })
     this.openNotificationApproveSuccess('success')
   }
 
   handleReject = (id) => {
-    const {
-      student_id,
-    } = id
-    const {
-      rejectStudent,
-    } = this.props
-    rejectStudent({ student_id })
+    console.log('iedddd',id)
+    // const {
+    //   student_id,
+    // } = id
+    // const {
+    //   rejectStudent,
+    // } = this.props
+    // rejectStudent({ student_id })
     this.openNotificationRejectSuccess('success')
   }
 
   handleApproveSubjects = (status) => {
-    const {
-      selectedRowKeys,
-    } = this.state
+    console.log('stausss',status)
+    // const {
+    //   selectedRowKeys,
+    // } = this.state
 
-    const {
-      approveStudents,
-      rejectStudents,
-    } = this.props
+    // const {
+    //   approveStudents,
+    //   rejectStudents,
+    // } = this.props
 
-    const data = { approve_ids: selectedRowKeys }
+    // const data = { approve_ids: selectedRowKeys }
 
-    if (status === 'A') {
-      approveStudents({ data })
-      this.openNotificationApproveSuccess('success')
-    }
-    if (status === 'R') {
-      rejectStudents({ data })
-      this.openNotificationRejectSuccess('success')
-    }
+    // if (status === 'A') {
+    //   approveStudents({ data })
+    //   this.openNotificationApproveSuccess('success')
+    // }
+    // if (status === 'R') {
+    //   rejectStudents({ data })
+    //   this.openNotificationRejectSuccess('success')
+    // }
   }
 
 
-  handleInputChange = async ({ target }) => {
-    await this.setState(state => ({
-      ...state,
+  handleInputChange = async (e, { value }) => {
+    const { filter } = this.state
+    await this.setState({
       filter: {
-        ...state.filter,
-        [target.name]: target.value,
+        ...filter,
+        subject: value,
       },
-    }))
-    this.fetch()
+    })
   }
+
+
+  handleInputChangeSection = async (e, { value }) => {
+    const { filter } = this.state
+    await this.setState({
+      filter: {
+        ...filter,
+        section: value,
+      },
+    })
+  }
+
 
   handleResetFilter = () => {
     this.setState({
       filter: {
-        user_role: [],
-        keyword: '',
+        section: '',
+        subject: '',
       },
+    })
+  }
+
+  handleFilter = () => {
+    const { currentYear, getStudentApprove } = this.props
+    const { subject, section } = this.state.filter
+    const year = currentYear.get('year')
+    const semester = currentYear.get('semester')
+
+    getStudentApprove({
+      year: Math.trunc(year),
+      semester,
+      subject_name: subject,
+      section_number: section,
     })
   }
 
@@ -131,11 +162,14 @@ class ApproveStudent extends Component {
   render() {
     const {
       students,
+      allSection,
+      currentYear,
     } = this.props
 
     const {
-    //   filter,
+      filter,
     } = this.state
+
     const { loading, selectedRowKeys } = this.state
     const rowSelection = {
       selectedRowKeys,
@@ -148,7 +182,15 @@ class ApproveStudent extends Component {
         <HeaderAdmin />
         <RowContainer>
           <FilterWrapper>
-            <FilterAndCriteria />
+            <FilterAndCriteria
+              allSection={allSection}
+              handleInputChange={this.handleInputChange}
+              handleInputChangeSection={this.handleInputChangeSection}
+              handleFilter={this.handleFilter}
+              handleResetFilter={this.handleResetFilter}
+              filter={filter}
+              currentYear={currentYear}
+            />
           </FilterWrapper>
           <RowContainer style={{ paddingTop: 0 }}>
             <ListCol
@@ -160,12 +202,12 @@ class ApproveStudent extends Component {
               <Fragment>
                 <Space />
                 {
-                    students === null && (
+                    currentYear === null && (
                       <LoadingPulse />
                     )
                   }
-                {/* {
-                    students !== null && students.length > 0 && ( */}
+                {
+                    students !== null && students.size > 0 && (
                     <ListCol>
                       <ListStudent
                         start={this.start}
@@ -173,26 +215,27 @@ class ApproveStudent extends Component {
                         loading={loading}
                         selectedRowKeys={selectedRowKeys}
                         rowSelection={rowSelection}
-                        subjects={students}
+                        students={students}
+                        allSection={allSection && allSection.toJS()}
                         handleApprove={this.handleApprove}
                         handleReject={this.handleReject}
                         handleApproveSubjects={this.handleApproveSubjects}
                       />
                     </ListCol>
-                    {/* )
-                  } */}
-
-                {/* {
-                    students !== null && students.length === 0 && (
-                      <RowContainerNotFound>
-                        <NotFoundWrapper>
-                          <h1>
-                            THERE&apos;S NO STUDENT WAIT FOR APPROVE.
-                          </h1>
-                        </NotFoundWrapper>
-                      </RowContainerNotFound>
                     )
-                  } */}
+                  }
+
+                {
+                    currentYear !== null && students === null && (
+                        <RowContainerNotFound>
+                          <NotFoundWrapper>
+                            <h1>
+                              SEARCH YOUR SUBJECT FOR APPROVE STUDENT.
+                            </h1>
+                          </NotFoundWrapper>
+                        </RowContainerNotFound>
+                    )
+                  }
               </Fragment>
             </ListCol>
           </RowContainer>
@@ -204,14 +247,19 @@ class ApproveStudent extends Component {
 
 const mapStateToProps = (state, props) => createStructuredSelector({
   subjects: subjectsSelector.getSubjects,
+  allSection: subjectsSelector.getSubjectsProfessor,
+  currentYear: yearSelector.getCurrentYear,
+  students: subjectsSelector.getStudentApprove,
 })(state, props)
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  getSubjects: subjectAction.getSubjects,
+  getSubjects: subjectAction.getSubjectsProfessor,
   approveSubject: subjectAction.approveSubject,
   rejectSubject: subjectAction.rejectSubject,
   approveSubjects: subjectAction.approveSubjects,
   rejectSubjects: subjectAction.rejectSubjects,
+  getCurrentYear: yearAction.getCurrentYear,
+  getStudentApprove: subjectAction.getStudentsSection,
 }, dispatch)
 
 export default compose(

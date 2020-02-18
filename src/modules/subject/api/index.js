@@ -5,6 +5,7 @@ import Cookie from 'js-cookie'
 
 import * as http from '~/helpers/axiosWrapperGet'
 import * as httpDel from '~/helpers/axiosWrapperDelete'
+import * as httpPost from '~/helpers/axiosWrapperPostToken'
 
 export function* getSubjectsAPI() {
   const token = Cookie.get('token')
