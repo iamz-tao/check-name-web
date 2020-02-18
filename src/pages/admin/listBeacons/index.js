@@ -8,8 +8,7 @@ import { Modal, notification } from 'antd'
 import isNil from 'lodash/isNil'
 
 import FilterAndCriteria from './components/FilterAndCriteria'
-import YearList from './components/YearList'
-import CreateYear from './components/createYear'
+import BeaconsList from './components/BeaconsList'
 import HeaderAdmin from '~/components/HeaderNavbar/Admin'
 
 import NotFound from '~/components/Table/NotFound'
@@ -17,56 +16,40 @@ import LoadingPulse from '~/components/LoadingPulse'
 import FormButton from '~/components/Form/Button'
 
 import withLayout from '~/hocs/Layouts/withLayout'
-import { yearAction } from '~/modules/admin/actions'
-import { yearSelector } from '~/modules/admin/selectors'
+import { beaconAction } from '~/modules/admin/actions'
+import { beaconSelector } from '~/modules/admin/selectors'
 
 const { confirm } = Modal
 
-const TableHeader = (props) => {
-  const {
-    handleModal,
-  } = props
+const TableHeader = () => (
+  <Wrapper>
+    <Row>
+      <UserDetailGroup>
+        <ListHeader style={{ flex: 2 }}>
+          <ItemHeader>
+           UUID
+          </ItemHeader>
+        </ListHeader>
+        <ListHeader>
+          <ItemHeader>
+            NAME
+          </ItemHeader>
+        </ListHeader>
+        <ListHeader>
+          <ItemHeader>
+            STATUS
+          </ItemHeader>
+        </ListHeader>
+      </UserDetailGroup>
+      <DeleteWrapper />
+    </Row>
+  </Wrapper>
+)
 
-  return (
-    <Wrapper>
-      <FormButton
-        colorButton='#006765'
-        type='submit'
-        txtButton='NEW'
-        width='50%'
-        onClick={() => handleModal()}
-      />
-      <Row>
-        <UserDetailGroup>
-          <ListHeader>
-            <ItemHeader>
-              YEAR
-            </ItemHeader>
-          </ListHeader>
-          <ListHeader>
-            <ItemHeader>
-              SEMESTER
-            </ItemHeader>
-          </ListHeader>
-          <ListHeader>
-            <ItemHeader>
-              STATUS
-            </ItemHeader>
-          </ListHeader>
-          <ListHeader />
-        </UserDetailGroup>
-        <DeleteWrapper />
-      </Row>
-    </Wrapper>
-  )
-}
-
-class HomePageAdmin extends Component {
+class ListBeacons extends Component {
   state = {
-    list_year: null,
-    year: '',
-    semester: '',
-    open: false,
+    beaconList: null,
+    beacon: '',
     loading: false,
     filter: {
       keyword: '',
@@ -78,14 +61,14 @@ class HomePageAdmin extends Component {
     if (isNil(token)) {
       window.location.href = '/login'
     }
-    const { getYearAll } = this.props
-    getYearAll({})
+    const { getBeaconAll } = this.props
+    getBeaconAll({})
   }
 
   fetch = () => {
     const { filter } = this.state
-    const { getYearAll } = this.props
-    getYearAll({
+    const { getBeaconAll } = this.props
+    getBeaconAll({
       filter: {
         ...filter,
       },
@@ -116,20 +99,8 @@ class HomePageAdmin extends Component {
     })
   }
 
-  handleGetId = (id) => {
-    const { updateCurrentYear } = this.props
-    updateCurrentYear({ id })
-  }
-
-  handleModal = () => {
-    const { open } = this.state
-    this.setState({
-      open: !open,
-    })
-  }
-
-  handleDeleteYear = (id) => {
-    const { deleteYear } = this.props
+  handleDeleteBeacon = (id) => {
+    const { deleteBeacon } = this.props
     const success = 'success'
     confirm({
       title: 'Confirm Deletion',
@@ -138,7 +109,7 @@ class HomePageAdmin extends Component {
       okType: 'danger',
       cancelText: 'Cancel',
       onOk() {
-        deleteYear({ id })
+        deleteBeacon({ id })
         notification[success]({
           message: 'Delete Success!',
           description:
@@ -152,22 +123,15 @@ class HomePageAdmin extends Component {
 
   render() {
     const {
-      list_year,
+      beaconList,
     } = this.props
 
     const {
       filter,
-      open,
     } = this.state
 
     return (
       <PageWrapper>
-        <CreateYear
-          open={open}
-          handleModal={this.handleModal}
-          handleInputChange={this.handleInputChange}
-          handleInput={this.handleInput}
-        />
         <HeaderAdmin />
         <RowContainer>
           <FilterWrapper>
@@ -187,22 +151,19 @@ class HomePageAdmin extends Component {
               <Fragment>
                 <Space />
                 {
-                    list_year === null && (
+                    beaconList === null && (
                       <LoadingPulse />
                     )
                   }
                 {
-                    list_year !== null && list_year.size > 0 && (
+                    beaconList !== null && beaconList.size > 0 && (
                       <ListCol>
-                        <TableHeader
-                          handleModal={this.handleModal}
-                        />
+                        <TableHeader />
                         <ListCol>
-                          <YearList
-                            list_year={list_year}
+                          <BeaconsList
+                            beaconList={beaconList}
                             filter={filter}
-                            handleGetId={this.handleGetId}
-                            handleDeleteYear={this.handleDeleteYear}
+                            handleDeleteBeacon={this.handleDeleteBeacon}
                           />
                         </ListCol>
                       </ListCol>
@@ -210,7 +171,7 @@ class HomePageAdmin extends Component {
                   }
 
                 {
-                    list_year !== null && list_year.size === 0 && (
+                    beaconList !== null && beaconList.size === 0 && (
                       <NotFound />
                     )
                   }
@@ -224,19 +185,18 @@ class HomePageAdmin extends Component {
 }
 
 const mapStateToProps = (state, props) => createStructuredSelector({
-  list_year: yearSelector.getAllYear,
+  beaconList: beaconSelector.getAllBeacon,
 })(state, props)
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  getYearAll: yearAction.getYearAll,
-  deleteYear: yearAction.deleteYear,
-  updateCurrentYear: yearAction.updateCurrentYear,
+  getBeaconAll: beaconAction.getBeaconAll,
+  deleteBeacon: beaconAction.deleteBeacon,
 }, dispatch)
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withLayout,
-)(HomePageAdmin)
+)(ListBeacons)
 
 const PageWrapper = styled.div`
   font-family: Sarabun;
@@ -298,7 +258,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  padding: 0px 0px 16px 0px;
+  padding: 24px 0px 0px 0px;
 `
 
 const ListHeader = styled(OtherWrapper)`

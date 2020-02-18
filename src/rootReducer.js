@@ -8,6 +8,7 @@ import loadingReducer from '~/modules/upload/reducers'
 import adminReducer from '~/modules/admin/reducers'
 import modalReducer from '~/modules/modal/reducer'
 import subjectReducer from '~/modules/subject/reducers'
+import beaconReducer from './modules/admin/reducers/beacon-reducer'
 
 export default combineReducers({
   authentication: authenticationReducer,
@@ -18,4 +19,5 @@ export default combineReducers({
   admin: adminReducer,
   modal: modalReducer,
   subject: subjectReducer,
+  beacon: beaconReducer,
 })

@@ -126,3 +126,52 @@ export function* deleteYearAPI(id) {
     yield put(userAction.requestSuccess())
   }
 }
+
+export function* getBeaconAllAPI() {
+  const token = Cookie.get('token')
+  const data = {}
+
+  return yield call(http.post, {
+    url: '/api/listBeacon',
+    payload: {
+      token,
+      data,
+    },
+  })
+}
+
+export function* deleteBeaconAPI(id) {
+  try {
+    const token = Cookie.get('token')
+    const email = Cookie.get('email')
+
+    if (!isNil(token)) {
+      const response = yield call(httpDel.post, {
+        url: `/api/deleteBeacon/${id}`,
+        payload: {
+          email,
+          token,
+          data: {
+            id,
+          },
+        },
+      })
+
+      const { error } = response
+
+      if (error) {
+        yield put(loginAction.handleLogout())
+        window.location.href = '/login'
+        return
+      }
+
+      yield put(userAction.requestSuccess())
+    } else {
+      yield put(loginAction.handleLogout())
+      window.location.href = '/login'
+    }
+  } catch (error) {
+    console.log('error', error)
+    yield put(userAction.requestSuccess())
+  }
+}
