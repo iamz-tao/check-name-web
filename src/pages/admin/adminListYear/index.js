@@ -116,29 +116,6 @@ class HomePageAdmin extends Component {
     })
   }
 
-  showDeleteConfirm = (id) => {
-    const { deleteUser } = this.props
-    const success = 'success'
-    confirm({
-      title: 'Confirm Deletion',
-      content: 'Are you sure delete this user? You can\'t undo this action.',
-      okText: 'Delete',
-      okType: 'danger',
-      cancelText: 'Cancel',
-      onOk() {
-        deleteUser({ id })
-        notification[success]({
-          message: 'Delete Success!',
-          description:
-            'Action completed successfully.',
-        })
-      },
-      onCancel() {
-      },
-    })
-  }
-
-
   handleGetId = (id) => {
     const { updateCurrentYear } = this.props
     updateCurrentYear({ id })

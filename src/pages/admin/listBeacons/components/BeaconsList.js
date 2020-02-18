@@ -1,37 +1,31 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Segment } from 'semantic-ui-react'
-import {
-  Switch,
-} from 'antd'
 import DeleteIcon from '~/components/DeleteIcon'
 
-const YearList = (props) => {
+const BeaconList = (props) => {
   const {
-    list_year,
+    beaconList,
     filter,
-    handleGetId,
-    handleDeleteYear,
+    handleDeleteBeacon,
   } = props
 
-
-  // const keyword_lower = filter.keyword.toLowerCase()
   return (
     <Column>
       <Wrapper>
         <Column>
-          {list_year.map(y => (
+          {beaconList.map(y => (
             <ItemWrapper>
               <Row>
                 <UserDetailGroup>
-                  <ListDetail>
+                  <ListDetail style={{ flex: 2 }}>
                     <ItemSpan>
-                      {y.get('year')}
+                      {y.get('uuid')}
                     </ItemSpan>
                   </ListDetail>
                   <ListDetail>
                     <ItemSpan>
-                      {y.get('semester')}
+                      {y.get('name')}
                     </ItemSpan>
                   </ListDetail>
                   <ListDetail>
@@ -52,16 +46,13 @@ const YearList = (props) => {
                       }
                     </ItemSpan>
                   </ListDetail>
-                  <ListDetail style={{ textAlign: 'right' }}>
-                    <Switch defaultChecked={y.get('status') === 'ACTIVE'} checked={y.get('status') === 'ACTIVE'} onClick={() => handleGetId(y.get('id'))} />
-                  </ListDetail>
                 </UserDetailGroup>
                 <DeleteWrapper>
                   <DeleteIcon
                     className='trash'
                     onClick={(e) => {
                       e.preventDefault()
-                      handleDeleteYear(y.get('id'))
+                      handleDeleteBeacon(y.get('id'))
                     }}
                   />
                 </DeleteWrapper>
@@ -74,7 +65,7 @@ const YearList = (props) => {
   )
 }
 
-export default YearList
+export default BeaconList
 
 const Wrapper = styled.div`
   display: flex;
