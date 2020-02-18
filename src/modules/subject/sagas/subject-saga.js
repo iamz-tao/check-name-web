@@ -22,6 +22,8 @@ import {
   DELETE_SUBJECT,
   GET_SUBJECT,
   UPDATE_SUBJECT,
+  GET_SECTION,
+  UPDATE_SECTION,
 } from '../constants'
 import {
   getSubjectsAPI,
@@ -29,6 +31,7 @@ import {
   deleteSectionAPI,
   deleteSubjectAPI,
   getSubjectAPI,
+  getSectionAPI,
 } from '../api'
 
 import * as http from '~/helpers/axiosWrapperPostToken'
@@ -234,7 +237,7 @@ export function* getSubjectsProfessor(payload) {
   try {
     const token = Cookie.get('token')
     if (!isNil(token)) {
-      const { data, error } = yield getSubjectsProfessorAPI(payload)
+      const { data, error } = yield getSubjectsProfessorAPI()
       if (error) {
         return
       }
@@ -275,6 +278,42 @@ export function* deleteSubject({ payload }) {
   }
 }
 
+export function* updateSection({ payload }) {
+  try {
+    const { data } = payload
+    const response = yield call(httpPut.post, {
+      url: `/api/updateSection/${payload.data.section_id}`,
+      payload: {
+        ...data,
+      },
+    })
+
+    const { error } = response
+    if (error) {
+      return
+    }
+    Router.replace('/professor')
+    yield put(subjectAction.updateSectionSuccess(payload.data))
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
+export function* getSection(payload) {
+  try {
+    const token = Cookie.get('token')
+    if (!isNil(token)) {
+      const { data, error } = yield getSectionAPI(payload.payload.id)
+      if (error) {
+        return
+      }
+      yield put(subjectAction.setSection(data.data))
+    }
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
 export function* updateSubject({ payload }) {
   try {
     const response = yield call(httpPut.post, {
@@ -282,7 +321,7 @@ export function* updateSubject({ payload }) {
       payload: {
         subject_code: payload.data.subject_code,
         subject_name: payload.data.subject_name,
-      }
+      },
     })
 
     const { error } = response
@@ -310,5 +349,7 @@ export default function* authSaga() {
     takeLatest(DELETE_SUBJECT, deleteSubject),
     takeLatest(GET_SUBJECT, getSubject),
     takeLatest(UPDATE_SUBJECT, updateSubject),
+    takeLatest(GET_SECTION, getSection),
+    takeLatest(UPDATE_SECTION, updateSection),
   ])
 }

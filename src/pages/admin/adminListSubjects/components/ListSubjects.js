@@ -21,8 +21,8 @@ const SubjectsList = (props) => {
         <Column>
           {subjects.map(s => (
             <ItemWrapper>
-              <a onClick={() => handleModal(s.id)}>
               <Row>
+              <a onClick={() => handleModal(s.id)}>
                 <UserDetailGroup>
                   <ListDetail>
                     <ItemSpan>
@@ -44,8 +44,8 @@ const SubjectsList = (props) => {
                     />
                   </DeleteIconWrapper>
                 </UserDetailGroup>
-              </Row>
               </a>
+              </Row>
             </ItemWrapper>
           ))}
         </Column>

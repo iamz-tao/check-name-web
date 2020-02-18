@@ -36,3 +36,14 @@ export const getSubject = createSelector(
     }
   },
 )
+
+export const getSection = createSelector(
+  stateSelector,
+  (state) => {
+    try {
+      return state.getIn(['professor', 'section', 0], '')
+    } catch (error) {
+      return fromJS({})
+    }
+  },
+)
