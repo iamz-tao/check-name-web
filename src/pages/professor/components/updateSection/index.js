@@ -8,18 +8,16 @@ import {
 } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import {
-  reduxForm, Field, FormSection, FieldArray,
+  reduxForm, Field,
 } from 'redux-form/immutable'
 import { createStructuredSelector } from 'reselect'
 import {
   notification,
   TimePicker,
-  Button as ButtonAntd,
   Button,
 } from 'antd'
 import moment from 'moment'
 import { fromJS } from 'immutable'
-import CustomDropdown from '../CustomDropdown'
 
 import {
   SemanticInput,
@@ -27,8 +25,7 @@ import {
 
 import { subjectAction } from '~/modules/subject/actions'
 import { subjectsSelector } from '~/modules/subject/selectors'
-import { yearAction } from '~/modules/admin/actions'
-import { yearSelector } from '~/modules/admin/selectors'
+import FormButton from '~/components/Form/Button'
 
 import { day } from '~/config/constants'
 import DefaultForm from '~/components/DefaultForm'
@@ -50,26 +47,28 @@ const UpdateSection = class extends React.Component {
   }
 
   componentDidMount() {
-    // const {
-    //   getSection,
-    // } = this.props
-    // getSection({})
   }
 
   componentWillUnmount() {
 
   }
 
-  handleInput = (type, e) => {
-    this.setState({
-      [type]: e,
-    })
-  }
-
   handleInputChange = (event) => {
     const { name, value } = event.target
     this.setState({
       [name]: value,
+    })
+  }
+
+  handleButtonClick = (e, { value }) => {
+    this.setState({
+      day_1: value,
+    })
+  }
+
+  handleButtonClick2 = (e, { value }) => {
+    this.setState({
+      day_2: value,
     })
   }
 
@@ -86,7 +85,7 @@ const UpdateSection = class extends React.Component {
   }
 
   submitForm = (values) => {
-    const { updateSection } = this.props
+    const { updateSection, handleModal } = this.props
     const {
       time_late,
       time_absent,
@@ -121,18 +120,18 @@ const UpdateSection = class extends React.Component {
       Time.push({
         day: daySelect1,
         start_time: stime1,
-        end_Time: etime1,
+        end_time: etime1,
       })
     } else {
       Time.push({
         day: daySelect1,
         start_time: stime1,
-        end_Time: etime1,
+        end_time: etime1,
       },
       {
         day: daySelect2,
         start_time: stime2,
-        end_Time: etime2,
+        end_time: etime2,
       })
     }
 
@@ -143,8 +142,9 @@ const UpdateSection = class extends React.Component {
       total_mark,
       section_id,
     }
-   
+
     updateSection({ data })
+    handleModal()
     this.openNotificationWithIcon('success')
   }
 
@@ -173,25 +173,6 @@ const UpdateSection = class extends React.Component {
     const newTo = new Date(to)
     this.setState({
       endTime2: moment(newTo).format('h:mm A'),
-    })
-  }
-
-  handleModal = () => {
-    const { open } = this.state
-    this.setState({
-      open: !open,
-      addDay: false,
-    })
-  }
-
-  handleCancel = () => {
-    const { open } = this.state
-    this.setState({
-      open: !open,
-      daySelect: '',
-      startTime: '',
-      endTime: '',
-      addDay: false,
     })
   }
 
@@ -248,86 +229,86 @@ const UpdateSection = class extends React.Component {
                 width='176px'
                 marginBottom='6px'
               >
-                <Field
-                  name='day_1'
+                <CustomDropdownWrapper
                   placeholder={section && section.getIn(['day1'])}
-                  component={CustomDropdown}
+                  fluid
+                  selection
                   options={day}
-                  handleInput={this.handleInput}
+                  onChange={this.handleButtonClick}
                 />
               </DefaultForm>
               {
              section && section.getIn(['day1']) && (
-              <BlankWrapper>
-                <DefaultForm
-                  isFeature
-                  label=''
-                  width='176px'
-                  marginBottom='10px'
-                >
-                  <ShowTimeWrapper>
-                    <TimePicker
-                      format={format}
-                      placeholder='Start Time'
-                      onChange={this.getTimeFrom}
-                      defaultValue={moment(start_time1, 'h:mm A')}
-                    />
+             <BlankWrapper>
+               <DefaultForm
+                 isFeature
+                 label=''
+                 width='176px'
+                 marginBottom='10px'
+               >
+                 <ShowTimeWrapper>
+                   <TimePicker
+                     format={format}
+                     placeholder='Start Time'
+                     onChange={this.getTimeFrom}
+                     defaultValue={moment(start_time1, 'h:mm A')}
+                   />
         &nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;
-                    <TimePicker
-                      format={format}
-                      placeholder='End Time'
-                      onChange={this.getTimeTo}
-                      defaultValue={moment(end_time1, 'h:mm A')}
-                    />
-                  </ShowTimeWrapper>
-                </DefaultForm>
-              </BlankWrapper>
+                   <TimePicker
+                     format={format}
+                     placeholder='End Time'
+                     onChange={this.getTimeTo}
+                     defaultValue={moment(end_time1, 'h:mm A')}
+                   />
+                 </ShowTimeWrapper>
+               </DefaultForm>
+             </BlankWrapper>
              )
   }
               {
              section && section.getIn(['day2']) && (
-              <div>
-                <DefaultForm
-                  label='DAY 2 :'
-                  width='176px'
-                  marginBottom='6px'
-                >
-                  <Field
-                    name='day_2'
-                    placeholder={section && section.getIn(['day2'])}
-                    component={CustomDropdown}
-                    options={day}
-                    handleInput={this.handleInput}
-                  />
-                </DefaultForm>
-                <BlankWrapper>
+             <div>
+               <DefaultForm
+                 label='DAY 2 :'
+                 width='176px'
+                 marginBottom='6px'
+               >
+                 <CustomDropdownWrapper
+                   placeholder={section && section.getIn(['day2'])}
+                   fluid
+                   selection
+                   options={day}
+                   onChange={this.handleButtonClick2}
+                 />
+               </DefaultForm>
+               <BlankWrapper>
 
-                  <DefaultForm
-                    isFeature
-                    label=''
-                    width='176px'
-                    marginBottom='20px'
-                  >
-                    <ShowTimeWrapper>
-                      <TimePicker
-                        use12Hours
-                        format={format}
-                        placeholder='Start Time'
-                        onChange={this.getTimeFrom2}
-                        defaultValue={moment(start_time2, 'h:mm A')}
-                      />
+                 <DefaultForm
+                   isFeature
+                   label=''
+                   width='176px'
+                   marginBottom='20px'
+                 >
+                   <ShowTimeWrapper>
+                     <TimePicker
+                       use12Hours
+                       format={format}
+                       placeholder='Start Time'
+                       onChange={this.getTimeFrom2}
+                       defaultValue={moment(start_time2, 'h:mm A')}
+                     />
         &nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;
-                      <TimePicker
-                        format={format}
-                        placeholder='End Time'
-                        onChange={this.getTimeTo2}
-                        defaultValue={moment(end_time2, 'h:mm A')}
-                      />
-                    </ShowTimeWrapper>
-                  </DefaultForm>
-                </BlankWrapper>
-              </div>
-              )
+                     <TimePicker
+                       format={format}
+                       placeholder='End Time'
+                       onChange={this.getTimeTo2}
+                       defaultValue={moment(end_time2, 'h:mm A')}
+                     />
+                   </ShowTimeWrapper>
+                 </DefaultForm>
+               </BlankWrapper>
+             </div>
+             )
             }
               {
               section && !section.getIn(['day2']) && !addDay && (
@@ -376,12 +357,27 @@ const UpdateSection = class extends React.Component {
                   component={SemanticInput}
                 />
               </DefaultForm>
-              {/* <ButtonWrapper>
-                <ButtonCancel onClick={this.handleCancel}>CANCEL</ButtonCancel>
-              &nbsp;&nbsp;&nbsp;
-                <ButtonSave onClick={this.handleModal}>SAVE</ButtonSave>
-              </ButtonWrapper> */}
-              <button>xxx</button>
+              <CustomButton>
+                <FormButton
+                  isFilter
+                  type='reset'
+                  txtButton='CANCEL'
+                  width='50%'
+                  onClick={() => {
+                    handleModal()
+                  }}
+                />
+                  &nbsp; &nbsp;
+                <FormButton
+                  isFilter
+                  colorButton='#CA5353'
+                  type='submit'
+                  txtButton='UPDATE'
+                  width='50%'
+                  onClick={() => {
+                  }}
+                />
+              </CustomButton>
             </Form>
           </Wrapper>
         </Modal.Content>
@@ -429,26 +425,9 @@ const Header = styled.span`
   display: flex;
   padding-left: 18px;
 `
-const ButtonSave = styled(ButtonAntd)`
-  background: #CA5353 !important;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
-  border-radius: 28px !important;
-  width: 100px !important;
-  height: 38px !important;
-  color: #fff !important;
-
-`
-const ButtonCancel = styled(ButtonAntd)`
-  background: #FFFFFF !important;
-  border: 1px solid #949494 !important;
-  box-sizing: border-box !important;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
-  border-radius: 28px !important;
-  width: 100px;
-  height: 38px !important;
-`
-const ButtonWrapper = styled.div`
+const CustomButton = styled.div`
   display: flex;
+  width: 100%;
   justify-content: center;
 `
 const StyledWrapper = styled(Modal)`
@@ -491,6 +470,10 @@ const StyledWrapper = styled(Modal)`
   border-radius: 28px;
   border: 1px solid #ccc2c2;
   width: 100%;
+}
+.ui.dropdown:not(.button)>.default.text {
+    color: rgba(0, 0, 0, 0.87);
+    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
 }
 `
 const Wrapper = styled.div`
@@ -536,10 +519,29 @@ const ButtonPlus = styled(Button)`
   font-size: 28px !important;
   line-height: 0;
 `
-const CustomFormSection = styled(FormSection)`
-  margin: 10px 0px 0px 0px;
-  font-size: 16px !important;
-`
 const Form = styled(SemanticForm)`
   width: 100%;
+`
+
+const CustomDropdownWrapper = styled(Dropdown)`
+  display: flex;
+  justify-content: center;
+  width: 100%  !important;
+  padding: ${props => (!props.multiple ? '6px 10px 6px 10px !important' : '')};
+  font-family: Kanit !important;
+  font-size: 14px !important;
+  height: 38px;
+  background-color: #EBEBEB !important;
+  border: 1px solid rgba(148, 148, 148, 0.5) !important;
+  box-sizing: border-box;
+  border-radius: 28px !important;
+  line-height: 1.8em !important;
+
+  @media (max-width: 700px) {
+    width: ${props => (props.style ? '100%' : '80%')}!important;
+  }
+
+  @media (max-width: 500px) {
+    width: ${props => (props.style ? '100%' : '90%')}!important;
+  }
 `

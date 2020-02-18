@@ -33,7 +33,7 @@ const TableHeader = () => (
         </ListHeader>
         <ListHeader>
           <ItemHeader>
-            SUBJECT NAME
+            SECTION NUMBER
           </ItemHeader>
         </ListHeader>
         <ListHeader />

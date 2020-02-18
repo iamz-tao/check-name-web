@@ -18,7 +18,7 @@ const SubjectsList = (props) => {
           {subjects.map(s => (
             <ItemWrapper>
               <Row>
-                <a onClick={() => handleModal(s.get('id'))}>
+                <RowWrapper onClick={() => handleModal(s.get('id'))}>
                   <UserDetailGroup>
                     <ListDetail>
                       <ItemSpan>
@@ -31,13 +31,16 @@ const SubjectsList = (props) => {
                       </ItemSpan>
                     </ListDetail>
                   </UserDetailGroup>
-                  <ListDetail>
+                  <ListDetail style={{ textAlign: 'center', paddingTop: '3px' }}>
                     <DeleteIcon
                       className='trash'
-                      onClick={() => handleDeleteSection(s.get('id'))}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleDeleteSection(s.get('id'))
+                      }}
                     />
                   </ListDetail>
-                </a>
+                </RowWrapper>
               </Row>
             </ItemWrapper>
           ))}
@@ -82,6 +85,10 @@ const ItemWrapper = styled(Segment)`
   box-sizing: border-box !important;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
   border-radius: 18px !important;
+
+  :hover {
+    border: 1px solid #CA5353 !important;
+  }
 `
 
 const Column = styled.div`
@@ -128,4 +135,13 @@ const ListDetail = styled(OtherWrapper)`
 const UserDetailGroup = styled.div`
   display: flex;
   flex: 3;
+`
+const RowWrapper = styled.a`
+  display: flex;
+  width: 100%;
+  color: #575757;
+
+  :hover {
+    color: #CA5353 !important;
+  }
 `

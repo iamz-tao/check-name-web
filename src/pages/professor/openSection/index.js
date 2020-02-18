@@ -107,18 +107,18 @@ const OpenSection = class extends React.Component {
       Time.push({
         day: day1,
         start_time: startTime1,
-        end_Time: endTime1,
+        end_time: endTime1,
       })
     } else {
       Time.push({
         day: day1,
         start_time: startTime1,
-        end_Time: endTime1,
+        end_time: endTime1,
       },
       {
         day: day2,
         start_time: startTime2,
-        end_Time: endTime2,
+        end_time: endTime2,
       })
     }
 
