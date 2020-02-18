@@ -23,4 +23,5 @@ routes
   .add('create-subject', '/create-subject', '/admin/adminCreateSubject')
   .add('list-subjects', '/list-subjects', '/admin/adminListSubjects')
   .add('list-year', '/list-year', '/admin/adminListYear')
+  .add('list-beacons', '/list-beacons', '/admin/listBeacons')
 module.exports = routes
