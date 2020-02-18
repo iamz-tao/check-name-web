@@ -33,7 +33,7 @@ const TableHeader = () => (
         </ListHeader>
         <ListHeader>
           <ItemHeader>
-            SUBJECT NAME
+            SECTION NUMBER
           </ItemHeader>
         </ListHeader>
         <ListHeader />
@@ -53,14 +53,9 @@ class HomePageProfessor extends Component {
   }
 
   componentDidMount() {
-    const { getSubjects, getCurrentYear, currentYear } = this.props
-    getCurrentYear({})
-    if (currentYear !== null && currentYear.size > 0) {
-      getSubjects({
-        year: currentYear.get('year'),
-        semester: currentYear.get('semester'),
-      })
-    }
+    const { getSections } = this.props
+    getSections({
+    })
   }
 
   fetch = () => {
@@ -116,8 +111,13 @@ class HomePageProfessor extends Component {
     // })
   }
 
-  handleModal = () => {
+  handleModal = (id) => {
     const { open } = this.state
+    const { getSection } = this.props
+    if (id){
+      getSection({ id })
+    }
+    
     this.setState({
       open: !open,
       addDay: false,
@@ -199,7 +199,8 @@ const mapStateToProps = (state, props) => createStructuredSelector({
 })(state, props)
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  getSubjects: subjectAction.getSubjectsProfessor,
+  getSections: subjectAction.getSubjectsProfessor,
+  getSection: subjectAction.getSection,
   deleteSection: subjectAction.deleteSection,
   getCurrentYear: yearAction.getCurrentYear,
 }, dispatch)
