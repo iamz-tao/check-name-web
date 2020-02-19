@@ -22,6 +22,8 @@ import {
   SET_SECTION,
   UPDATE_SECTION_SUCCESS,
   SET_STUDENTS_SECTION,
+  APPROVE_STUDENT_SUCCESS,
+  REJECT_STUDENT_SUCCESS,
 } from '../constants'
 
 const initialState = fromJS({
@@ -128,6 +130,18 @@ export default (state = initialState, { type, payload }) => {
     case SET_STUDENTS_SECTION: {
       return state
         .setIn(['professor', 'studentApprove'], fromJS(payload))
+        .setIn(['httpState', 'isFetching'], false)
+    }
+    case APPROVE_STUDENT_SUCCESS: {
+      const index = state.getIn(['professor', 'studentApprove']).findIndex(i => i.get('auto_id') === payload[0])
+      return state
+        .removeIn(['professor', 'studentApprove', index])
+        .setIn(['httpState', 'isFetching'], false)
+    }
+    case REJECT_STUDENT_SUCCESS: {
+      const index = state.getIn(['professor', 'studentApprove']).findIndex(i => i.get('auto_id') === payload[0])
+      return state
+        .removeIn(['professor', 'studentApprove', index])
         .setIn(['httpState', 'isFetching'], false)
     }
     default:

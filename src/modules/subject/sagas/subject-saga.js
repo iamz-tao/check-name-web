@@ -25,6 +25,8 @@ import {
   GET_SECTION,
   UPDATE_SECTION,
   GET_STUDENTS_SECTION,
+  APPROVE_STUDENT,
+  REJECT_STUDENT,
 } from '../constants'
 import {
   getSubjectsAPI,
@@ -37,6 +39,7 @@ import {
 
 import * as http from '~/helpers/axiosWrapperPostToken'
 import * as httpPut from '~/helpers/axiosWrapperPut'
+import * as httpDel from '~/helpers/axiosWrapperDelete'
 
 export function* createSubject({ payload }) {
   try {
@@ -356,6 +359,77 @@ export function* getStudentsSection({ payload }) {
   }
 }
 
+export function* approveStudent({ payload }) {
+  try {
+    if (payload.id.length === 1) {
+      const response = yield call(httpPut.post, {
+        url: '/api/approveStudent',
+        payload: {
+          ...payload,
+        },
+      })
+  
+      const { error } = response
+      if (error) {
+        return
+      }
+      yield put(subjectAction.approveStudentSuccess(payload.id))
+    } else {
+      const { id } = payload
+      const response = yield call(httpPut.post, {
+        url: '/api/approveStudent',
+        payload: {
+          ...id,
+        },
+      })
+  
+      const { error } = response
+      if (error) {
+        return
+      }
+      Router.replace('/approve-student')
+    }
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
+export function* rejectStudent({ payload }) {
+  try {
+    if (payload.id.length === 1) {
+      const response = yield call(httpDel.post, {
+        url: '/api/rejectStudent',
+        payload: {
+          ...payload,
+        },
+      })
+
+      const { error } = response
+      if (error) {
+        return
+      }
+
+      yield put(subjectAction.rejectStudentSuccess(payload.id))
+    } else {
+      const { id } = payload
+      const response = yield call(httpDel.post, {
+        url: '/api/rejectStudent',
+        payload: {
+          ...id,
+        },
+      })
+
+      const { error } = response
+      if (error) {
+        return
+      }
+      Router.replace('/approve-student')
+    }
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
 export default function* authSaga() {
   yield all([
     takeLatest(CREATE_SUBJECT, createSubject),
@@ -373,5 +447,7 @@ export default function* authSaga() {
     takeLatest(GET_SECTION, getSection),
     takeLatest(UPDATE_SECTION, updateSection),
     takeLatest(GET_STUDENTS_SECTION, getStudentsSection),
+    takeLatest(APPROVE_STUDENT, approveStudent),
+    takeLatest(REJECT_STUDENT, rejectStudent),
   ])
 }

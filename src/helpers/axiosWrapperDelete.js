@@ -12,6 +12,7 @@ const http = async (url = '/api', payload = {}) => {
         method: 'delete',
         headers: {
           token,
+          'Content-Type': 'application/json',
         },
         url: `${apiEndpoint}${url}`,
         data: JSON.stringify({
