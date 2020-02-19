@@ -37,3 +37,7 @@ export const UPDATE_SUBJECT_SUCCESS = 'app/subject/UPDATE_SUBJECT_SUCCESS'
 
 export const GET_STUDENTS_SECTION = 'app/subject/GET_STUDENTS_SECTION'
 export const SET_STUDENTS_SECTION = 'app/subject/SET_STUDENTS_SECTION'
+export const APPROVE_STUDENT = 'app/subject/APPROVE_STUDENT'
+export const REJECT_STUDENT = 'app/subject/REJECT_STUDENT'
+export const APPROVE_STUDENT_SUCCESS = 'app/subject/APPROVE_STUDENT_SUCCESS'
+export const REJECT_STUDENT_SUCCESS = 'app/subject/REJECT_STUDENT_SUCCESS'

@@ -50,11 +50,11 @@ const ListStudent = (props) => {
   const data = []
   students.toJS().map((s, index) => {
     data.push({
-      key: index,
+      key: s.auto_id,
       student_id: s.std_id,
       name: `${s.firstname} ${s.lastname}`,
       status: s.status,
-      id: s.std_id,
+      id: s.auto_id,
     })
   })
 
