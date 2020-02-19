@@ -18,7 +18,7 @@ const SubjectsList = (props) => {
           {subjects.map(s => (
             <ItemWrapper>
               <Row>
-                <RowWrapper onClick={() => handleModal(s.get('id'))}>
+                <a onClick={() => handleModal(s.get('id'))} style={{ width: '100%', color: '#575757' }}>
                   <UserDetailGroup>
                     <ListDetail>
                       <ItemSpan>
@@ -30,17 +30,17 @@ const SubjectsList = (props) => {
                         {s.get('section_number')}
                       </ItemSpan>
                     </ListDetail>
+                    <DeleteIconWrapper>
+                      <DeleteIcon
+                        className='trash'
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleDeleteSection(s.get('id'))
+                        }}
+                      />
+                    </DeleteIconWrapper>
                   </UserDetailGroup>
-                  <ListDetail style={{ textAlign: 'center', paddingTop: '3px' }}>
-                    <DeleteIcon
-                      className='trash'
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        handleDeleteSection(s.get('id'))
-                      }}
-                    />
-                  </ListDetail>
-                </RowWrapper>
+                </a>
               </Row>
             </ItemWrapper>
           ))}
@@ -87,7 +87,8 @@ const ItemWrapper = styled(Segment)`
   border-radius: 18px !important;
 
   :hover {
-    border: 1px solid #CA5353 !important;
+    border: 1px solid #FFEEEE !important;
+    background: #FFEEEE !important;
   }
 `
 
@@ -136,12 +137,11 @@ const UserDetailGroup = styled.div`
   display: flex;
   flex: 3;
 `
-const RowWrapper = styled.a`
+const DeleteIconWrapper = styled(OtherWrapper)`
   display: flex;
-  width: 100%;
-  color: #575757;
-
-  :hover {
-    color: #CA5353 !important;
-  }
+  flex: 1;
+  padding-left: 40px;
+  text-align: center;
+  justify-content: center;
+  padding-top: 9px;
 `

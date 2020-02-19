@@ -22,7 +22,7 @@ const SubjectsList = (props) => {
           {subjects.map(s => (
             <ItemWrapper>
               <Row>
-              <a onClick={() => handleModal(s.id)}>
+              <a onClick={() => handleModal(s.id)} style={{ width: '100%' }}>
                 <UserDetailGroup>
                   <ListDetail>
                     <ItemSpan>
@@ -89,6 +89,12 @@ const ItemWrapper = styled(Segment)`
   box-sizing: border-box !important;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
   border-radius: 18px !important;
+
+  :hover {
+    border: 1px solid #FFEEEE !important;
+    background: #FFEEEE !important;
+  }
+
 `
 
 const Column = styled.div`

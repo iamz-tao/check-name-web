@@ -9,9 +9,17 @@ import {
 } from '~/components/ReduxForm'
 import DefaultForm from '~/components/DefaultForm'
 import FormButton from '~/components/Form/Button'
+import LoadingPulse from '~/components/LoadingPulse'
 
 const CreateSubject = (props) => {
   const currentYear = get(props, 'currentYear')
+  
+  if (!currentYear) {
+    return (
+      <LoadingPulse />
+    )
+  }
+
   const year = currentYear.get('year')
   const semester = currentYear.get('semester') === 'FIRST' ? 1 : currentYear.get('semester') === 'SECOND' ? 2 : 'SUMMER'
 
