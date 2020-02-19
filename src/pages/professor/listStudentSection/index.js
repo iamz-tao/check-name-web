@@ -6,8 +6,7 @@ import { connect } from 'react-redux'
 import { Modal, notification } from 'antd'
 
 import FilterAndCriteria from './components/FilterAndCriteria'
-import SubjectsList from './components/ListSubjects'
-import UpdateSection from './components/updateSection'
+import StudentList from './components/StudentList'
 
 import HeaderProfessor from '~/components/HeaderNavbar/Professor'
 import NotFound from '~/components/Table/NotFound'
@@ -28,39 +27,28 @@ const TableHeader = () => (
       <UserDetailGroup>
         <ListHeader>
           <ItemHeader>
-            SUBJECT CODE
+            STUDENT ID
           </ItemHeader>
         </ListHeader>
         <ListHeader>
           <ItemHeader>
-            SUBJECT NAME
+            STUDENT NAME
           </ItemHeader>
         </ListHeader>
-        <ListHeader style={{ minWidth: '180px' }}>
-          <ItemHeader>
-            SECTION NUMBER
-          </ItemHeader>
-        </ListHeader>
-        <ListHeader />
       </UserDetailGroup>
     </Row>
   </Wrapper>
 )
 
-class HomePageProfessor extends Component {
+class ListStudents extends Component {
   state = {
-    subjects: null,
+    students: null,
     filter: {
       keyword: '',
     },
-    addDay: false,
-    open: false,
   }
 
   componentDidMount() {
-    const { getSections } = this.props
-    getSections({
-    })
   }
 
   fetch = () => {
@@ -69,28 +57,6 @@ class HomePageProfessor extends Component {
     getSubjects({
       filter: {
         ...filter,
-      },
-    })
-  }
-
-  handleDeleteSection = (id) => {
-    const { deleteSection } = this.props
-    const success = 'success'
-    confirm({
-      title: 'Confirm Deletion',
-      content: 'Are you sure delete this section? You can\'t undo this action.',
-      okText: 'Delete',
-      okType: 'danger',
-      cancelText: 'Cancel',
-      onOk() {
-        deleteSection({ id })
-        notification[success]({
-          message: 'Delete Success!',
-          description:
-            'Action completed successfully.',
-        })
-      },
-      onCancel() {
       },
     })
   }
@@ -116,36 +82,18 @@ class HomePageProfessor extends Component {
     // })
   }
 
-  handleModal = (id) => {
-    const { open } = this.state
-    const { getSection } = this.props
-    if (id) {
-      getSection({ id })
-    }
-
-    this.setState({
-      open: !open,
-      addDay: false,
-    })
-  }
-
 
   render() {
     const {
-      subjects,
+      students,
     } = this.props
 
     const {
       filter,
-      open,
     } = this.state
 
     return (
       <PageWrapper>
-        <UpdateSection
-          open={open}
-          handleModal={this.handleModal}
-        />
         <HeaderProfessor />
         <RowContainer>
           <FilterWrapper>
@@ -164,20 +112,18 @@ class HomePageProfessor extends Component {
               <Fragment>
                 <Space />
                 {
-                    subjects === null && (
+                    students === null && (
                       <LoadingPulse />
                     )
                   }
                 {
-                    subjects !== null && subjects.size > 0 && (
+                    students !== null && students.size > 0 && (
                       <ListCol>
                         <TableHeader />
                         <ListCol>
-                          <SubjectsList
-                            subjects={subjects}
+                          <StudentList
+                            students={students}
                             filter={filter}
-                            handleDeleteSection={this.handleDeleteSection}
-                            handleModal={this.handleModal}
                           />
                         </ListCol>
                       </ListCol>
@@ -185,7 +131,7 @@ class HomePageProfessor extends Component {
                   }
 
                 {
-                    subjects !== null && subjects.size === 0 && (
+                    students !== null && students.size === 0 && (
                       <NotFound />
                     )
                   }
@@ -199,21 +145,20 @@ class HomePageProfessor extends Component {
 }
 
 const mapStateToProps = (state, props) => createStructuredSelector({
-  subjects: subjectsSelector.getSubjectsProfessor,
-  currentYear: yearSelector.getCurrentYear,
+//   subjects: subjectsSelector.getSubjectsProfessor,
+//   currentYear: yearSelector.getCurrentYear,
 })(state, props)
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  getSections: subjectAction.getSubjectsProfessor,
-  getSection: subjectAction.getSection,
-  deleteSection: subjectAction.deleteSection,
-  getCurrentYear: yearAction.getCurrentYear,
+//   getSections: subjectAction.getSubjectsProfessor,
+//   getSection: subjectAction.getSection,
+//   getCurrentYear: yearAction.getCurrentYear,
 }, dispatch)
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withLayout,
-)(HomePageProfessor)
+)(ListStudents)
 
 const PageWrapper = styled.div`
   font-family: Sarabun;

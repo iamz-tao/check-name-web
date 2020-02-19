@@ -67,7 +67,7 @@ export function* createSubject({ payload }) {
 
     const { error } = response
     if (error) {
-      yield put(subjectAction.createSubjectFailure({ message: response.message || 'Error has been occured' }))
+      yield put(subjectAction.createSubjectFailed({ message: response.message || 'Error has been occured' }))
       return
     }
 
@@ -76,10 +76,10 @@ export function* createSubject({ payload }) {
     }
 
     if (role === 'ADMIN') {
-      Router.replace('/create-subject')
+      Router.replace('/list-subjects')
     }
   } catch (exception) {
-    yield put(subjectAction.createSubjectFailure({ message: 'Internal Error' }))
+    yield put(subjectAction.createSubjectFailed({ message: 'Internal Error' }))
   }
 }
 
@@ -95,7 +95,6 @@ export function* openSection({ payload }) {
       time_absent,
       total_mark,
     } = payload.data
-
     const response = yield call(http.post, {
       url: '/api/subject_register',
       payload: {
@@ -116,7 +115,7 @@ export function* openSection({ payload }) {
       return
     }
 
-    Router.replace('/open-section')
+    Router.replace('/professor')
   } catch (exception) {
     yield put(subjectAction.openSectionFailure({ message: 'Internal Error' }))
   }
@@ -176,7 +175,7 @@ export function* approveSubject({ payload }) {
 export function* rejectSubject({ payload }) {
   try {
     const { subject_id } = payload
-    const response = yield call(httpPut.post, {
+    const response = yield call(httpDel.post, {
       url: `/api/reject/${subject_id}`,
       payload: {
       },
@@ -208,7 +207,7 @@ export function* approveSubjects({ payload }) {
     if (error) {
       return
     }
-    // Router.replace('/approveSubject')
+    Router.replace('/approveSubject')
     yield put(subjectAction.approveSubjectSuccess())
   } catch (error) {
     console.log('error', error)
@@ -218,7 +217,7 @@ export function* approveSubjects({ payload }) {
 export function* rejectSubjects({ payload }) {
   try {
     const { approve_ids } = payload.data
-    const response = yield call(httpPut.post, {
+    const response = yield call(httpDel.post, {
       url: '/api/rejectMulty',
       payload: {
         reject_ids: approve_ids,
@@ -230,7 +229,7 @@ export function* rejectSubjects({ payload }) {
       return
     }
 
-    // Router.replace('/approveSubject')
+    Router.replace('/approveSubject')
     yield put(subjectAction.rejectSubjectSuccess())
   } catch (error) {
     console.log('error', error)

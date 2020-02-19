@@ -1,25 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Segment } from 'semantic-ui-react'
-import DeleteIcon from '~/components/DeleteIcon'
-import ListIcon from '~/components/ListIcon'
 
-const SubjectsList = (props) => {
+const StudentList = (props) => {
   const {
-    subjects,
+    students,
     filter,
-    handleDeleteSection,
-    handleModal,
   } = props
 
   return (
     <Column>
       <Wrapper>
         <Column>
-          {subjects.map(s => (
+          {students.map(s => (
             <ItemWrapper>
               <Row>
-                <a onClick={() => handleModal(s.get('id'))} style={{ width: '100%', color: '#575757' }}>
                   <UserDetailGroup>
                     <ListDetail>
                       <ItemSpan>
@@ -31,30 +26,7 @@ const SubjectsList = (props) => {
                         {s.getIn(['Subject', 'subject_name'])}
                       </ItemSpan>
                     </ListDetail>
-                    <ListDetail style={{ minWidth: '180px' }}>
-                      <ItemSpan>
-                        {s.get('section_number')}
-                      </ItemSpan>
-                    </ListDetail>
-                    <DeleteIconWrapper>
-                      <ListIcon
-                        className='unordered list'
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          console.log(s.get('id'))
-                        }}
-                      />
-                      &nbsp; &nbsp;
-                      <DeleteIcon
-                        className='trash'
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          handleDeleteSection(s.get('id'))
-                        }}
-                      />
-                    </DeleteIconWrapper>
                   </UserDetailGroup>
-                </a>
               </Row>
             </ItemWrapper>
           ))}
@@ -64,7 +36,7 @@ const SubjectsList = (props) => {
   )
 }
 
-export default SubjectsList
+export default StudentList
 
 const Wrapper = styled.div`
   display: flex;
@@ -99,11 +71,6 @@ const ItemWrapper = styled(Segment)`
   box-sizing: border-box !important;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
   border-radius: 18px !important;
-
-  :hover {
-    border: 1px solid #FFEEEE !important;
-    background: #FFEEEE !important;
-  }
 `
 
 const Column = styled.div`
@@ -152,12 +119,4 @@ const UserDetailGroup = styled.div`
   flex: 3;
   height: 100%;
   align-items: center;
-`
-const DeleteIconWrapper = styled(OtherWrapper)`
-  display: flex;
-  flex: 1;
-  padding-left: 40px;
-  text-align: center;
-  justify-content: center;
-  padding-top: 16px;
 `

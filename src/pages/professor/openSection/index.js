@@ -81,8 +81,6 @@ const OpenSection = class extends React.Component {
       subject_code,
       subject_name,
       approved_status,
-      year,
-      semester,
     } = values.toJS().subject
 
     const {
@@ -101,7 +99,7 @@ const OpenSection = class extends React.Component {
       endTime2,
     } = this.state
 
-    const { openSection } = this.props
+    const { openSection, currentYear } = this.props
     const Time = []
     if (day2 === '') {
       Time.push({
@@ -123,8 +121,8 @@ const OpenSection = class extends React.Component {
     }
 
     const data = {
-      year,
-      semester,
+      year: Math.trunc(currentYear.get('year')),
+      semester: currentYear.get('semester'),
       Subject: {
         subject_code,
         subject_name,
@@ -136,7 +134,8 @@ const OpenSection = class extends React.Component {
       time_absent: absent_time,
       total_mark,
     }
-
+console.log('xx',currentYear.get('semester'))
+    console.log('xxx',data)
     openSection({ data })
     this.openNotificationWithIcon('success')
   }
