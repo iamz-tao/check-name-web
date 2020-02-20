@@ -7,7 +7,7 @@ const StudentList = (props) => {
     students,
     filter,
   } = props
-
+console.log('v',students)
   return (
     <Column>
       <Wrapper>
@@ -18,12 +18,12 @@ const StudentList = (props) => {
                   <UserDetailGroup>
                     <ListDetail>
                       <ItemSpan>
-                        {s.getIn(['Subject', 'subject_code'])}
+                        {s.name}
                       </ItemSpan>
                     </ListDetail>
                     <ListDetail>
                       <ItemSpan>
-                        {s.getIn(['Subject', 'subject_name'])}
+                        {s.surname}
                       </ItemSpan>
                     </ListDetail>
                   </UserDetailGroup>

@@ -3,26 +3,29 @@ import styled from 'styled-components'
 import { createStructuredSelector } from 'reselect'
 import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
-import { Modal, notification } from 'antd'
-
 import FilterAndCriteria from './components/FilterAndCriteria'
-import StudentList from './components/StudentList'
+import StudentLists from './components/ListStudents'
 
 import HeaderProfessor from '~/components/HeaderNavbar/Professor'
 import NotFound from '~/components/Table/NotFound'
 import LoadingPulse from '~/components/LoadingPulse'
 
 import withLayout from '~/hocs/Layouts/withLayout'
-import { Link } from '~/routes'
+import { Router } from '~/routes'
 import { subjectAction } from '~/modules/subject/actions'
 import { subjectsSelector } from '~/modules/subject/selectors'
 import { yearAction } from '~/modules/admin/actions'
 import { yearSelector } from '~/modules/admin/selectors'
 
-const { confirm } = Modal
 
 const TableHeader = () => (
   <Wrapper>
+    <Header>
+      SUBJECT: 02204236 Test Permission
+    </Header>
+    <Header style={{ paddingBottom: '16px' }}>
+      SECTION NUMBER: 711
+    </Header>
     <Row>
       <UserDetailGroup>
         <ListHeader>
@@ -49,16 +52,18 @@ class ListStudents extends Component {
   }
 
   componentDidMount() {
+    const { query: { id } } = Router
+    // console.log('xxxxx', id)
   }
 
   fetch = () => {
-    const { filter } = this.state
-    const { getSubjects } = this.props
-    getSubjects({
-      filter: {
-        ...filter,
-      },
-    })
+    // const { filter } = this.state
+    // const { getSubjects } = this.props
+    // getSubjects({
+    //   filter: {
+    //     ...filter,
+    //   },
+    // })
   }
 
 
@@ -85,12 +90,23 @@ class ListStudents extends Component {
 
   render() {
     const {
-      students,
+      // students,
     } = this.props
 
     const {
       filter,
     } = this.state
+
+    const students = [{
+      name: 'xxxxx',
+      surname: 'sssssss',
+      status: 'APPROVE',
+    },
+    {
+      name: 'xxxxx',
+      surname: 'sssssss',
+      status: 'APPROVE',
+    }]
 
     return (
       <PageWrapper>
@@ -111,30 +127,30 @@ class ListStudents extends Component {
             >
               <Fragment>
                 <Space />
-                {
+                {/* {
                     students === null && (
                       <LoadingPulse />
                     )
-                  }
-                {
-                    students !== null && students.size > 0 && (
-                      <ListCol>
-                        <TableHeader />
-                        <ListCol>
-                          <StudentList
-                            students={students}
-                            filter={filter}
-                          />
-                        </ListCol>
-                      </ListCol>
-                    )
-                  }
+                  } */}
+                {/* {
+                    students !== null && students.size > 0 && ( */}
+                <ListCol>
+                  <TableHeader />
+                  <ListCol>
+                    <StudentLists
+                      students={students}
+                      filter={filter}
+                    />
+                  </ListCol>
+                </ListCol>
+                {/* )
+                  } */}
 
-                {
+                {/* {
                     students !== null && students.size === 0 && (
                       <NotFound />
                     )
-                  }
+                  } */}
               </Fragment>
             </ListCol>
           </RowContainer>
@@ -178,6 +194,13 @@ const ItemHeader = styled.span`
     color: black;
     cursor: pointer;
 `
+const Header = styled.span`
+    font-family: kanit;
+    font-size: 22px;
+    font-weight: 500;
+    margin: 0;
+    color: #554d4d;
+`
 
 const OtherWrapper = styled.div`
     display: flex;
@@ -220,7 +243,7 @@ const Space = styled.div`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: start;
   padding: 0px 0px 16px 0px;
 `
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Segment } from 'semantic-ui-react'
+import Router from 'next/router'
 import DeleteIcon from '~/components/DeleteIcon'
 import ListIcon from '~/components/ListIcon'
 
@@ -41,7 +42,7 @@ const SubjectsList = (props) => {
                         className='unordered list'
                         onClick={(e) => {
                           e.stopPropagation()
-                          console.log(s.get('id'))
+                          Router.replace(`/list-students-section/${s.get('id')}`)
                         }}
                       />
                       &nbsp; &nbsp;
