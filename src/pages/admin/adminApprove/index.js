@@ -100,13 +100,11 @@ class AdminApprove extends Component {
         [target.name]: target.value,
       },
     }))
-    this.fetch()
   }
 
   handleResetFilter = () => {
     this.setState({
       filter: {
-        user_role: [],
         keyword: '',
       },
     })
@@ -135,7 +133,7 @@ class AdminApprove extends Component {
     } = this.props
 
     const {
-    //   filter,
+      filter,
     } = this.state
     const { loading, selectedRowKeys } = this.state
     const rowSelection = {
@@ -150,7 +148,11 @@ class AdminApprove extends Component {
         <HeaderAdmin />
         <RowContainer>
           <FilterWrapper>
-            <FilterAndCriteria />
+            <FilterAndCriteria
+              filter={filter}
+              handleInputChange={this.handleInputChange}
+              handleResetFilter={this.handleResetFilter}
+            />
           </FilterWrapper>
           <RowContainer style={{ paddingTop: 0 }}>
             <ListCol
@@ -180,6 +182,7 @@ class AdminApprove extends Component {
                           handleApprove={this.handleApprove}
                           handleReject={this.handleReject}
                           handleApproveSubjects={this.handleApproveSubjects}
+                          filter={filter}
                         />
                       </ListCol>
                     </ListCol>

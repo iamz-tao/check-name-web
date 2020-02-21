@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Segment } from 'semantic-ui-react'
 import DeleteIcon from '~/components/DeleteIcon'
+import NotFound from '~/components/Table/NotFound'
 
 const UserList = (props) => {
   const {
@@ -90,6 +91,10 @@ const UserList = (props) => {
       </Wrapper>
     </Column>
   ))
+
+  if (items.length === 0) {
+    return <NotFound />
+  }
   return (
     items
   )

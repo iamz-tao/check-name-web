@@ -53,7 +53,6 @@ class AdminListSubjects extends Component {
   state = {
     subjects: null,
     filter: {
-      user_role: [],
       keyword: '',
     },
     open: false,
@@ -63,16 +62,6 @@ class AdminListSubjects extends Component {
   componentDidMount() {
     const { getSubjects } = this.props
     getSubjects({})
-  }
-
-  fetch = () => {
-    const { filter } = this.state
-    const { getSubjects } = this.props
-    getSubjects({
-      filter: {
-        ...filter,
-      },
-    })
   }
 
   handleDeleteSubject = (id) => {
@@ -131,16 +120,14 @@ class AdminListSubjects extends Component {
         [target.name]: target.value,
       },
     }))
-    this.fetch()
   }
 
   handleResetFilter = () => {
-    // this.setState({
-    //   filter: {
-    //     user_role: [],
-    //     keyword: '',
-    //   },
-    // })
+    this.setState({
+      filter: {
+        keyword: '',
+      },
+    })
   }
 
   handleMenuClick = () => {

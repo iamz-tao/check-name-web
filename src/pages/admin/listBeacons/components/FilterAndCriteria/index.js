@@ -3,12 +3,10 @@ import PropTypes from 'prop-types'
 import {
   Input,
   Segment,
-  Dropdown,
 } from 'semantic-ui-react'
 import { Button } from 'antd'
 import styled from 'styled-components'
 
-import FormButton from '~/components/Form/Button'
 
 
 const FilterAndCriteria = (props) => {

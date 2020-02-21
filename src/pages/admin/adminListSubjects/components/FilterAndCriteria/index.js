@@ -4,20 +4,22 @@ import {
   Input,
   Segment,
 } from 'semantic-ui-react'
+import { Button } from 'antd'
 import styled from 'styled-components'
-import FormButton from '~/components/Form/Button'
 
 const FilterAndCriteria = (props) => {
   const {
-    handleInputChange, filter, handleResetFilter, reset,
+    handleInputChange, 
+    filter, 
+    handleResetFilter,
   } = props
   return (
     <Wrapper>
       <HeaderSection>
         <HeaderText>
-          SEARCH YOUR SUBJECT
+          SEARCH SUBJECT
         </HeaderText>
-        
+        <Button type='dashed' onClick={handleResetFilter}>Reset Filter</Button>
       </HeaderSection>
       <SectionWrapper>
         <SearchText>
@@ -26,30 +28,10 @@ const FilterAndCriteria = (props) => {
         <Input
           value={filter.keyword}
           name='keyword'
-          placeholder='Subject code or name...'
+          placeholder='Subject code, name...'
           onChange={handleInputChange}
         />
       </SectionWrapper>
-      <CustomButton>
-        <FormButton
-          isFilter
-          type='cancel'
-          txtButton='RESET'
-          width='50%'
-          onClick={() => {
-          }}
-        />
-                  &nbsp; &nbsp;
-        <FormButton
-          isFilter
-          colorButton='#CA5353'
-          type='submit'
-          txtButton='SEARCH'
-          width='50%'
-          onClick={() => {
-          }}
-        />
-      </CustomButton>
     </Wrapper>
   )
 }
@@ -96,6 +78,16 @@ const Wrapper = styled(Segment)`
     box-sizing: border-box;
     border-radius: 18px;
   }
+
+  .ant-btn-dashed {
+    border-radius: 18px;
+  }
+
+  .ant-btn-dashed:focus, .ant-btn-dashed:hover {
+    color: #767676;
+    background-color: #fff;
+    border-color: #767676;
+}
 `
 
 const HeaderSection = styled.div`

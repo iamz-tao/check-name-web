@@ -5,6 +5,7 @@ import {
   Switch,
 } from 'antd'
 import DeleteIcon from '~/components/DeleteIcon'
+import NotFound from '~/components/Table/NotFound'
 
 const YearList = (props) => {
   const {
@@ -77,6 +78,10 @@ const YearList = (props) => {
       </Wrapper>
     </Column>
   ))
+
+  if (items.length === 0) {
+    return <NotFound />
+  }
   return (
     items
   )
