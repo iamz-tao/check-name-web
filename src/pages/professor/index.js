@@ -48,6 +48,7 @@ const TableHeader = () => (
 )
 
 class HomePageProfessor extends Component {
+  
   state = {
     subjects: null,
     filter: {
@@ -60,16 +61,6 @@ class HomePageProfessor extends Component {
   componentDidMount() {
     const { getSections } = this.props
     getSections({
-    })
-  }
-
-  fetch = () => {
-    const { filter } = this.state
-    const { getSubjects } = this.props
-    getSubjects({
-      filter: {
-        ...filter,
-      },
     })
   }
 
@@ -104,16 +95,14 @@ class HomePageProfessor extends Component {
         [target.name]: target.value,
       },
     }))
-    this.fetch()
   }
 
   handleResetFilter = () => {
-    // this.setState({
-    //   filter: {
-    //     user_role: [],
-    //     keyword: '',
-    //   },
-    // })
+    this.setState({
+      filter: {
+        keyword: '',
+      },
+    })
   }
 
   handleModal = (id) => {

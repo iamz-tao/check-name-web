@@ -7,7 +7,7 @@ const StudentList = (props) => {
     students,
     filter,
   } = props
-console.log('v',students)
+// console.log('v',students)
   return (
     <Column>
       <Wrapper>

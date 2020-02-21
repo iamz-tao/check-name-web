@@ -82,16 +82,6 @@ class HomePageAdmin extends Component {
     getYearAll({})
   }
 
-  fetch = () => {
-    const { filter } = this.state
-    const { getYearAll } = this.props
-    getYearAll({
-      filter: {
-        ...filter,
-      },
-    })
-  }
-
   handleInputChange = async ({ target }) => {
     await this.setState(state => ({
       ...state,
@@ -100,7 +90,6 @@ class HomePageAdmin extends Component {
         [target.name]: target.value,
       },
     }))
-    this.fetch()
   }
 
   handleInput = (type, e) => {

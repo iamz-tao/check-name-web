@@ -3,12 +3,10 @@ import PropTypes from 'prop-types'
 import {
   Input,
   Segment,
-  Dropdown,
 } from 'semantic-ui-react'
 import { Button } from 'antd'
 import styled from 'styled-components'
 
-import FormButton from '~/components/Form/Button'
 
 
 const FilterAndCriteria = (props) => {
@@ -18,74 +16,25 @@ const FilterAndCriteria = (props) => {
     filter,
   } = props
 
-
-  const semesters = [
-    {
-      key: 1,
-      text: 'First',
-      value: 'FIRST',
-    },
-    {
-      key: 2,
-      text: 'Second',
-      value: 'SECOND',
-    },
-    {
-      key: 3,
-      text: 'Summer',
-      value: 'SUMMER',
-    },
-  ]
-
   return (
     <Wrapper>
       <HeaderSection>
         <HeaderText>
-          SEARCH YEAR OR SEMESTER
+          SEARCH BEACON
         </HeaderText>
-        {/* <ResetFilter onClick={handleResetFilter}>
-          Reset Filter
-  </ResetFilter> */}
         <Button type='dashed' onClick={handleResetFilter}>Reset Filter</Button>
       </HeaderSection>
       <SectionWrapper>
         <SearchText>
-          YEAR :
+          Keyword:
         </SearchText>
         <Input
           name='keyword'
-          placeholder='Year'
+          placeholder='UUID, Name'
           onChange={handleInputChange}
           value={filter.keyword}
         />
       </SectionWrapper>
-
-      <SectionWrapper>
-        <SearchText>
-          SEMESTER:
-        </SearchText>
-        <Dropdown placeholder='Select Semester' search selection options={semesters} />
-      </SectionWrapper>
-      <CustomButton>
-        <FormButton
-          isFilter
-          type='cancel'
-          txtButton='RESET'
-          width='50%'
-          onClick={() => {
-          }}
-        />
-                  &nbsp; &nbsp;
-        <FormButton
-          isFilter
-          colorButton='#CA5353'
-          type='submit'
-          txtButton='SEARCH'
-          width='50%'
-          onClick={() => {
-          }}
-        />
-      </CustomButton>
     </Wrapper>
   )
 }
@@ -113,6 +62,13 @@ const Wrapper = styled(Segment)`
 
   .ui.input.segment {
     border: 1em 1.5em;
+  }
+
+  .ui.input>input {
+    background: #FFFFFF;
+    border: 1px solid #243445;
+    box-sizing: border-box;
+    border-radius: 18px;
   }
 
   .ant-btn-dashed {

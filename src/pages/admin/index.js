@@ -84,15 +84,15 @@ class HomePageAdmin extends Component {
     getUsers({})
   }
 
-  fetch = () => {
-    const { filter } = this.state
-    const { getUsers } = this.props
-    getUsers({
-      filter: {
-        ...filter,
-      },
-    })
-  }
+  // fetch = () => {
+  //   const { filter } = this.state
+  //   const { getUsers } = this.props
+  //   getUsers({
+  //     filter: {
+  //       ...filter,
+  //     },
+  //   })
+  // }
 
   handleCheckboxUserType = async (e, data) => {
     const { value } = data
@@ -107,7 +107,7 @@ class HomePageAdmin extends Component {
       },
     })
 
-    this.fetch()
+    // this.fetch()
   }
 
   handleInputChange = async ({ target }) => {
@@ -118,7 +118,6 @@ class HomePageAdmin extends Component {
         [target.name]: target.value,
       },
     }))
-    this.fetch()
   }
 
   handleResetFilter = () => {

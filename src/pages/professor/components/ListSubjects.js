@@ -4,6 +4,7 @@ import { Segment } from 'semantic-ui-react'
 import Router from 'next/router'
 import DeleteIcon from '~/components/DeleteIcon'
 import ListIcon from '~/components/ListIcon'
+import NotFound from '~/components/Table/NotFound'
 
 const SubjectsList = (props) => {
   const {
@@ -12,56 +13,68 @@ const SubjectsList = (props) => {
     handleDeleteSection,
     handleModal,
   } = props
-
-  return (
+  const items = subjects.filter((s) => {
+    if (filter.keyword === '') return s
+    if (s.getIn(['Subject', 'subject_name']).toLowerCase().includes(filter.keyword.toLowerCase())
+    || s.getIn(['Subject', 'subject_code']).toLowerCase().includes(filter.keyword.toLowerCase())) {
+      return s
+    }
+  }).map(s => (
     <Column>
       <Wrapper>
         <Column>
-          {subjects.map(s => (
-            <ItemWrapper>
-              <Row>
-                <a onClick={() => handleModal(s.get('id'))} style={{ width: '100%', color: '#575757' }}>
-                  <UserDetailGroup>
-                    <ListDetail>
-                      <ItemSpan>
-                        {s.getIn(['Subject', 'subject_code'])}
-                      </ItemSpan>
-                    </ListDetail>
-                    <ListDetail>
-                      <ItemSpan>
-                        {s.getIn(['Subject', 'subject_name'])}
-                      </ItemSpan>
-                    </ListDetail>
-                    <ListDetail style={{ minWidth: '180px' }}>
-                      <ItemSpan>
-                        {s.get('section_number')}
-                      </ItemSpan>
-                    </ListDetail>
-                    <DeleteIconWrapper>
-                      <ListIcon
-                        className='unordered list'
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          Router.replace(`/list-students-section/${s.get('id')}`)
-                        }}
-                      />
+          {/* {subjects.map(s => ( */}
+          <ItemWrapper>
+            <Row>
+              <a onClick={() => handleModal(s.get('id'))} style={{ width: '100%', color: '#575757' }}>
+                <UserDetailGroup>
+                  <ListDetail>
+                    <ItemSpan>
+                      {s.getIn(['Subject', 'subject_code'])}
+                    </ItemSpan>
+                  </ListDetail>
+                  <ListDetail>
+                    <ItemSpan>
+                      {s.getIn(['Subject', 'subject_name'])}
+                    </ItemSpan>
+                  </ListDetail>
+                  <ListDetail style={{ minWidth: '180px' }}>
+                    <ItemSpan>
+                      {s.get('section_number')}
+                    </ItemSpan>
+                  </ListDetail>
+                  <DeleteIconWrapper>
+                    <ListIcon
+                      className='unordered list'
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        Router.replace(`/list-students-section/${s.get('id')}`)
+                      }}
+                    />
                       &nbsp; &nbsp;
-                      <DeleteIcon
-                        className='trash'
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          handleDeleteSection(s.get('id'))
-                        }}
-                      />
-                    </DeleteIconWrapper>
-                  </UserDetailGroup>
-                </a>
-              </Row>
-            </ItemWrapper>
-          ))}
+                    <DeleteIcon
+                      className='trash'
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleDeleteSection(s.get('id'))
+                      }}
+                    />
+                  </DeleteIconWrapper>
+                </UserDetailGroup>
+              </a>
+            </Row>
+          </ItemWrapper>
+          {/* ))} */}
         </Column>
       </Wrapper>
     </Column>
+  ))
+
+  if (items.length === 0) {
+    return <NotFound />
+  }
+  return (
+    items
   )
 }
 

@@ -1,27 +1,31 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Segment, Form } from 'semantic-ui-react'
-import {
-  Menu,
-} from 'antd'
+import { Segment } from 'semantic-ui-react'
 import DeleteIcon from '~/components/DeleteIcon'
+import NotFound from '~/components/Table/NotFound'
 
 const SubjectsList = (props) => {
   const {
     subjects,
     filter,
     handleDeleteSubject,
-    handleMenuClick,
     handleModal,
   } = props
 
-  return (
+  const items = subjects.filter((s) => {
+    if (filter.keyword === '') return s
+    if (s.subject_code.toLowerCase().includes(filter.keyword.toLowerCase())
+    || s.subject_name.toLowerCase().includes(filter.keyword.toLowerCase())
+    ) {
+      return s
+    }
+  }).map(s => (
     <Column>
       <Wrapper>
         <Column>
-          {subjects.map(s => (
-            <ItemWrapper>
-              <Row>
+          {/* {subjects.map(s => ( */}
+          <ItemWrapper>
+            <Row>
               <a onClick={() => handleModal(s.id)} style={{ width: '100%' }}>
                 <UserDetailGroup>
                   <ListDetail>
@@ -45,12 +49,18 @@ const SubjectsList = (props) => {
                   </DeleteIconWrapper>
                 </UserDetailGroup>
               </a>
-              </Row>
-            </ItemWrapper>
-          ))}
+            </Row>
+          </ItemWrapper>
+          {/* ))} */}
         </Column>
       </Wrapper>
     </Column>
+  ))
+  if (items.length === 0) {
+    return <NotFound />
+  }
+  return (
+    items
   )
 }
 

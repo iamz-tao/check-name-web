@@ -1,13 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Table, Button } from 'antd'
+import NotFound from '~/components/Table/NotFound'
+
 
 
 const UserList = (props) => {
   const {
     subjects,
-    // filter,
-    // handleDeleteUser,
+    filter,
     hasSelected,
     start,
     loading,
@@ -52,11 +53,15 @@ const UserList = (props) => {
       subject_name: s.subject_name,
     })
   })
-  // const types = filter.user_role.reduce((acc, curr) => [...acc, ...curr], [])
 
-  // const keyword_lower = filter.keyword.toLowerCase()
-
-  return (
+  const items = data.filter((d) => {
+    if (filter.keyword === '') return d
+    if (d.subject_code.toLowerCase().includes(filter.keyword.toLowerCase())
+    || d.subject_name.toLowerCase().includes(filter.keyword.toLowerCase())
+    ) {
+      return d
+    }
+  }).map(d => (
     <Column>
       <Wrapper>
         <Column>
@@ -70,11 +75,11 @@ const UserList = (props) => {
                   {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
                 </span>
               </div>
-              <div style={{paddingRight: '16px'}}>
-                <CustomApprove type='dashed' onClick={() => handleApproveSubjects('A')}>
+              <div style={{ paddingRight: '16px' }}>
+                <CustomApprove type='dashed' onClick={() => handleApproveSubjects('A')} selectedRowKeys={selectedRowKeys.length}>
                   APPROVE
                 </CustomApprove>
-                <CustomReject type='dashed' onClick={() => handleApproveSubjects('R')}>
+                <CustomReject type='dashed' onClick={() => handleApproveSubjects('R')} selectedRowKeys={selectedRowKeys.length}>
                   REJECT
                 </CustomReject>
               </div>
@@ -84,6 +89,12 @@ const UserList = (props) => {
         </Column>
       </Wrapper>
     </Column>
+  ))
+  if (items.length === 0) {
+    return <NotFound />
+  }
+  return (
+    items
   )
 }
 
@@ -129,9 +140,11 @@ const CustomClear = styled(Button)`
 const CustomApprove = styled(Button)`
   background-color: #1AB433;
   border: 0.8px solid #1AB433;
+  display: ${props => (props.selectedRowKeys === 0 ? 'none' : 'inline')};
 `
 
 const CustomReject = styled(Button)`
   background-color: #CA5353;
   border: 0.8px solid #CA5353;
+  display: ${props => (props.selectedRowKeys === 0 ? 'none' : 'inline')};
 `

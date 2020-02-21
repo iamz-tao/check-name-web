@@ -65,16 +65,6 @@ class ListBeacons extends Component {
     getBeaconAll({})
   }
 
-  fetch = () => {
-    const { filter } = this.state
-    const { getBeaconAll } = this.props
-    getBeaconAll({
-      filter: {
-        ...filter,
-      },
-    })
-  }
-
   handleInputChange = async ({ target }) => {
     await this.setState(state => ({
       ...state,
@@ -83,7 +73,6 @@ class ListBeacons extends Component {
         [target.name]: target.value,
       },
     }))
-    this.fetch()
   }
 
   handleInput = (type, e) => {
