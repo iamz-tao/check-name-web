@@ -3,15 +3,16 @@ import PropTypes from 'prop-types'
 import {
   Input,
   Segment,
-  Dropdown,
 } from 'semantic-ui-react'
+import { Button } from 'antd'
 import styled from 'styled-components'
-import FormButton from '~/components/Form/Button'
+// import FormButton from '~/components/Form/Button'
 
 const FilterAndCriteria = (props) => {
   const {
-    handleInputChange, filter, handleResetFilter, reset,
-    fetch,
+    handleInputChange, 
+    filter, 
+    handleResetFilter,
   } = props
 
   return (
@@ -20,7 +21,7 @@ const FilterAndCriteria = (props) => {
         <HeaderText>
           SEAR YOUR SUBJECT
         </HeaderText>
-
+        <Button type='dashed' onClick={handleResetFilter}>Reset Filter</Button>
       </HeaderSection>
       <SectionWrapper>
         <SearchText>
@@ -33,7 +34,7 @@ const FilterAndCriteria = (props) => {
           onChange={handleInputChange}
         />
       </SectionWrapper>
-      <CustomButton>
+      {/* <CustomButton>
         <FormButton
           isFilter
           type='cancel'
@@ -53,7 +54,7 @@ const FilterAndCriteria = (props) => {
             fetch()
           }}
         />
-      </CustomButton>
+      </CustomButton> */}
     </Wrapper>
   )
 }
@@ -100,6 +101,16 @@ const Wrapper = styled(Segment)`
     box-sizing: border-box;
     border-radius: 18px;
   }
+
+  .ant-btn-dashed {
+    border-radius: 18px;
+  }
+
+  .ant-btn-dashed:focus, .ant-btn-dashed:hover {
+    color: #767676;
+    background-color: #fff;
+    border-color: #767676;
+}
 `
 
 const HeaderSection = styled.div`

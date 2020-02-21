@@ -24,9 +24,6 @@ const FilterAndCriteria = (props) => {
         <HeaderText>
           FIND USER
         </HeaderText>
-        {/* <ResetFilter onClick={handleResetFilter}>
-          Reset Filter
-        </ResetFilter> */}
         <Button type='dashed' onClick={handleResetFilter}>Reset Filter</Button>
       </HeaderSection>
       <SectionWrapper>
