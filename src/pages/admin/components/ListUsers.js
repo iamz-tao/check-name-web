@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Segment } from 'semantic-ui-react'
-import { Button } from 'antd'
-import FormButton from '~/components/Form/Button'
 import DeleteIcon from '~/components/DeleteIcon'
 
 const UserList = (props) => {
@@ -11,79 +9,89 @@ const UserList = (props) => {
     filter,
     handleDeleteUser,
   } = props
-
-  const types = filter.user_role.reduce((acc, curr) => [...acc, ...curr], [])
-
-  const keyword_lower = filter.keyword.toLowerCase()
-
-  return (
+  const items = users.filter((user) => {
+    if (filter.keyword === '' && filter.user_role === []) return user
+    if (filter.user_role.length > 0) {
+      return user.get('role') === filter.user_role[0]
+    }
+    if (user.get('id').toLowerCase().includes(filter.keyword.toLowerCase())
+    || user.get('firstname').toLowerCase().includes(filter.keyword.toLowerCase())
+    || user.get('lastname').toLowerCase().includes(filter.keyword.toLowerCase())
+    || user.get('email').toLowerCase().includes(filter.keyword.toLowerCase())
+    ) {
+      return user
+    }
+  }).map(user => (
     <Column>
       <Wrapper>
         <Column>
-          {users.map(user => (
-            <ItemWrapper>
-              <Row>
-                <UserDetailGroup>
-                  <ListDetail style={{ paddingLeft: '40px' }}>
-                    <ItemSpan>
-                      {user.get('id')}
-                    </ItemSpan>
-                  </ListDetail>
-                  <ListDetail style={{ flex: 2 }}>
-                    <ItemSpan>
-                      {user.get('firstname')}
+          {/* {users.map(user => ( */}
+          <ItemWrapper>
+            <Row>
+              <UserDetailGroup>
+                <ListDetail style={{ paddingLeft: '40px' }}>
+                  <ItemSpan>
+                    {user.get('id')}
+                  </ItemSpan>
+                </ListDetail>
+                <ListDetail style={{ flex: 2 }}>
+                  <ItemSpan>
+                    {user.get('firstname')}
                     &nbsp;
-                      {user.get('lastname')}
-                    </ItemSpan>
-                  </ListDetail>
-                  <ListDetail style={{ flex: 2 }}>
-                    <ItemSpan>
-                      {user.get('email')}
-                    </ItemSpan>
-                  </ListDetail>
-                  <ListDetail style={{ justifyContent: 'center' }}>
-                    <ItemSpan>
-                      {
+                    {user.get('lastname')}
+                  </ItemSpan>
+                </ListDetail>
+                <ListDetail style={{ flex: 2 }}>
+                  <ItemSpan>
+                    {user.get('email')}
+                  </ItemSpan>
+                </ListDetail>
+                <ListDetail style={{ justifyContent: 'center' }}>
+                  <ItemSpan>
+                    {
                         user.get('role') === 'ADMIN' && (
                           <ItemSpan style={{ color: '#001AFF' }}>
                             ADMIN
                           </ItemSpan>
                         )
                       }
-                      {
+                    {
                         user.get('role') === 'PROFESSOR' && (
                           <ItemSpan style={{ color: '#F08282' }}>
                             LECTURER
                           </ItemSpan>
                         )
                       }
-                      {
+                    {
                         user.get('role') === 'NISIT' && (
                           <ItemSpan style={{ color: '#1AB433' }}>
                             STUDENT
                           </ItemSpan>
                         )
                       }
-                    </ItemSpan>
-                  </ListDetail>
-                  <CustomDelete>
-                    <DeleteIcon
-                      className='trash'
-                      onClick={(e) => {
-                        e.preventDefault()
-                        handleDeleteUser(user.get('uid'))
+                  </ItemSpan>
+                </ListDetail>
+                <CustomDelete>
+                  <DeleteIcon
+                    className='trash'
+                    onClick={(e) => {
+                      e.preventDefault()
+                      handleDeleteUser(user.get('uid'))
+                    }
                       }
-                      }
-                    />
-                  </CustomDelete>
-                </UserDetailGroup>
+                  />
+                </CustomDelete>
+              </UserDetailGroup>
 
-              </Row>
-            </ItemWrapper>
-          ))}
+            </Row>
+          </ItemWrapper>
+          {/* ))} */}
         </Column>
       </Wrapper>
     </Column>
+  ))
+  return (
+    items
   )
 }
 

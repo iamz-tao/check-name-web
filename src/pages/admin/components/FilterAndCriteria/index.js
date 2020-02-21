@@ -35,7 +35,7 @@ const FilterAndCriteria = (props) => {
         </SearchText>
         <Input
           name='keyword'
-          placeholder='ID, Name...'
+          placeholder='ID, name, email...'
           onChange={handleInputChange}
           value={filter.keyword}
         />
