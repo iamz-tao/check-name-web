@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Table, Button } from 'antd'
 
 
-const ListStudent = (props) => {
+const ListAllStudents = (props) => {
   const {
     students,
     // filter,
@@ -28,6 +28,14 @@ const ListStudent = (props) => {
       dataIndex: 'name',
     },
     {
+      title: 'SUBJECT',
+      dataIndex: 'subject_name',
+    },
+    {
+      title: 'SECTION',
+      dataIndex: 'section_number',
+    },
+    {
       title: 'STATUS',
       dataIndex: 'status',
     },
@@ -39,22 +47,24 @@ const ListStudent = (props) => {
       title: '',
       key: 'action',
       render: id => (
-        <Customdiv key={selectedRowKeys.length}>
-          <Button style={{ backgroundColor: '#1AB433', border: '0.8px solid #1AB433' }} onClick={() => handleApprove(id)}>Approve</Button>
-          <Button style={{ backgroundColor: '#CA5353', border: '0.8px solid #CA5353' }} onClick={() => handleReject(id)}>Reject</Button>
+        <Customdiv>
+          <Button style={{ backgroundColor: '#1AB433', border: '0.8px solid #1AB433' }} onClick={() => handleApprove(id, 'all')}>Approve</Button>
+          <Button style={{ backgroundColor: '#CA5353', border: '0.8px solid #CA5353' }} onClick={() => handleReject(id, 'all')}>Reject</Button>
         </Customdiv>
       ),
     },
   ]
-  
+
   const data = []
-  students.toJS().map((s) => {
+  students.toJS().map((s, index) => {
     data.push({
-      key: s.auto_id,
+      key: s.regis_id,
+      subject_name: s.subject_name,
+      section_number: s.section_number,
       student_id: s.std_id,
       name: `${s.firstname} ${s.lastname}`,
       status: s.status,
-      id: s.auto_id,
+      id: s.regis_id,
     })
   })
 
@@ -72,11 +82,11 @@ const ListStudent = (props) => {
                   {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
                 </span>
               </div>
-              <Customdiv style={{paddingRight: '16px'}}>
-                <CustomApprove type='dashed' onClick={() => handleApproveSubjects('A')} selectedRowKeys={selectedRowKeys.length}>
+              <Customdiv style={{ paddingRight: '16px' }}>
+                <CustomApprove type='dashed' onClick={() => handleApproveSubjects('A', 'all')} selectedRowKeys={selectedRowKeys.length}>
                   APPROVE
                 </CustomApprove>
-                <CustomReject type='dashed' onClick={() => handleApproveSubjects('R')} selectedRowKeys={selectedRowKeys.length}>
+                <CustomReject type='dashed' onClick={() => handleApproveSubjects('R', 'all')} selectedRowKeys={selectedRowKeys.length}>
                   REJECT
                 </CustomReject>
               </Customdiv>
@@ -89,7 +99,7 @@ const ListStudent = (props) => {
   )
 }
 
-export default ListStudent
+export default ListAllStudents
 
 const Wrapper = styled.div`
   display: flex;
@@ -103,6 +113,8 @@ const Wrapper = styled.div`
     border-radius: 24px;
     box-sizing: border-box;
     color: #ffff !important;
+    padding: 0px 8px;
+
     :hover {
       background-color: #ffff !important;
       color: rgba(0,0,0,.65) !important;
@@ -143,4 +155,3 @@ const Customdiv = styled.div`
 display: flex;
 justify-content: flex-end;
 `
-

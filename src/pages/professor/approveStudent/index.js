@@ -7,6 +7,7 @@ import { notification } from 'antd'
 
 import FilterAndCriteria from './components/FilterAndCriteria'
 import ListStudent from './components/ListStudent'
+import ListAllStudent from './components/ListAllStudent'
 
 import LoadingPulse from '~/components/LoadingPulse'
 import HeaderProfessor from '~/components/HeaderNavbar/Professor'
@@ -24,14 +25,16 @@ class ApproveStudent extends Component {
       subject: '',
       section: '',
     },
+    search: false,
     selectedRowKeys: [],
     loading: false,
   }
 
   componentDidMount() {
-    const { getCurrentYear, getSubjects } = this.props
+    const { getCurrentYear, getSubjects, getAllStudentsApprove } = this.props
     getCurrentYear()
     getSubjects()
+    getAllStudentsApprove()
   }
 
   start = () => {
@@ -49,11 +52,15 @@ class ApproveStudent extends Component {
     this.setState({ selectedRowKeys })
   }
 
-  handleApprove = (id) => {
+  handleApprove = (id, type) => {
     const {
       approveStudent,
     } = this.props
-    approveStudent({ id: [id.id] })
+    const data = {
+      id: [id.id],
+      type,
+    }
+    approveStudent(data)
     this.openNotificationApproveSuccess('success')
   }
 
@@ -65,7 +72,7 @@ class ApproveStudent extends Component {
     this.openNotificationRejectSuccess('success')
   }
 
-  handleApproveSubjects = (status) => {
+  handleApproveSubjects = (status, type) => {
     const {
       selectedRowKeys,
     } = this.state
@@ -76,13 +83,16 @@ class ApproveStudent extends Component {
     } = this.props
 
     const id = { id: selectedRowKeys }
-
+    const data = {
+      id,
+      type,
+    }
     if (status === 'A') {
-      approveStudent({ id })
+      approveStudent(data)
       this.openNotificationApproveSuccess('success')
     }
     if (status === 'R') {
-      rejectStudent({ id })
+      rejectStudent({ id }, type)
       this.openNotificationRejectSuccess('success')
     }
   }
@@ -111,25 +121,33 @@ class ApproveStudent extends Component {
 
 
   handleResetFilter = () => {
+    const { search } = this.state
     this.setState({
       filter: {
         section: '',
         subject: '',
       },
+      search: !search,
     })
+    const { getAllStudentsApprove } = this.props
+    getAllStudentsApprove()
   }
 
   handleFilter = () => {
     const { currentYear, getStudentApprove } = this.props
+    const { search } = this.state
     const { subject, section } = this.state.filter
     const year = currentYear.get('year')
     const semester = currentYear.get('semester')
-
+    
     getStudentApprove({
       year: Math.trunc(year),
       semester,
       subject_name: subject,
       section_number: section,
+    })
+    this.setState({
+      search: !search,
     })
   }
 
@@ -155,10 +173,12 @@ class ApproveStudent extends Component {
       students,
       allSection,
       currentYear,
+      allStudentsApprove,
     } = this.props
 
     const {
       filter,
+      search,
     } = this.state
 
     const { loading, selectedRowKeys } = this.state
@@ -193,12 +213,12 @@ class ApproveStudent extends Component {
               <Fragment>
                 <Space />
                 {
-                    currentYear === null && (
+                    currentYear === null && allStudentsApprove === null && (
                       <LoadingPulse />
                     )
                   }
                 {
-                    students !== null && students.size > 0 && (
+                    search === true && students !== null && students.size > 0 && (
                     <ListCol>
                       <ListStudent
                         start={this.start}
@@ -215,18 +235,47 @@ class ApproveStudent extends Component {
                     </ListCol>
                     )
                   }
+                {
+                     search === false && allStudentsApprove !== null && allStudentsApprove.size > 0 && (
+                     <ListCol>
+                       <ListAllStudent
+                         start={this.start}
+                         hasSelected={hasSelected}
+                         loading={loading}
+                         selectedRowKeys={selectedRowKeys}
+                         rowSelection={rowSelection}
+                         students={allStudentsApprove}
+                         allSection={allSection && allSection.toJS()}
+                         handleApprove={this.handleApprove}
+                         handleReject={this.handleReject}
+                         handleApproveSubjects={this.handleApproveSubjects}
+                       />
+                     </ListCol>
+                     )
+                  }
 
                 {
-                    currentYear !== null && students === null && (
-                        <RowContainerNotFound>
-                          <NotFoundWrapper>
-                            <h1>
-                              SEARCH YOUR SUBJECT FOR APPROVE STUDENT.
-                            </h1>
-                          </NotFoundWrapper>
-                        </RowContainerNotFound>
+                    currentYear !== null && students !== null && students.size === 0 && allStudentsApprove !== null && allStudentsApprove.size === 0 && (
+                    <RowContainerNotFound>
+                      <NotFoundWrapper>
+                        <h1>
+                          THERE&apos;S NO STUDENT WAIT FOR APPROVE.
+                        </h1>
+                      </NotFoundWrapper>
+                    </RowContainerNotFound>
                     )
                   }
+                {
+                     search === true && students !== null && students.size === 0 && (
+                     <RowContainerNotFound>
+                       <NotFoundWrapper>
+                         <h1>
+                           THERE&apos;S NO STUDENT WAIT FOR APPROVE.
+                         </h1>
+                       </NotFoundWrapper>
+                     </RowContainerNotFound>
+                     )
+                   }
               </Fragment>
             </ListCol>
           </RowContainer>
@@ -241,6 +290,7 @@ const mapStateToProps = (state, props) => createStructuredSelector({
   allSection: subjectsSelector.getSubjectsProfessor,
   currentYear: yearSelector.getCurrentYear,
   students: subjectsSelector.getStudentApprove,
+  allStudentsApprove: subjectsSelector.getAllStudentsApprove,
 })(state, props)
 
 const mapDispatchToProps = dispatch => bindActionCreators({
@@ -249,6 +299,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   rejectStudent: subjectAction.rejectStudent,
   getCurrentYear: yearAction.getCurrentYear,
   getStudentApprove: subjectAction.getStudentsSection,
+  getAllStudentsApprove: subjectAction.getAllStudentsApprove,
 }, dispatch)
 
 export default compose(
