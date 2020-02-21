@@ -11,6 +11,7 @@ import FormButton from '~/components/Form/Button'
 const FilterAndCriteria = (props) => {
   const {
     handleInputChange, filter, handleResetFilter, reset,
+    fetch,
   } = props
 
   return (
@@ -23,12 +24,12 @@ const FilterAndCriteria = (props) => {
       </HeaderSection>
       <SectionWrapper>
         <SearchText>
-          Subject/ Section:
+          Subject code, name:
         </SearchText>
         <Input
           value={filter.keyword}
           name='keyword'
-          placeholder='Subject Name, Seciton...'
+          placeholder='Subject code, Name'
           onChange={handleInputChange}
         />
       </SectionWrapper>
@@ -49,6 +50,7 @@ const FilterAndCriteria = (props) => {
           txtButton='SEARCH'
           width='50%'
           onClick={() => {
+            fetch()
           }}
         />
       </CustomButton>

@@ -12,12 +12,18 @@ const SubjectsList = (props) => {
     handleDeleteSection,
     handleModal,
   } = props
-
+  const items = subjects.filter((s) => {
+    if (filter.keyword === '') return s
+    if (s.getIn(['Subject', 'subject_name']).toLowerCase().includes(filter.keyword.toLowerCase()) 
+    || s.getIn(['Subject', 'subject_code']).toLowerCase().includes(filter.keyword.toLowerCase())) {
+      return s
+    }
+  }).map((s) => {
   return (
     <Column>
       <Wrapper>
         <Column>
-          {subjects.map(s => (
+          {/* {subjects.map(s => ( */}
             <ItemWrapper>
               <Row>
                 <a onClick={() => handleModal(s.get('id'))} style={{ width: '100%', color: '#575757' }}>
@@ -58,11 +64,15 @@ const SubjectsList = (props) => {
                 </a>
               </Row>
             </ItemWrapper>
-          ))}
+          {/* ))} */}
         </Column>
       </Wrapper>
     </Column>
   )
+                      })
+                      return (
+                        items
+                      )
 }
 
 export default SubjectsList
