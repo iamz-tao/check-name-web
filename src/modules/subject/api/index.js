@@ -26,7 +26,7 @@ export function* getSubjectsAPI() {
 export function* getSubjectsProfessorAPI() {
   const token = Cookie.get('token')
   const data = {}
-  
+
   return yield call(http.post, {
     url: '/api/getSubjects',
     payload: {
@@ -81,6 +81,19 @@ export function* getSectionAPI(id) {
 
   return yield call(http.post, {
     url: `/api/getSection/${id}`,
+    payload: {
+      token,
+      data,
+    },
+  })
+}
+
+export function* getAllStudentsApproveAPI() {
+  const token = Cookie.get('token')
+  const data = {}
+
+  return yield call(http.post, {
+    url: '/api/ListStudent',
     payload: {
       token,
       data,

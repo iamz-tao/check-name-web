@@ -33,6 +33,10 @@ import {
   APPROVE_STUDENT_SUCCESS,
   REJECT_STUDENT,
   REJECT_STUDENT_SUCCESS,
+  GET_ALL_STUDENTS_APPROVE,
+  SET_ALL_STUDENTS_APPROVE,
+  APPROVE_STUDENTS_SUCCESS,
+  REJECT_STUDENTS_SUCCESS,
 } from '../constants'
 
 export const createSubject = payload => ({
@@ -203,4 +207,24 @@ export const rejectStudent = payload => ({
 export const rejectStudentSuccess = payload => ({
   payload,
   type: REJECT_STUDENT_SUCCESS,
+})
+
+export const getAllStudentsApprove = payload => ({
+  payload,
+  type: GET_ALL_STUDENTS_APPROVE,
+})
+
+export const setAllStudentsApprove = payload => ({
+  payload,
+  type: SET_ALL_STUDENTS_APPROVE,
+})
+
+export const approveStudentsSuccess = payload => ({
+  payload,
+  type: APPROVE_STUDENTS_SUCCESS,
+})
+
+export const rejectStudentsSuccess = payload => ({
+  payload,
+  type: REJECT_STUDENTS_SUCCESS,
 })

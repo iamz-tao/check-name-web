@@ -27,6 +27,7 @@ import {
   GET_STUDENTS_SECTION,
   APPROVE_STUDENT,
   REJECT_STUDENT,
+  GET_ALL_STUDENTS_APPROVE,
 } from '../constants'
 import {
   getSubjectsAPI,
@@ -35,6 +36,7 @@ import {
   deleteSubjectAPI,
   getSubjectAPI,
   getSectionAPI,
+  getAllStudentsApproveAPI,
 } from '../api'
 
 import * as http from '~/helpers/axiosWrapperPostToken'
@@ -367,12 +369,16 @@ export function* approveStudent({ payload }) {
           ...payload,
         },
       })
-  
+
       const { error } = response
       if (error) {
         return
       }
-      yield put(subjectAction.approveStudentSuccess(payload.id))
+      const data = {
+        id: payload.id,
+        type: payload.type,
+      }
+      yield put(subjectAction.approveStudentSuccess(data))
     } else {
       const { id } = payload
       const response = yield call(httpPut.post, {
@@ -381,12 +387,16 @@ export function* approveStudent({ payload }) {
           ...id,
         },
       })
-  
+
       const { error } = response
       if (error) {
         return
       }
-      Router.replace('/approve-student')
+      const data = {
+        id,
+        type: payload.type,
+      }
+      yield put(subjectAction.approveStudentsSuccess(data))
     }
   } catch (error) {
     console.log('error', error)
@@ -411,7 +421,7 @@ export function* rejectStudent({ payload }) {
       yield put(subjectAction.rejectStudentSuccess(payload.id))
     } else {
       const { id } = payload
-      const response = yield call(httpDel.post, {
+      const response = yield call(httpPut.post, {
         url: '/api/rejectStudent',
         payload: {
           ...id,
@@ -422,7 +432,26 @@ export function* rejectStudent({ payload }) {
       if (error) {
         return
       }
-      Router.replace('/approve-student')
+      const data = {
+        id,
+        type: payload.type,
+      }
+      yield put(subjectAction.rejectStudentsSuccess(data))
+    }
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
+export function* getAllStudentsApprove() {
+  try {
+    const token = Cookie.get('token')
+    if (!isNil(token)) {
+      const { data, error } = yield getAllStudentsApproveAPI()
+      if (error) {
+        return
+      }
+      yield put(subjectAction.setAllStudentsApprove(data.data))
     }
   } catch (error) {
     console.log('error', error)
@@ -448,5 +477,6 @@ export default function* authSaga() {
     takeLatest(GET_STUDENTS_SECTION, getStudentsSection),
     takeLatest(APPROVE_STUDENT, approveStudent),
     takeLatest(REJECT_STUDENT, rejectStudent),
+    takeLatest(GET_ALL_STUDENTS_APPROVE, getAllStudentsApprove),
   ])
 }
