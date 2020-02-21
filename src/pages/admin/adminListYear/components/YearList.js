@@ -14,13 +14,18 @@ const YearList = (props) => {
     handleDeleteYear,
   } = props
 
-
-  // const keyword_lower = filter.keyword.toLowerCase()
-  return (
+  const items = list_year.filter((y) => {
+    if (filter.keyword === '' && filter.user_role === []) return y
+    if (y.get('year').toLowerCase().includes(filter.keyword.toLowerCase())
+    || y.get('semester').toLowerCase().includes(filter.keyword.toLowerCase())
+    ) {
+      return y
+    }
+  }).map(y => (
     <Column>
       <Wrapper>
         <Column>
-          {list_year.map(y => (
+          {/* {list_year.map(y => ( */}
             <ItemWrapper>
               <Row>
                 <UserDetailGroup>
@@ -67,10 +72,13 @@ const YearList = (props) => {
                 </DeleteWrapper>
               </Row>
             </ItemWrapper>
-          ))}
+          {/* ))} */}
         </Column>
       </Wrapper>
     </Column>
+  ))
+  return (
+    items
   )
 }
 

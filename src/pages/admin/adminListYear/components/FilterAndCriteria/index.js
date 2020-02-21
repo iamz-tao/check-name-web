@@ -18,49 +18,27 @@ const FilterAndCriteria = (props) => {
     filter,
   } = props
 
-
-  const semesters = [
-    {
-      key: 1,
-      text: 'First',
-      value: 'FIRST',
-    },
-    {
-      key: 2,
-      text: 'Second',
-      value: 'SECOND',
-    },
-    {
-      key: 3,
-      text: 'Summer',
-      value: 'SUMMER',
-    },
-  ]
-
   return (
     <Wrapper>
       <HeaderSection>
         <HeaderText>
           SEARCH YEAR OR SEMESTER
         </HeaderText>
-        {/* <ResetFilter onClick={handleResetFilter}>
-          Reset Filter
-  </ResetFilter> */}
-        <Button type='dashed' onClick={handleResetFilter}>Reset Filter</Button>
       </HeaderSection>
       <SectionWrapper>
         <SearchText>
-          YEAR :
+          Keyword:
         </SearchText>
         <Input
           name='keyword'
-          placeholder='Year'
+          placeholder='Year, Semester'
           onChange={handleInputChange}
           value={filter.keyword}
         />
       </SectionWrapper>
+      <Button style={{ left: '58%' }} type='dashed' onClick={handleResetFilter}>Reset Filter</Button>
 
-      <SectionWrapper>
+      {/* <SectionWrapper>
         <SearchText>
           SEMESTER:
         </SearchText>
@@ -85,7 +63,7 @@ const FilterAndCriteria = (props) => {
           onClick={() => {
           }}
         />
-      </CustomButton>
+      </CustomButton> */}
     </Wrapper>
   )
 }
@@ -113,6 +91,13 @@ const Wrapper = styled(Segment)`
 
   .ui.input.segment {
     border: 1em 1.5em;
+  }
+
+  .ui.input>input {
+    background: #FFFFFF;
+    border: 1px solid #243445;
+    box-sizing: border-box;
+    border-radius: 18px;
   }
 
   .ant-btn-dashed {
