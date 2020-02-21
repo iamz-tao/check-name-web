@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import {
   Input,
   Segment,
-  Dropdown,
 } from 'semantic-ui-react'
 import styled from 'styled-components'
 import FormButton from '~/components/Form/Button'
@@ -12,47 +11,24 @@ const FilterAndCriteria = (props) => {
   const {
     handleInputChange, filter, handleResetFilter, reset,
   } = props
-  const semesters = [
-    {
-      key: 1,
-      text: 'First',
-      value: 'First',
-    },
-    {
-      key: 2,
-      text: 'Second',
-      value: 'Second',
-    },
-    {
-      key: 3,
-      text: 'Summer',
-      value: 'Summer',
-    },
-  ]
   return (
     <Wrapper>
       <HeaderSection>
         <HeaderText>
-          SEAR YOUR SUBJECT
+          SEARCH YOUR SUBJECT
         </HeaderText>
         
       </HeaderSection>
       <SectionWrapper>
         <SearchText>
-                YEAR:
+          Keyword:
         </SearchText>
         <Input
           value={filter.keyword}
           name='keyword'
-          placeholder='Year'
+          placeholder='Subject code or name...'
           onChange={handleInputChange}
         />
-      </SectionWrapper>
-      <SectionWrapper>
-        <SearchText>
-                SEMESTER:
-        </SearchText>
-        <Dropdown placeholder='Semester' search selection options={semesters} />
       </SectionWrapper>
       <CustomButton>
         <FormButton

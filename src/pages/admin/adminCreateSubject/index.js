@@ -61,8 +61,8 @@ const AdminCreateUpdateSubject = class extends React.Component {
 
   submitForm = (values) => {
     const {
-      year,
-      semester,
+      // year,
+      // semester,
       subject_code,
       subject_name,
     } = values.toJS()
@@ -72,8 +72,8 @@ const AdminCreateUpdateSubject = class extends React.Component {
     } = this.props
 
     const data = {
-      year,
-      semester,
+      // year,
+      // semester,
       subject_code,
       subject_name,
       approved_status: 'PENDING',

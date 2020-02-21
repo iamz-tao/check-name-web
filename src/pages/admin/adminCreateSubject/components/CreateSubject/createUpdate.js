@@ -14,29 +14,29 @@ import FormButton from '~/components/Form/Button'
 const AdminCreateSubject = (props) => {
   const handleInput = get(props, 'handleInput')
 //   const options = get(props, 'options')
-  const semesters = [
-    {
-      key: 1,
-      text: 'First',
-      value: '1',
-    },
-    {
-      key: 2,
-      text: 'Second',
-      value: '2',
-    },
-    {
-      key: 3,
-      text: 'Summer',
-      value: '3',
-    },
-  ]
+  // const semesters = [
+  //   {
+  //     key: 1,
+  //     text: 'First',
+  //     value: '1',
+  //   },
+  //   {
+  //     key: 2,
+  //     text: 'Second',
+  //     value: '2',
+  //   },
+  //   {
+  //     key: 3,
+  //     text: 'Summer',
+  //     value: '3',
+  //   },
+  // ]
 
   return (
     <Wrapper name='createSubject'>
-      <CardForm title='CREATE SUBJECT'>
+      <CardForm title='CREATE SUBJECT' height='fit-content'>
         <CustomFormSection name=''>
-          <DefaultForm
+          {/* <DefaultForm
             isRequired
             label='YEAR'
             align='end'
@@ -65,7 +65,7 @@ const AdminCreateSubject = (props) => {
                 width: '100%',
               }}
             />
-          </DefaultForm>
+          </DefaultForm> */}
 
           <DefaultForm
             isRequired

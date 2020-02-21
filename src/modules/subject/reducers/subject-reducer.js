@@ -168,29 +168,37 @@ export default (state = initialState, { type, payload }) => {
     case APPROVE_STUDENTS_SUCCESS: {
       if (payload.type === 'all') {
         const index = payload.id.id.map(id => state.getIn(['professor', 'allStudentsApprove']).findIndex(i => i.get('regis_id') === id))
-        const newState = index.map(rec => state.removeIn(['professor', 'allStudentsApprove', rec]))
+        for (let i = 0; i < index.length; i += 1) {
+          state.removeIn(['professor', 'allStudentsApprove', i])
+        }
         return state
-          .setIn(['professor', 'allStudentsApprove'], newState)
+          .setIn(['professor', 'allStudentsApprove'])
           .setIn(['httpState', 'isFetching'], false)
       }
       const index = payload.id.id.map(id => state.getIn(['professor', 'studentApprove']).findIndex(i => i.get('auto_id') === id))
-      const newState = index.map(rec => state.removeIn(['professor', 'studentApprove', rec]))
+      for (let i = 0; i < index.length; i += 1) {
+        state.removeIn(['professor', 'studentApprove', i])
+      }
       return state
-        .setIn(['professor', 'studentApprove'], newState)
+        .setIn(['professor', 'studentApprove'])
         .setIn(['httpState', 'isFetching'], false)
     }
     case REJECT_STUDENTS_SUCCESS: {
       if (payload.type === 'all') {
         const index = payload.id.id.map(id => state.getIn(['professor', 'allStudentsApprove']).findIndex(i => i.get('regis_id') === id))
-        const newState = index.map(rec => state.removeIn(['professor', 'allStudentsApprove', rec]))
+        for (let i = 0; i < index.length; i += 1) {
+          state.removeIn(['professor', 'allStudentsApprove', i])
+        }
         return state
-          .setIn(['professor', 'allStudentsApprove'], newState)
+          .setIn(['professor', 'allStudentsApprove'])
           .setIn(['httpState', 'isFetching'], false)
       }
       const index = payload.id.id.map(id => state.getIn(['professor', 'studentApprove']).findIndex(i => i.get('auto_id') === id))
-      const newState = index.map(rec => state.removeIn(['professor', 'studentApprove', rec]))
+      for (let i = 0; i < index.length; i += 1) {
+        state.removeIn(['professor', 'studentApprove', i])
+      }
       return state
-        .setIn(['professor', 'studentApprove'], newState)
+        .setIn(['professor', 'studentApprove'])
         .setIn(['httpState', 'isFetching'], false)
     }
     default:

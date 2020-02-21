@@ -3,34 +3,34 @@ import styled from 'styled-components'
 import { Icon } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 
-const DeleteIcon = (props) => {
+const ListIcon = (props) => {
   const {
     size,
     onClick,
   } = props
   return (
-    <Trash
-      name='trash alternate outline'
+    <CustomList
+      name='unordered list'
       size={size}
       onClick={onClick}
     />
   )
 }
 
-DeleteIcon.propTypes = {
+ListIcon.propTypes = {
   size: PropTypes.string,
   onClick: PropTypes.func,
 }
 
-DeleteIcon.defaultProps = {
+ListIcon.defaultProps = {
   onClick: () => {
   },
   size: '',
 }
 
-export default DeleteIcon
+export default ListIcon
 
-const Trash = styled(Icon)`
+const CustomList = styled(Icon)`
   color: #999696;
   margin: 0px !important;
   line-height: 24px !important;

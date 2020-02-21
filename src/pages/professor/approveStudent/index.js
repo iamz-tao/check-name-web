@@ -139,7 +139,7 @@ class ApproveStudent extends Component {
     const { subject, section } = this.state.filter
     const year = currentYear.get('year')
     const semester = currentYear.get('semester')
-    
+
     getStudentApprove({
       year: Math.trunc(year),
       semester,
@@ -188,6 +188,8 @@ class ApproveStudent extends Component {
     }
     const hasSelected = selectedRowKeys.length > 0
     const waitApprove = students ? students.filter(s => s.get('status') === 'PENDING') : []
+
+    // console.log(allStudentsApprove)
     return (
       <PageWrapper>
         <HeaderProfessor />
@@ -236,7 +238,7 @@ class ApproveStudent extends Component {
                     )
                   }
                 {
-                     search === false && allStudentsApprove !== null && allStudentsApprove.size > 0 && (
+                     search === false && allStudentsApprove !== null && allStudentsApprove !== undefined && allStudentsApprove.size > 0 && (
                      <ListCol>
                        <ListAllStudent
                          start={this.start}
@@ -276,6 +278,17 @@ class ApproveStudent extends Component {
                      </RowContainerNotFound>
                      )
                    }
+                {
+                    currentYear !== null && allStudentsApprove === undefined || allStudentsApprove.size === 0 && (
+                      <RowContainerNotFound>
+                        <NotFoundWrapper>
+                          <h1>
+                            THERE&apos;S NO STUDENT WAIT FOR APPROVE.
+                          </h1>
+                        </NotFoundWrapper>
+                      </RowContainerNotFound>
+                    )
+                  }
               </Fragment>
             </ListCol>
           </RowContainer>

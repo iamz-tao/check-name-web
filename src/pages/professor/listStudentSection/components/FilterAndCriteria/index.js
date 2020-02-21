@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
+  Input,
   Segment,
   Dropdown,
 } from 'semantic-ui-react'
@@ -9,74 +10,27 @@ import FormButton from '~/components/Form/Button'
 
 const FilterAndCriteria = (props) => {
   const {
-    handleInputChange,
-    handleInputChangeSection,
-    handleFilter,
-    handleResetFilter,
-    currentYear,
-    //  filter, handleResetFilter, reset,
-    allSection,
-    filter,
+    handleInputChange, filter, handleResetFilter, reset,
   } = props
-
-  const subjects = []
-  const sections = []
-  let year = ''
-  let semester = ''
-
-  if (currentYear) {
-    year = currentYear.get('year'),
-    semester = currentYear.get('semester') === 'SECOND' ? 2 : currentYear.get('semester') === 'FIRST' ? 1 : 'SUMMER'
-  }
-
-  if (allSection) {
-    allSection.map((s, index) => {
-      subjects.push(
-        {
-          key: index,
-          text: `${s.getIn(['Subject', 'subject_code'])} ${s.getIn(['Subject', 'subject_name'])}`,
-          value: s.getIn(['Subject', 'subject_name']),
-        },
-      )
-    })
-
-    allSection.map((s, index) => {
-      sections.push(
-        {
-          key: index,
-          text: s.getIn(['section_number']),
-          value: s.getIn(['section_number']),
-        },
-      )
-    })
-  }
 
   return (
     <Wrapper>
       <HeaderSection>
         <HeaderText>
-          SEARCH SUBJECT
+          SEAR STUDENT
         </HeaderText>
 
       </HeaderSection>
       <SectionWrapper>
         <SearchText>
-          YEAR/ SEMESTER:
-          {' '}
-          {year}
-          /
-          {semester}
+          Keyword:
         </SearchText>
-        <SearchText>
-          SUBJECT:
-        </SearchText>
-        <Dropdown placeholder='Subject' value={filter.subject} search selection options={subjects} onChange={handleInputChange} />
-      </SectionWrapper>
-      <SectionWrapper>
-        <SearchText>
-          SECTION NUMBER :
-        </SearchText>
-        <Dropdown placeholder='Section Number' value={filter.section} search selection options={sections} onChange={handleInputChangeSection} />
+        <Input
+          value={filter.keyword}
+          name='keyword'
+          placeholder='ID, Name...'
+          onChange={handleInputChange}
+        />
       </SectionWrapper>
       <CustomButton>
         <FormButton
@@ -84,21 +38,17 @@ const FilterAndCriteria = (props) => {
           type='cancel'
           txtButton='RESET'
           width='50%'
-          margin='0px 0px 12px 0px'
           onClick={() => {
-            handleResetFilter()
           }}
         />
-          &nbsp; &nbsp;
+                  &nbsp; &nbsp;
         <FormButton
           isFilter
           colorButton='#CA5353'
           type='submit'
           txtButton='SEARCH'
           width='50%'
-          margin='0px 0px 12px 0px'
           onClick={() => {
-            handleFilter()
           }}
         />
       </CustomButton>
@@ -133,7 +83,6 @@ const Wrapper = styled(Segment)`
     border: 1px solid #E8E8E8;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 28px;
-    padding: 1em 2em;
   }
 
   .ui.input>input {
@@ -149,11 +98,6 @@ const Wrapper = styled(Segment)`
     box-sizing: border-box;
     border-radius: 18px;
   }
-
-  .ui.selection.active.dropdown .menu {
-    border-radius: 0px 0px 18px 18px;
-}
-
 `
 
 const HeaderSection = styled.div`

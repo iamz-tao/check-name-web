@@ -3,96 +3,67 @@ import styled from 'styled-components'
 import { createStructuredSelector } from 'reselect'
 import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
-import { Modal, notification } from 'antd'
-
 import FilterAndCriteria from './components/FilterAndCriteria'
-import SubjectsList from './components/ListSubjects'
-import UpdateSection from './components/updateSection'
+import StudentLists from './components/ListStudents'
 
 import HeaderProfessor from '~/components/HeaderNavbar/Professor'
 import NotFound from '~/components/Table/NotFound'
 import LoadingPulse from '~/components/LoadingPulse'
 
 import withLayout from '~/hocs/Layouts/withLayout'
-import { Link } from '~/routes'
+import { Router } from '~/routes'
 import { subjectAction } from '~/modules/subject/actions'
 import { subjectsSelector } from '~/modules/subject/selectors'
 import { yearAction } from '~/modules/admin/actions'
 import { yearSelector } from '~/modules/admin/selectors'
 
-const { confirm } = Modal
 
 const TableHeader = () => (
   <Wrapper>
+    <Header>
+      SUBJECT: 02204236 Test Permission
+    </Header>
+    <Header style={{ paddingBottom: '16px' }}>
+      SECTION NUMBER: 711
+    </Header>
     <Row>
       <UserDetailGroup>
         <ListHeader>
           <ItemHeader>
-            SUBJECT CODE
+            STUDENT ID
           </ItemHeader>
         </ListHeader>
         <ListHeader>
           <ItemHeader>
-            SUBJECT NAME
+            STUDENT NAME
           </ItemHeader>
         </ListHeader>
-        <ListHeader style={{ minWidth: '180px' }}>
-          <ItemHeader>
-            SECTION NUMBER
-          </ItemHeader>
-        </ListHeader>
-        <ListHeader />
       </UserDetailGroup>
     </Row>
   </Wrapper>
 )
 
-class HomePageProfessor extends Component {
+class ListStudents extends Component {
   state = {
-    subjects: null,
+    students: null,
     filter: {
       keyword: '',
     },
-    addDay: false,
-    open: false,
   }
 
   componentDidMount() {
-    const { getSections } = this.props
-    getSections({
-    })
+    const { query: { id } } = Router
+    // console.log('xxxxx', id)
   }
 
   fetch = () => {
-    const { filter } = this.state
-    const { getSubjects } = this.props
-    getSubjects({
-      filter: {
-        ...filter,
-      },
-    })
-  }
-
-  handleDeleteSection = (id) => {
-    const { deleteSection } = this.props
-    const success = 'success'
-    confirm({
-      title: 'Confirm Deletion',
-      content: 'Are you sure delete this section? You can\'t undo this action.',
-      okText: 'Delete',
-      okType: 'danger',
-      cancelText: 'Cancel',
-      onOk() {
-        deleteSection({ id })
-        notification[success]({
-          message: 'Delete Success!',
-          description:
-            'Action completed successfully.',
-        })
-      },
-      onCancel() {
-      },
-    })
+    // const { filter } = this.state
+    // const { getSubjects } = this.props
+    // getSubjects({
+    //   filter: {
+    //     ...filter,
+    //   },
+    // })
   }
 
 
@@ -116,36 +87,29 @@ class HomePageProfessor extends Component {
     // })
   }
 
-  handleModal = (id) => {
-    const { open } = this.state
-    const { getSection } = this.props
-    if (id) {
-      getSection({ id })
-    }
-
-    this.setState({
-      open: !open,
-      addDay: false,
-    })
-  }
-
 
   render() {
     const {
-      subjects,
+      // students,
     } = this.props
 
     const {
       filter,
-      open,
     } = this.state
+
+    const students = [{
+      name: 'xxxxx',
+      surname: 'sssssss',
+      status: 'APPROVE',
+    },
+    {
+      name: 'xxxxx',
+      surname: 'sssssss',
+      status: 'APPROVE',
+    }]
 
     return (
       <PageWrapper>
-        <UpdateSection
-          open={open}
-          handleModal={this.handleModal}
-        />
         <HeaderProfessor />
         <RowContainer>
           <FilterWrapper>
@@ -163,32 +127,30 @@ class HomePageProfessor extends Component {
             >
               <Fragment>
                 <Space />
-                {
-                    subjects === null && (
+                {/* {
+                    students === null && (
                       <LoadingPulse />
                     )
-                  }
-                {
-                    subjects !== null && subjects.size > 0 && (
-                      <ListCol>
-                        <TableHeader />
-                        <ListCol>
-                          <SubjectsList
-                            subjects={subjects}
-                            filter={filter}
-                            handleDeleteSection={this.handleDeleteSection}
-                            handleModal={this.handleModal}
-                          />
-                        </ListCol>
-                      </ListCol>
-                    )
-                  }
+                  } */}
+                {/* {
+                    students !== null && students.size > 0 && ( */}
+                <ListCol>
+                  <TableHeader />
+                  <ListCol>
+                    <StudentLists
+                      students={students}
+                      filter={filter}
+                    />
+                  </ListCol>
+                </ListCol>
+                {/* )
+                  } */}
 
-                {
-                    subjects !== null && subjects.size === 0 && (
+                {/* {
+                    students !== null && students.size === 0 && (
                       <NotFound />
                     )
-                  }
+                  } */}
               </Fragment>
             </ListCol>
           </RowContainer>
@@ -199,21 +161,20 @@ class HomePageProfessor extends Component {
 }
 
 const mapStateToProps = (state, props) => createStructuredSelector({
-  subjects: subjectsSelector.getSubjectsProfessor,
-  currentYear: yearSelector.getCurrentYear,
+//   subjects: subjectsSelector.getSubjectsProfessor,
+//   currentYear: yearSelector.getCurrentYear,
 })(state, props)
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  getSections: subjectAction.getSubjectsProfessor,
-  getSection: subjectAction.getSection,
-  deleteSection: subjectAction.deleteSection,
-  getCurrentYear: yearAction.getCurrentYear,
+//   getSections: subjectAction.getSubjectsProfessor,
+//   getSection: subjectAction.getSection,
+//   getCurrentYear: yearAction.getCurrentYear,
 }, dispatch)
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withLayout,
-)(HomePageProfessor)
+)(ListStudents)
 
 const PageWrapper = styled.div`
   font-family: Sarabun;
@@ -232,6 +193,13 @@ const ItemHeader = styled.span`
     margin: 0;
     color: black;
     cursor: pointer;
+`
+const Header = styled.span`
+    font-family: kanit;
+    font-size: 22px;
+    font-weight: 500;
+    margin: 0;
+    color: #554d4d;
 `
 
 const OtherWrapper = styled.div`
@@ -275,7 +243,7 @@ const Space = styled.div`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: start;
   padding: 0px 0px 16px 0px;
 `
 
