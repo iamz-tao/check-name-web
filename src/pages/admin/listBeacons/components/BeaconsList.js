@@ -10,35 +10,42 @@ const BeaconList = (props) => {
     handleDeleteBeacon,
   } = props
 
-  return (
+  const items = beaconList.filter((beacon) => {
+    if (filter.keyword === '') return beacon
+    if (beacon.get('uuid').toLowerCase().includes(filter.keyword.toLowerCase())
+    || beacon.get('name').toLowerCase().includes(filter.keyword.toLowerCase())
+    ) {
+      return beacon
+    }
+  }).map(beacon => (
     <Column>
       <Wrapper>
         <Column>
-          {beaconList.map(y => (
+          {/* {beaconList.map(y => ( */}
             <ItemWrapper>
               <Row>
                 <UserDetailGroup>
                   <ListDetail style={{ flex: 2 }}>
                     <ItemSpan>
-                      {y.get('uuid')}
+                      {beacon.get('uuid')}
                     </ItemSpan>
                   </ListDetail>
                   <ListDetail>
                     <ItemSpan>
-                      {y.get('name')}
+                      {beacon.get('name')}
                     </ItemSpan>
                   </ListDetail>
                   <ListDetail>
                     <ItemSpan>
                       {
-                        y.get('status') === 'DISABLE' && (
+                        beacon.get('status') === 'DISABLE' && (
                           <ItemSpan style={{ color: '#D94646' }}>
                             DISABLE
                           </ItemSpan>
                         )
                       }
                       {
-                        y.get('status') === 'ACTIVE' && (
+                        beacon.get('status') === 'ACTIVE' && (
                           <ItemSpan style={{ color: '#001AFF' }}>
                             ACTIVE
                           </ItemSpan>
@@ -52,16 +59,19 @@ const BeaconList = (props) => {
                     className='trash'
                     onClick={(e) => {
                       e.preventDefault()
-                      handleDeleteBeacon(y.get('id'))
+                      handleDeleteBeacon(beacon.get('id'))
                     }}
                   />
                 </DeleteWrapper>
               </Row>
             </ItemWrapper>
-          ))}
+          {/* ))} */}
         </Column>
       </Wrapper>
     </Column>
+  ))
+  return (
+    items
   )
 }
 
