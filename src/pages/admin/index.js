@@ -204,7 +204,7 @@ class HomePageAdmin extends Component {
               handleResetFilter={this.handleResetFilter}
             />
           </FilterWrapper>
-          <RowContainer style={{ paddingTop: 0 }}>
+          <RowContainer style={{ paddingTop: 0, marginBottom: '24px'}}>
             <ListCol
               style={{
                 position: 'relative',
