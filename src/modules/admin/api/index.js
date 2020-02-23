@@ -8,7 +8,7 @@ import isNil from 'lodash/isNil'
 import * as http from '~/helpers/axiosWrapperGet'
 import * as httpDel from '~/helpers/axiosWrapperDelete'
 import { loginAction } from '~/modules/authentication/actions'
-import { userAction } from '../actions'
+import { userAction, yearAction } from '../actions'
 
 export function* getUserAPI() {
   const token = Cookie.get('token')
@@ -107,7 +107,6 @@ export function* deleteYearAPI(id) {
         },
       })
 
-      window.location.href = '/list-year'
       const { error } = response
 
       if (error) {
@@ -115,8 +114,7 @@ export function* deleteYearAPI(id) {
         window.location.href = '/login'
         return
       }
-
-      yield put(userAction.requestSuccess())
+      yield put(yearAction.deleteYearSuccess(id))
     } else {
       yield put(loginAction.handleLogout())
       window.location.href = '/login'

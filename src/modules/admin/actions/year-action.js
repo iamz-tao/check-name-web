@@ -5,6 +5,7 @@ import {
   GET_YEAR_ALL,
   SET_TO_YEAR,
   DELETE_YEAR,
+  DELETE_YEAR_SUCCESS,
   UPDATE_CURRENT_YEAR,
   UPDATE_CURRENT_YEAR_SUCCESS,
   GET_CURRENT_YEAR,
@@ -41,12 +42,17 @@ export const deleteYear = payload => ({
   type: DELETE_YEAR,
 })
 
+export const deleteYearSuccess = payload => ({
+  payload,
+  type: DELETE_YEAR_SUCCESS,
+})
+
 export const updateCurrentYear = payload => ({
   payload,
   type: UPDATE_CURRENT_YEAR,
 })
 
-  
+
 export const updateCurrentYearSuccess = payload => ({
   payload,
   type: UPDATE_CURRENT_YEAR_SUCCESS,

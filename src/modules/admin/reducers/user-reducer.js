@@ -25,6 +25,7 @@ export default (state = initialState, { type, payload }) => {
       const userIndex = state.get('users').findIndex(rec => rec.get('uid') === payload)
       return state
       .removeIn(['users', userIndex])
+      .set('isFetching', false)
     }
     default:
       return state

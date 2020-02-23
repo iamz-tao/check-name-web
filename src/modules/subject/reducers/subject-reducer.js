@@ -10,7 +10,9 @@ import {
   REJECT_SUBJECT,
   REJECT_SUBJECT_SUCCESS,
   APPROVE_SUBJECTS,
+  APPROVE_SUBJECTS_SUCCESS,
   REJECT_SUBJECTS,
+  REJECT_SUBJECTS_SUCCESS,
   SET_SUBJECT_PROFESSOR,
   OPEN_SECTION,
   OPEN_SECTION_SUCCESS,
@@ -79,21 +81,39 @@ export default (state = initialState, { type, payload }) => {
     case APPROVE_SUBJECT:
       return state
         .setIn(['httpState', 'isFetching'], true)
-    case APPROVE_SUBJECT_SUCCESS:
+    case APPROVE_SUBJECT_SUCCESS: {
+      const index = state.getIn(['subjects']).findIndex(i => i.get('id') === payload)
       return state
+        .removeIn(['subjects', index])
         .setIn(['httpState', 'isFetching'], false)
-    case REJECT_SUBJECT:
+    }
+    case REJECT_SUBJECT: {
+      const index = state.getIn(['subjects']).findIndex(i => i.get('id') === payload)
       return state
-        .setIn(['httpState', 'isFetching'], true)
+        .removeIn(['subjects', index])
+        .setIn(['httpState', 'isFetching'], false)
+    }
     case REJECT_SUBJECT_SUCCESS:
       return state
         .setIn(['httpState', 'isFetching'], false)
     case APPROVE_SUBJECTS:
       return state
         .setIn(['httpState', 'isFetching'], true)
+    case APPROVE_SUBJECTS_SUCCESS: {
+      const newSubjects = state.get('subjects').filter(rec => !payload.includes(rec.get('id')))
+      return state
+        .setIn(['subjects'], newSubjects)
+        .setIn(['httpState', 'isFetching'], false)
+    }
     case REJECT_SUBJECTS:
       return state
         .setIn(['httpState', 'isFetching'], false)
+    case REJECT_SUBJECTS_SUCCESS: {
+      const newSubjects = state.get('subjects').filter(rec => !payload.includes(rec.get('id')))
+      return state
+        .setIn(['subjects'], newSubjects)
+        .setIn(['httpState', 'isFetching'], false)
+    }
     case SET_SUBJECT_PROFESSOR: {
       return state
         .setIn(['professor', 'subjects'], fromJS(payload))
@@ -168,39 +188,32 @@ export default (state = initialState, { type, payload }) => {
         .setIn(['httpState', 'isFetching'], false)
     }
     case APPROVE_STUDENTS_SUCCESS: {
-      if (payload.type === 'all') {
-        const index = payload.id.id.map(id => state.getIn(['professor', 'allStudentsApprove']).findIndex(i => i.get('regis_id') === id))
-        for (let i = 0; i < index.length; i += 1) {
-          state.removeIn(['professor', 'allStudentsApprove', i])
-        }
-        return state
-          .setIn(['professor', 'allStudentsApprove'])
-          .setIn(['httpState', 'isFetching'], false)
-      }
-      const index = payload.id.id.map(id => state.getIn(['professor', 'studentApprove']).findIndex(i => i.get('auto_id') === id))
-      for (let i = 0; i < index.length; i += 1) {
-        state.removeIn(['professor', 'studentApprove', i])
-      }
+      const newStudents = state.getIn(['professor', 'allStudentsApprove']).filter(rec => !payload.id.id.includes(rec.get('regis_id')))
       return state
-        .setIn(['professor', 'studentApprove'])
+        .setIn(['professor', 'allStudentsApprove'], newStudents)
         .setIn(['httpState', 'isFetching'], false)
     }
     case REJECT_STUDENTS_SUCCESS: {
-      if (payload.type === 'all') {
-        const index = payload.id.id.map(id => state.getIn(['professor', 'allStudentsApprove']).findIndex(i => i.get('regis_id') === id))
-        for (let i = 0; i < index.length; i += 1) {
-          state.removeIn(['professor', 'allStudentsApprove', i])
-        }
-        return state
-          .setIn(['professor', 'allStudentsApprove'])
-          .setIn(['httpState', 'isFetching'], false)
-      }
-      const index = payload.id.id.map(id => state.getIn(['professor', 'studentApprove']).findIndex(i => i.get('auto_id') === id))
-      for (let i = 0; i < index.length; i += 1) {
-        state.removeIn(['professor', 'studentApprove', i])
-      }
+    //   if (payload.type === 'all') {
+    //     const index = payload.id.id.map(id => state.getIn(['professor', 'allStudentsApprove']).findIndex(i => i.get('regis_id') === id))
+    //     for (let i = 0; i < index.length; i += 1) {
+    //       state.removeIn(['professor', 'allStudentsApprove', i])
+    //     }
+    //     return state
+    //       .setIn(['professor', 'allStudentsApprove'])
+    //       .setIn(['httpState', 'isFetching'], false)
+    //   }
+    //   const index = payload.id.id.map(id => state.getIn(['professor', 'studentApprove']).findIndex(i => i.get('auto_id') === id))
+    //   for (let i = 0; i < index.length; i += 1) {
+    //     state.removeIn(['professor', 'studentApprove', i])
+    //   }
+    //   return state
+    //     .setIn(['professor', 'studentApprove'])
+    //     .setIn(['httpState', 'isFetching'], false)
+    // }
+      const newStudents = state.getIn(['professor', 'allStudentsApprove']).filter(rec => !payload.id.id.includes(rec.get('regis_id')))
       return state
-        .setIn(['professor', 'studentApprove'])
+        .setIn(['professor', 'allStudentsApprove'], newStudents)
         .setIn(['httpState', 'isFetching'], false)
     }
     case SET_STUDENTS_IN_SECTION:
