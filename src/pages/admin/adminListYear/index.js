@@ -46,7 +46,7 @@ const TableHeader = (props) => {
             </ItemHeader>
             <Icon
               name='sort'
-              style={{ paddingTop: '2px' }}
+              style={{ paddingTop: '2px', cursor: 'pointer' }}
               onClick={() => sortItem('year')}
             />
           </ListHeader>
@@ -56,7 +56,7 @@ const TableHeader = (props) => {
             </ItemHeader>
             <Icon
               name='sort'
-              style={{ paddingTop: '2px' }}
+              style={{ paddingTop: '2px', cursor: 'pointer' }}
               onClick={() => sortItem('semester')}
             />
           </ListHeader>

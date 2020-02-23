@@ -5,6 +5,8 @@ import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
 import { Modal, notification } from 'antd'
 import Router from 'next/router'
+import { Icon } from 'semantic-ui-react'
+
 import FilterAndCriteria from './components/FilterAndCriteria'
 import SubjectsList from './components/ListSubjects'
 import UpdateSubject from './components/updateSubject'
@@ -20,7 +22,7 @@ import { subjectsSelector } from '~/modules/subject/selectors'
 
 const { confirm } = Modal
 
-const TableHeader = () => (
+const TableHeader = ({ sortItem }) => (
   <Wrapper>
     <FormButton
       colorButton='#006765'
@@ -37,11 +39,21 @@ const TableHeader = () => (
           <ItemHeader>
             SUBJECT CODE
           </ItemHeader>
+          <Icon
+            name='sort'
+            style={{ paddingTop: '2px', cursor: 'pointer' }}
+            onClick={() => sortItem('subject_code')}
+          />
         </ListHeader>
         <ListHeader style={{ flex: 2 }}>
           <ItemHeader>
             SUBJECT NAME
           </ItemHeader>
+          <Icon
+            name='sort'
+            style={{ paddingTop: '2px', cursor: 'pointer' }}
+            onClick={() => sortItem('subject_name')}
+          />
         </ListHeader>
         <ListHeader />
       </UserDetailGroup>
@@ -51,7 +63,7 @@ const TableHeader = () => (
 
 class AdminListSubjects extends Component {
   state = {
-    subjects: null,
+    subjectsAll: null,
     filter: {
       keyword: '',
     },
@@ -127,12 +139,10 @@ class AdminListSubjects extends Component {
       filter: {
         keyword: '',
       },
+      subjectsAll: null,
     })
   }
 
-  handleMenuClick = () => {
-    //change status
-  }
 
   handleUpdate = (values) => {
     const { updateSubject } = this.props
@@ -146,6 +156,21 @@ class AdminListSubjects extends Component {
     this.handleUppdateSubject()
   }
 
+  sortItem = (sort_by) => {
+    const { subjects } = this.props
+    let dataSort = []
+    if (sort_by === 'subject_code') {
+      dataSort = subjects.sort((a, b) => (a.get(sort_by).toUpperCase() - b.get(sort_by).toUpperCase()))
+      // dataSort = subjects.sort((c, b) => c.get(sort_by).localeCompare(b.get(sort_by)))
+    }
+    if (sort_by === 'subject_name') {
+      dataSort = subjects.sort((c, b) => c.get(sort_by).localeCompare(b.get(sort_by)))
+    }
+    this.setState({
+      subjectsAll: dataSort,
+    })
+  }
+
   render() {
     const {
       subjects,
@@ -156,9 +181,9 @@ class AdminListSubjects extends Component {
       filter,
       open,
       id,
+      subjectsAll,
     } = this.state
 
-    const subjectApprove = subjects ? subjects.toJS().filter(s => s.approved_status === 'APPROVE') : []
     return (
       <PageWrapper>
         <HeaderAdmin />
@@ -194,13 +219,14 @@ class AdminListSubjects extends Component {
                 {
                     subjects !== null && subjects.size > 0 && (
                       <ListCol>
-                        <TableHeader />
+                        <TableHeader
+                          sortItem={this.sortItem}
+                        />
                         <ListCol>
                           <SubjectsList
-                            subjects={subjectApprove}
+                            subjects={subjectsAll === null ? subjects : subjectsAll}
                             filter={filter}
                             handleDeleteSubject={this.handleDeleteSubject}
-                            handleMenuClick={this.handleMenuClick}
                             handleModal={this.handleModal}
                           />
                         </ListCol>

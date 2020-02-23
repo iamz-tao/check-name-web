@@ -51,7 +51,7 @@ const TableHeader = ({ sortItem }) => (
           </ItemHeader>
           <Icon
             name='sort'
-            style={{ paddingTop: '2px' }}
+            style={{ paddingTop: '2px', cursor: 'pointer' }}
             onClick={() => sortItem('id')}
           />
         </ListHeader>
@@ -61,7 +61,7 @@ const TableHeader = ({ sortItem }) => (
           </ItemHeader>
           <Icon
             name='sort'
-            style={{ paddingTop: '2px' }}
+            style={{ paddingTop: '2px', cursor: 'pointer' }}
             onClick={() => sortItem('firstname')}
           />
         </ListHeader>
@@ -71,7 +71,7 @@ const TableHeader = ({ sortItem }) => (
           </ItemHeader>
           <Icon
             name='sort'
-            style={{ paddingTop: '2px' }}
+            style={{ paddingTop: '2px', cursor: 'pointer' }}
             onClick={() => sortItem('email')}
           />
         </ListHeader>
