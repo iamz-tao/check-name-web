@@ -69,3 +69,14 @@ export const getAllStudentsApprove = createSelector(
     }
   },
 )
+
+export const studentInSection = createSelector(
+  stateSelector,
+  (state) => {
+    try {
+      return state.getIn(['studentInSection'], '')
+    } catch (error) {
+      return fromJS({})
+    }
+  },
+)

@@ -189,7 +189,6 @@ class ApproveStudent extends Component {
     const hasSelected = selectedRowKeys.length > 0
     const waitApprove = students ? students.filter(s => s.get('status') === 'PENDING') : []
 
-    // console.log(allStudentsApprove)
     return (
       <PageWrapper>
         <HeaderProfessor />
@@ -279,7 +278,7 @@ class ApproveStudent extends Component {
                      )
                    }
                 {
-                    currentYear !== null && allStudentsApprove === undefined || allStudentsApprove.size === 0 && (
+                    currentYear !== null && allStudentsApprove === undefined || allStudentsApprove !== null && allStudentsApprove.size === 0 && (
                       <RowContainerNotFound>
                         <NotFoundWrapper>
                           <h1>
