@@ -10,6 +10,7 @@ const UserList = (props) => {
     filter,
     handleDeleteUser,
   } = props
+
   const items = users.filter((user) => {
     if (filter.keyword === '' && filter.user_role === []) return user
     if (filter.user_role.length > 0) {

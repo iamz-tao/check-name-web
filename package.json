@@ -96,7 +96,6 @@
     "react-sticky": "^6.0.3",
     "recompose": "^0.30.0",
     "redux": "4.0.1",
-    "redux-devtools-extension": "^2.13.8",
     "redux-form": "^8.2.0",
     "redux-immutable": "^4.0.0",
     "redux-saga": "1.0.1",
@@ -124,6 +123,7 @@
     "jest": "^24.7.1",
     "react-addons-test-utils": "15.6.2",
     "react-test-renderer": "16.4.2",
-    "react-testing-library": "^5.4.2"
+    "react-testing-library": "^5.4.2",
+    "redux-devtools-extension": "^2.13.8"
   }
 }
