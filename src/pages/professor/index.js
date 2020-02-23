@@ -4,6 +4,7 @@ import { createStructuredSelector } from 'reselect'
 import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
 import { Modal, notification } from 'antd'
+import { Icon } from 'semantic-ui-react'
 
 import FilterAndCriteria from './components/FilterAndCriteria'
 import SubjectsList from './components/ListSubjects'
@@ -22,7 +23,7 @@ import { yearSelector } from '~/modules/admin/selectors'
 
 const { confirm } = Modal
 
-const TableHeader = () => (
+const TableHeader = ({ sortItem }) => (
   <Wrapper>
     <Row>
       <UserDetailGroup>
@@ -30,11 +31,21 @@ const TableHeader = () => (
           <ItemHeader>
             SUBJECT CODE
           </ItemHeader>
+          <Icon
+            name='sort'
+            style={{ paddingTop: '2px', cursor: 'pointer' }}
+            onClick={() => sortItem('subject_code')}
+          />
         </ListHeader>
         <ListHeader>
           <ItemHeader>
             SUBJECT NAME
           </ItemHeader>
+          <Icon
+            name='sort'
+            style={{ paddingTop: '2px', cursor: 'pointer' }}
+            onClick={() => sortItem('subject_name')}
+          />
         </ListHeader>
         <ListHeader style={{ minWidth: '180px' }}>
           <ItemHeader>
@@ -50,7 +61,7 @@ const TableHeader = () => (
 class HomePageProfessor extends Component {
   
   state = {
-    subjects: null,
+    subjectsState: null,
     filter: {
       keyword: '',
     },
@@ -102,6 +113,7 @@ class HomePageProfessor extends Component {
       filter: {
         keyword: '',
       },
+      subjectsState: null,
     })
   }
 
@@ -118,6 +130,20 @@ class HomePageProfessor extends Component {
     })
   }
 
+  sortItem = (sort_by) => {
+    const { subjects } = this.props
+    let dataSort = []
+    if (sort_by === 'subject_code') {
+      dataSort = subjects.sort((a, b) => (a.getIn(['Subject', sort_by]).toUpperCase() - b.getIn(['Subject', sort_by]).toUpperCase()))
+    }
+    if (sort_by === 'subject_name') {
+      dataSort = subjects.sort((c, b) => c.getIn(['Subject', sort_by]).localeCompare(b.getIn(['Subject', sort_by])))
+    }
+    this.setState({
+      subjectsState: dataSort,
+    })
+  }
+
 
   render() {
     const {
@@ -127,6 +153,7 @@ class HomePageProfessor extends Component {
     const {
       filter,
       open,
+      subjectsState,
     } = this.state
 
     return (
@@ -160,10 +187,12 @@ class HomePageProfessor extends Component {
                 {
                     subjects !== null && subjects.size > 0 && (
                       <ListCol>
-                        <TableHeader />
+                        <TableHeader 
+                          sortItem={this.sortItem}
+                        />
                         <ListCol>
                           <SubjectsList
-                            subjects={subjects}
+                            subjects={subjectsState ===null ? subjects : subjectsState}
                             filter={filter}
                             handleDeleteSection={this.handleDeleteSection}
                             handleModal={this.handleModal}
