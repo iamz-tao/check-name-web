@@ -204,7 +204,7 @@ class HomePageProfessor extends Component {
 
                 {
                     subjects !== null && subjects.size === 0 && (
-                      <NotFound />
+                      <NotFound message={`There's no section in this semester.`} />
                     )
                   }
               </Fragment>

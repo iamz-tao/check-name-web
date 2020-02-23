@@ -189,7 +189,7 @@ class ListBeacons extends Component {
 
                 {
                     beaconList !== null && beaconList.size === 0 && (
-                      <NotFound />
+                      <NotFound message={`There's no beacon.`}/>
                     )
                   }
               </Fragment>

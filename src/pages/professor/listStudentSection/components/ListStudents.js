@@ -44,7 +44,7 @@ const StudentList = (props) => {
   ))
 
   if (items.length === 0) {
-    return <NotFound />
+    return <NotFound message={`There's no student in section.`} />
   }
   return (
     items

@@ -80,7 +80,7 @@ const YearList = (props) => {
   ))
 
   if (items.length === 0) {
-    return <NotFound />
+    return <NotFound message={`There's no year list.`} />
   }
   return (
     items
