@@ -49,31 +49,31 @@ const TableHeader = ({ sortItem }) => (
           <ItemHeader>
             ID
           </ItemHeader>
-          <Icon 
-          name='sort' 
-          style={{ paddingTop: '2px' }} 
-          onClick={() => sortItem('id')}
-         />
+          <Icon
+            name='sort'
+            style={{ paddingTop: '2px' }}
+            onClick={() => sortItem('id')}
+          />
         </ListHeader>
         <ListHeader style={{ flex: 2 }}>
           <ItemHeader>
             NAME
           </ItemHeader>
-          <Icon 
-          name='sort' 
-          style={{ paddingTop: '2px' }} 
-          onClick={() => sortItem('firstname')}
-         />
+          <Icon
+            name='sort'
+            style={{ paddingTop: '2px' }}
+            onClick={() => sortItem('firstname')}
+          />
         </ListHeader>
         <ListHeader style={{ flex: 2 }}>
           <ItemHeader>
             EMAIL
           </ItemHeader>
-          <Icon 
-          name='sort' 
-          style={{ paddingTop: '2px' }} 
-          onClick={() => sortItem('email')}
-         />
+          <Icon
+            name='sort'
+            style={{ paddingTop: '2px' }}
+            onClick={() => sortItem('email')}
+          />
         </ListHeader>
         <ListHeader style={{ justifyContent: 'center' }}>
           <ItemHeader>
@@ -116,7 +116,6 @@ class HomePageAdmin extends Component {
         user_role: newUserType,
       },
     })
-
   }
 
   handleInputChange = async ({ target }) => {
@@ -169,18 +168,19 @@ class HomePageAdmin extends Component {
     })
   }
 
-  sortItem = (sort_by)=> {
-  const { users } = this.props
-
-    console.log('tttt',users.map((a) => a).toJS())
-
-    console.log('tttt',users.map((a) => a).sort((c, b) => (c.get(sort_by) - b.get(sort_by)) ).toJS())
-  const { usersState } = this.state
-  const dataSort = users.sort((a, b) => (a.get(sort_by).toUpperCase() - b.get(sort_by).toUpperCase()))
-  this.setState({
-    usersState:  dataSort,
-  })
-}
+  sortItem = (sort_by) => {
+    const { users } = this.props
+    let dataSort = []
+    if (sort_by === 'id') {
+      dataSort = users.sort((a, b) => (a.get(sort_by).toUpperCase() - b.get(sort_by).toUpperCase()))
+    }
+    if (sort_by === 'email' || sort_by) {
+      dataSort = users.sort((c, b) => c.get(sort_by).localeCompare(b.get(sort_by)))
+    }
+    this.setState({
+      usersState: dataSort,
+    })
+  }
 
   render() {
     const {
@@ -220,7 +220,7 @@ class HomePageAdmin extends Component {
                 {
                     users !== null && users.size > 0 && (
                       <ListCol>
-                        <TableHeader 
+                        <TableHeader
                           sortItem={this.sortItem}
                         />
                         <ListCol>
