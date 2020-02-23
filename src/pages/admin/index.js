@@ -174,7 +174,7 @@ class HomePageAdmin extends Component {
     if (sort_by === 'id') {
       dataSort = users.sort((a, b) => (a.get(sort_by).toUpperCase() - b.get(sort_by).toUpperCase()))
     }
-    if (sort_by === 'email' || sort_by) {
+    if (sort_by === 'email' || sort_by === 'firstname') {
       dataSort = users.sort((c, b) => c.get(sort_by).localeCompare(b.get(sort_by)))
     }
     this.setState({

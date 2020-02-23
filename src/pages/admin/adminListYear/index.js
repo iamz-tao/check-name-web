@@ -7,11 +7,12 @@ import { connect } from 'react-redux'
 import { Modal, notification } from 'antd'
 import isNil from 'lodash/isNil'
 
+import { Icon } from 'semantic-ui-react'
 import FilterAndCriteria from './components/FilterAndCriteria'
 import YearList from './components/YearList'
 import CreateYear from './components/createYear'
-import HeaderAdmin from '~/components/HeaderNavbar/Admin'
 
+import HeaderAdmin from '~/components/HeaderNavbar/Admin'
 import NotFound from '~/components/Table/NotFound'
 import LoadingPulse from '~/components/LoadingPulse'
 import FormButton from '~/components/Form/Button'
@@ -25,6 +26,7 @@ const { confirm } = Modal
 const TableHeader = (props) => {
   const {
     handleModal,
+    sortItem,
   } = props
 
   return (
@@ -42,11 +44,21 @@ const TableHeader = (props) => {
             <ItemHeader>
               YEAR
             </ItemHeader>
+            <Icon
+              name='sort'
+              style={{ paddingTop: '2px' }}
+              onClick={() => sortItem('year')}
+            />
           </ListHeader>
           <ListHeader>
             <ItemHeader>
               SEMESTER
             </ItemHeader>
+            <Icon
+              name='sort'
+              style={{ paddingTop: '2px' }}
+              onClick={() => sortItem('semester')}
+            />
           </ListHeader>
           <ListHeader>
             <ItemHeader>
@@ -63,7 +75,7 @@ const TableHeader = (props) => {
 
 class HomePageAdmin extends Component {
   state = {
-    list_year: null,
+    list_year_state: null,
     year: '',
     semester: '',
     open: false,
@@ -102,6 +114,7 @@ class HomePageAdmin extends Component {
       filter: {
         keyword: '',
       },
+      list_year_state: null,
     })
   }
 
@@ -139,6 +152,20 @@ class HomePageAdmin extends Component {
     })
   }
 
+  sortItem = (sort_by) => {
+    const { list_year } = this.props
+    let dataSort = []
+    if (sort_by === 'year') {
+      dataSort = list_year.sort((a, b) => (a.get(sort_by).toUpperCase() - b.get(sort_by).toUpperCase()))
+    }
+    if (sort_by === 'semester') {
+      dataSort = list_year.sort((c, b) => c.get(sort_by).localeCompare(b.get(sort_by)))
+    }
+    this.setState({
+      list_year_state: dataSort,
+    })
+  }
+
   render() {
     const {
       list_year,
@@ -147,6 +174,7 @@ class HomePageAdmin extends Component {
     const {
       filter,
       open,
+      list_year_state,
     } = this.state
 
     return (
@@ -185,10 +213,11 @@ class HomePageAdmin extends Component {
                       <ListCol>
                         <TableHeader
                           handleModal={this.handleModal}
+                          sortItem={this.sortItem}
                         />
                         <ListCol>
                           <YearList
-                            list_year={list_year}
+                            list_year={list_year_state === null ? list_year : list_year_state}
                             filter={filter}
                             handleGetId={this.handleGetId}
                             handleDeleteYear={this.handleDeleteYear}
