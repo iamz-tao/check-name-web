@@ -8,6 +8,8 @@ import {
   REJECT_SUBJECT,
   APPROVE_SUBJECT_SUCCESS,
   REJECT_SUBJECT_SUCCESS,
+  APPROVE_SUBJECTS_SUCCESS,
+  REJECT_SUBJECTS_SUCCESS,
   APPROVE_SUBJECTS,
   REJECT_SUBJECTS,
   OPEN_SECTION,
@@ -76,6 +78,12 @@ export const approveSubjectSuccess = payload => ({
   type: APPROVE_SUBJECT_SUCCESS,
 })
 
+export const approveSubjectsSuccess = payload => ({
+  payload,
+  type: APPROVE_SUBJECTS_SUCCESS,
+})
+
+
 export const rejectSubject = payload => ({
   payload,
   type: REJECT_SUBJECT,
@@ -84,6 +92,11 @@ export const rejectSubject = payload => ({
 export const rejectSubjectSuccess = payload => ({
   payload,
   type: REJECT_SUBJECT_SUCCESS,
+})
+
+export const rejectSubjectsSuccess = payload => ({
+  payload,
+  type: REJECT_SUBJECTS_SUCCESS,
 })
 
 export const approveSubjects = payload => ({

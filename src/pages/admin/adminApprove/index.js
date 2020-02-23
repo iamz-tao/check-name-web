@@ -141,7 +141,10 @@ class AdminApprove extends Component {
       onChange: this.onSelectChange,
     }
     const hasSelected = selectedRowKeys.length > 0
-    const subjectWait = subjects !== null ? subjects.toJS().filter(s => s.approved_status === 'PENDING') : 0
+    let subjectWait = {}
+    if (subjects) {
+      subjectWait = subjects.toJS().filter(s => s.approved_status === 'PENDING')
+    }
 
     return (
       <PageWrapper>

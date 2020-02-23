@@ -336,7 +336,7 @@ const Row = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 76px;
+  height: 24px;
   width: 100%;
 `
 const DeleteWrapper = styled.div`

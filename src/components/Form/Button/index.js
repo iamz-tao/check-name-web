@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 const CustomButton = styled.button`
   width: ${props => (props.isFilter ? '96px' : '142px')} !important;
   background-color: ${props => (props.typeButton === 'cancel' ? '#E5E5E5' : props.colorButton)} !important;
-  color: ${props => (props.typeButton === 'cancel' ? '#6f6f6f' : '#857f7f')} !important;
+  color: ${props => (props.typeButton === 'cancel' ? '#6f6f6f' : '#d6d2d2')} !important;
   margin: ${props => (props.margin ? props.margin : '25px 0 25px 0')} !important;
   padding: ${props => (props.isFilter && '8px 0px')} !important;
   height:  ${props => (props.isFilter ? '48px' : '56px')} !important;

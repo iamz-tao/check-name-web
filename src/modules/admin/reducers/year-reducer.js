@@ -5,6 +5,7 @@ import {
   SET_TO_YEAR,
   UPDATE_CURRENT_YEAR_SUCCESS,
   SET_CURRENT_YEAR,
+  DELETE_YEAR_SUCCESS,
 } from '../constants'
 import { CLEAR_HTTP } from '~/modules/user/constants'
 
@@ -49,6 +50,13 @@ export default (state = initialState, { type, payload }) => {
       return state
         .set('year', fromJS(payload))
         .setIn(['httpState', 'isFetching'], true)
+    case DELETE_YEAR_SUCCESS: {
+      const index = state.getIn(['yearAll'])
+        .findIndex(rec => rec.get('id') === payload)
+      return state
+        .removeIn(['yearAll', index])
+        .setIn(['httpState', 'isFetching'], true)
+    }
     default:
       return state
   }
