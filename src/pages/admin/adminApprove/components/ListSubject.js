@@ -4,7 +4,6 @@ import { Table, Button } from 'antd'
 import NotFound from '~/components/Table/NotFound'
 
 
-
 const UserList = (props) => {
   const {
     subjects,
@@ -45,7 +44,17 @@ const UserList = (props) => {
   ]
 
   const data = []
-  subjects.map((s, index) => {
+
+  const items = subjects.filter((d) => {
+    if (filter.keyword === '') return d
+    if (d.subject_code.toLowerCase().includes(filter.keyword.toLowerCase())
+    || d.subject_name.toLowerCase().includes(filter.keyword.toLowerCase())
+    ) {
+      return d
+    }
+  })
+
+  items.map((s, index) => {
     data.push({
       key: s.id,
       subject_id: s.id,
@@ -54,14 +63,11 @@ const UserList = (props) => {
     })
   })
 
-  const items = data.filter((d) => {
-    if (filter.keyword === '') return d
-    if (d.subject_code.toLowerCase().includes(filter.keyword.toLowerCase())
-    || d.subject_name.toLowerCase().includes(filter.keyword.toLowerCase())
-    ) {
-      return d
-    }
-  }).map(d => (
+  //   if (items.length === 0) {
+  //   return <NotFound />
+  // }
+
+  return (
     <Column>
       <Wrapper>
         <Column>
@@ -89,12 +95,6 @@ const UserList = (props) => {
         </Column>
       </Wrapper>
     </Column>
-  ))
-  if (items.length === 0) {
-    return <NotFound />
-  }
-  return (
-    items
   )
 }
 
