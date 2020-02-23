@@ -82,10 +82,10 @@ const UserList = (props) => {
                 </span>
               </div>
               <div style={{ paddingRight: '16px' }}>
-                <CustomApprove type='dashed' onClick={() => handleApproveSubjects('A')} selectedRowKeys={selectedRowKeys.length}>
+                <CustomApprove type='dashed' onClick={() => handleApproveSubjects('A')} disabled={selectedRowKeys.length === 0} selectedRowKeys={selectedRowKeys.length}>
                   APPROVE
                 </CustomApprove>
-                <CustomReject type='dashed' onClick={() => handleApproveSubjects('R')} selectedRowKeys={selectedRowKeys.length}>
+                <CustomReject type='dashed' onClick={() => handleApproveSubjects('R')} disabled={selectedRowKeys.length === 0} selectedRowKeys={selectedRowKeys.length}>
                   REJECT
                 </CustomReject>
               </div>
