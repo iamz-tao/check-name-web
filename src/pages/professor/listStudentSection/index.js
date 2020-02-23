@@ -94,7 +94,7 @@ class ListStudents extends Component {
     let subject_code = '-'
     let subject_name = '-'
     let section = '-'
-
+console.log(students && students.toJS())
     if (students) {
       subject_code = students.getIn([0, 'subject_code'])
       subject_name = students.getIn([0, 'subject_name'])
@@ -124,7 +124,7 @@ class ListStudents extends Component {
                       <LoadingPulse />
                     )
                   }
-                {
+                {/* {
                     students !== null && students.size > 0 && (
                     <ListCol>
                       <TableHeader
@@ -145,7 +145,7 @@ class ListStudents extends Component {
                         </ButtonWrapper>
                     </ListCol>
                     )
-                  }
+                  } */}
 
                 {
                     students !== null && students.size === 0 && (
