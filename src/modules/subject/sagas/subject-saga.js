@@ -28,6 +28,7 @@ import {
   APPROVE_STUDENT,
   REJECT_STUDENT,
   GET_ALL_STUDENTS_APPROVE,
+  GET_STUDENTS_IN_SECTION,
 } from '../constants'
 import {
   getSubjectsAPI,
@@ -42,6 +43,7 @@ import {
 import * as http from '~/helpers/axiosWrapperPostToken'
 import * as httpPut from '~/helpers/axiosWrapperPut'
 import * as httpDel from '~/helpers/axiosWrapperDelete'
+import * as httpGet from '~/helpers/axiosWrapperGet'
 
 export function* createSubject({ payload }) {
   try {
@@ -458,6 +460,29 @@ export function* getAllStudentsApprove() {
   }
 }
 
+export function* getStudentsInSection({ payload }) {
+  try {
+    const { id } = payload
+    const token = Cookie.get('token')
+    const data = {}
+    const response = yield call(httpGet.post, {
+      url: `/api/getStudentSection/${id}`,
+      payload: {
+        token,
+        data,
+      },
+    })
+    const { error } = response
+    if (error) {
+      // yield put(subjectAction.openSectionFailure({ message: response.message || 'Error has been occured' }))
+      return
+    }
+    yield put(subjectAction.setStudentsInSection(response.data.data))
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
 export default function* authSaga() {
   yield all([
     takeLatest(CREATE_SUBJECT, createSubject),
@@ -478,5 +503,6 @@ export default function* authSaga() {
     takeLatest(APPROVE_STUDENT, approveStudent),
     takeLatest(REJECT_STUDENT, rejectStudent),
     takeLatest(GET_ALL_STUDENTS_APPROVE, getAllStudentsApprove),
+    takeLatest(GET_STUDENTS_IN_SECTION, getStudentsInSection),
   ])
 }

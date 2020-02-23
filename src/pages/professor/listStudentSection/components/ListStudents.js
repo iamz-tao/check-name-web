@@ -1,38 +1,53 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Segment } from 'semantic-ui-react'
+import NotFound from '~/components/Table/NotFound'
 
 const StudentList = (props) => {
   const {
     students,
     filter,
   } = props
-// console.log('v',students)
-  return (
+
+  const items = students.filter((s) => {
+    if (filter.keyword === '') return s
+    if (s.getIn(['std_id']).toLowerCase().includes(filter.keyword.toLowerCase())
+    || s.getIn(['firstname']).toLowerCase().includes(filter.keyword.toLowerCase())
+    || s.getIn(['lastname']).toLowerCase().includes(filter.keyword.toLowerCase())) {
+      return s
+    }
+  }).map(s => (
     <Column>
       <Wrapper>
         <Column>
-          {students.map(s => (
+          {/* {students.map(s => ( */}
             <ItemWrapper>
               <Row>
                   <UserDetailGroup>
                     <ListDetail>
                       <ItemSpan>
-                        {s.name}
+                        {s.get('std_id')}
                       </ItemSpan>
                     </ListDetail>
-                    <ListDetail>
+                    <ListDetail style={{ flex: '3' }}>
                       <ItemSpan>
-                        {s.surname}
+                        {s.get('firstname')} {s.get('lastname')}
                       </ItemSpan>
                     </ListDetail>
                   </UserDetailGroup>
               </Row>
             </ItemWrapper>
-          ))}
+          {/* ))} */}
         </Column>
       </Wrapper>
     </Column>
+  ))
+
+  if (items.length === 0) {
+    return <NotFound />
+  }
+  return (
+    items
   )
 }
 
@@ -77,7 +92,7 @@ const Column = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 14px;
+  margin-bottom: 4px;
   width: 100%;
 `
 

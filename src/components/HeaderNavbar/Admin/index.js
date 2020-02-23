@@ -150,12 +150,12 @@ const CustomMenuItem = styled(Menu.Item)`
 `
 const ItemDetail = styled.span`
   font-size: 12px;
-  color: #929598;
+  color: #5f6062;
 `
 
 const ItemHeader = styled.span`
     font-size: 1em;
     margin: 0;
-    color: #929598;
+    color: #4d4d4d;
     cursor: pointer;
 `

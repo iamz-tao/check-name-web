@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { createStructuredSelector } from 'reselect'
 import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
+import { Button } from 'antd'
 import FilterAndCriteria from './components/FilterAndCriteria'
 import StudentLists from './components/ListStudents'
 
@@ -14,17 +15,21 @@ import withLayout from '~/hocs/Layouts/withLayout'
 import { Router } from '~/routes'
 import { subjectAction } from '~/modules/subject/actions'
 import { subjectsSelector } from '~/modules/subject/selectors'
-import { yearAction } from '~/modules/admin/actions'
-import { yearSelector } from '~/modules/admin/selectors'
 
 
-const TableHeader = () => (
+const TableHeader = ({ subject_code, subject_name, section }) => (
   <Wrapper>
     <Header>
-      SUBJECT: 02204236 Test Permission
+      SUBJECT:
+      {' '}
+      {subject_code}
+      {' '}
+      {subject_name}
     </Header>
     <Header style={{ paddingBottom: '16px' }}>
-      SECTION NUMBER: 711
+      SECTION NUMBER:
+      {' '}
+      {section}
     </Header>
     <Row>
       <UserDetailGroup>
@@ -33,7 +38,7 @@ const TableHeader = () => (
             STUDENT ID
           </ItemHeader>
         </ListHeader>
-        <ListHeader>
+        <ListHeader style={{ flex: '3' }}>
           <ItemHeader>
             STUDENT NAME
           </ItemHeader>
@@ -53,17 +58,8 @@ class ListStudents extends Component {
 
   componentDidMount() {
     const { query: { id } } = Router
-    // console.log('xxxxx', id)
-  }
-
-  fetch = () => {
-    // const { filter } = this.state
-    // const { getSubjects } = this.props
-    // getSubjects({
-    //   filter: {
-    //     ...filter,
-    //   },
-    // })
+    const { getStudents } = this.props
+    getStudents({ id })
   }
 
 
@@ -75,39 +71,35 @@ class ListStudents extends Component {
         [target.name]: target.value,
       },
     }))
-    this.fetch()
   }
 
   handleResetFilter = () => {
-    // this.setState({
-    //   filter: {
-    //     user_role: [],
-    //     keyword: '',
-    //   },
-    // })
+    this.setState({
+      filter: {
+        keyword: '',
+      },
+    })
   }
 
 
   render() {
     const {
-      // students,
+      students,
     } = this.props
 
     const {
       filter,
     } = this.state
 
-    const students = [{
-      name: 'xxxxx',
-      surname: 'sssssss',
-      status: 'APPROVE',
-    },
-    {
-      name: 'xxxxx',
-      surname: 'sssssss',
-      status: 'APPROVE',
-    }]
+    let subject_code = '-'
+    let subject_name = '-'
+    let section = '-'
 
+    if (students) {
+      subject_code = students.getIn([0, 'subject_code'])
+      subject_name = students.getIn([0, 'subject_name'])
+      section = students.getIn([0, 'section_number'])
+    }
     return (
       <PageWrapper>
         <HeaderProfessor />
@@ -127,30 +119,48 @@ class ListStudents extends Component {
             >
               <Fragment>
                 <Space />
-                {/* {
+                {
                     students === null && (
                       <LoadingPulse />
                     )
-                  } */}
-                {/* {
-                    students !== null && students.size > 0 && ( */}
-                <ListCol>
-                  <TableHeader />
-                  <ListCol>
-                    <StudentLists
-                      students={students}
-                      filter={filter}
-                    />
-                  </ListCol>
-                </ListCol>
-                {/* )
-                  } */}
-
-                {/* {
-                    students !== null && students.size === 0 && (
-                      <NotFound />
+                  }
+                {
+                    students !== null && students.size > 0 && (
+                    <ListCol>
+                      <TableHeader
+                        subject_code={subject_code}
+                        subject_name={subject_name}
+                        section={section}
+                      />
+                      <ListCol>
+                        <StudentLists
+                          students={students}
+                          filter={filter}
+                        />
+                      </ListCol>
+                      <ButtonWrapper>
+                          <Button type='dashed' size='large' onClick={() => Router.push('/professor')}>
+                            BACK
+                          </Button>
+                        </ButtonWrapper>
+                    </ListCol>
                     )
-                  } */}
+                  }
+
+                {
+                    students !== null && students.size === 0 && (
+                      <div>
+                        <NotFound />
+
+                        <ButtonWrapper>
+                          <Button type='dashed' size='large' onClick={() => Router.push('/professor')}>
+                            BACK
+                          </Button>
+                        </ButtonWrapper>
+                      </div>
+                    )
+                  }
+
               </Fragment>
             </ListCol>
           </RowContainer>
@@ -161,14 +171,11 @@ class ListStudents extends Component {
 }
 
 const mapStateToProps = (state, props) => createStructuredSelector({
-//   subjects: subjectsSelector.getSubjectsProfessor,
-//   currentYear: yearSelector.getCurrentYear,
+  students: subjectsSelector.studentInSection,
 })(state, props)
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-//   getSections: subjectAction.getSubjectsProfessor,
-//   getSection: subjectAction.getSection,
-//   getCurrentYear: yearAction.getCurrentYear,
+  getStudents: subjectAction.getStudentsInSection,
 }, dispatch)
 
 export default compose(
@@ -184,6 +191,12 @@ const PageWrapper = styled.div`
     font-size: 20px;
     line-height: 1.4;
     font-family: kanit;
+  }
+
+  .ant-btn-dashed {
+    width: 86px;
+    border-radius: 24px;
+    margin-top: 16px;
   }
 `
 
@@ -265,5 +278,11 @@ const UserDetailGroup = styled.div`
   display: flex;
   color: #929598;
   font-size: 16px;
-  flex: 3;
+  flex: 2;
+`
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
 `

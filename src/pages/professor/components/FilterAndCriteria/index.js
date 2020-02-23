@@ -19,7 +19,7 @@ const FilterAndCriteria = (props) => {
     <Wrapper>
       <HeaderSection>
         <HeaderText>
-          SEAR YOUR SUBJECT
+          SEARCH SUBJECT
         </HeaderText>
         <Button type='dashed' onClick={handleResetFilter}>Reset Filter</Button>
       </HeaderSection>
