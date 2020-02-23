@@ -5,6 +5,7 @@ import { createStructuredSelector } from 'reselect'
 import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
 import { Modal, notification } from 'antd'
+import { Icon } from 'semantic-ui-react'
 import isNil from 'lodash/isNil'
 
 import FilterAndCriteria from './components/FilterAndCriteria'
@@ -13,7 +14,6 @@ import HeaderAdmin from '~/components/HeaderNavbar/Admin'
 
 import NotFound from '~/components/Table/NotFound'
 import LoadingPulse from '~/components/LoadingPulse'
-import FormButton from '~/components/Form/Button'
 
 import withLayout from '~/hocs/Layouts/withLayout'
 import { beaconAction } from '~/modules/admin/actions'
@@ -21,19 +21,29 @@ import { beaconSelector } from '~/modules/admin/selectors'
 
 const { confirm } = Modal
 
-const TableHeader = () => (
-  <Wrapper>
+const TableHeader = ({ sortItem }) => (
+  <Wrapper> 
     <Row>
       <UserDetailGroup>
         <ListHeader style={{ flex: 2 }}>
           <ItemHeader>
-           UUID
+            UUID
           </ItemHeader>
+          <Icon
+            name='sort'
+            style={{ paddingTop: '2px', cursor: 'pointer' }}
+            onClick={() => sortItem('uuid')}
+          />
         </ListHeader>
         <ListHeader>
           <ItemHeader>
             NAME
           </ItemHeader>
+          <Icon
+            name='sort'
+            style={{ paddingTop: '2px', cursor: 'pointer' }}
+            onClick={() => sortItem('name')}
+          />
         </ListHeader>
         <ListHeader>
           <ItemHeader>
@@ -48,7 +58,7 @@ const TableHeader = () => (
 
 class ListBeacons extends Component {
   state = {
-    beaconList: null,
+    allBeacon: null,
     beacon: '',
     loading: false,
     filter: {
@@ -85,6 +95,7 @@ class ListBeacons extends Component {
       filter: {
         keyword: '',
       },
+      allBeacon: null,
     })
   }
 
@@ -110,6 +121,20 @@ class ListBeacons extends Component {
     })
   }
 
+  sortItem = (sort_by) => {
+    const { beaconList } = this.props
+    let dataSort = []
+    if (sort_by === 'uuid') {
+      dataSort = beaconList.sort((a, b) => (a.get(sort_by).toUpperCase() - b.get(sort_by).toUpperCase()))
+    }
+    if (sort_by === 'name') {
+      dataSort = beaconList.sort((c, b) => c.get(sort_by).localeCompare(b.get(sort_by)))
+    }
+    this.setState({
+      allBeacon: dataSort,
+    })
+  }
+
   render() {
     const {
       beaconList,
@@ -117,6 +142,7 @@ class ListBeacons extends Component {
 
     const {
       filter,
+      allBeacon,
     } = this.state
 
     return (
@@ -130,7 +156,7 @@ class ListBeacons extends Component {
               handleResetFilter={this.handleResetFilter}
             />
           </FilterWrapper>
-          <RowContainer style={{ paddingTop: 0 }}>
+          <RowContainer style={{ paddingTop: 0, marginBottom: '24px' }}>
             <ListCol
               style={{
                 position: 'relative',
@@ -147,10 +173,12 @@ class ListBeacons extends Component {
                 {
                     beaconList !== null && beaconList.size > 0 && (
                       <ListCol>
-                        <TableHeader />
+                        <TableHeader
+                          sortItem={this.sortItem}
+                        />
                         <ListCol>
                           <BeaconsList
-                            beaconList={beaconList}
+                            beaconList={allBeacon === null ? beaconList : allBeacon}
                             filter={filter}
                             handleDeleteBeacon={this.handleDeleteBeacon}
                           />

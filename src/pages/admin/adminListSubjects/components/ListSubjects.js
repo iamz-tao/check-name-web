@@ -12,7 +12,9 @@ const SubjectsList = (props) => {
     handleModal,
   } = props
 
-  const items = subjects.filter((s) => {
+  const subjectApprove = subjects ? subjects.toJS().filter(s => s.approved_status === 'APPROVE') : []
+
+  const items = subjectApprove.filter((s) => {
     if (filter.keyword === '') return s
     if (s.subject_code.toLowerCase().includes(filter.keyword.toLowerCase())
     || s.subject_name.toLowerCase().includes(filter.keyword.toLowerCase())

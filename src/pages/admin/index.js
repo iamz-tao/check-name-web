@@ -4,6 +4,7 @@ import { createStructuredSelector } from 'reselect'
 import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
 import { Modal, notification } from 'antd'
+import { Icon } from 'semantic-ui-react'
 import Router from 'next/router'
 
 import get from 'lodash/get'
@@ -24,7 +25,11 @@ import { userSelector } from '~/modules/admin/selectors'
 
 const { confirm } = Modal
 
-const TableHeader = () => (
+// export const SortItem = () => {
+
+// }
+
+const TableHeader = ({ sortItem }) => (
   <Wrapper>
     <ButtonWrapper>
       <FormButton
@@ -44,16 +49,31 @@ const TableHeader = () => (
           <ItemHeader>
             ID
           </ItemHeader>
+          <Icon
+            name='sort'
+            style={{ paddingTop: '2px', cursor: 'pointer' }}
+            onClick={() => sortItem('id')}
+          />
         </ListHeader>
         <ListHeader style={{ flex: 2 }}>
           <ItemHeader>
             NAME
           </ItemHeader>
+          <Icon
+            name='sort'
+            style={{ paddingTop: '2px', cursor: 'pointer' }}
+            onClick={() => sortItem('firstname')}
+          />
         </ListHeader>
         <ListHeader style={{ flex: 2 }}>
           <ItemHeader>
             EMAIL
           </ItemHeader>
+          <Icon
+            name='sort'
+            style={{ paddingTop: '2px', cursor: 'pointer' }}
+            onClick={() => sortItem('email')}
+          />
         </ListHeader>
         <ListHeader style={{ justifyContent: 'center' }}>
           <ItemHeader>
@@ -68,7 +88,7 @@ const TableHeader = () => (
 
 class HomePageAdmin extends Component {
   state = {
-    users: null,
+    usersState: null,
     filter: {
       user_role: [],
       keyword: '',
@@ -80,19 +100,9 @@ class HomePageAdmin extends Component {
     if (!authToken) {
       Router.push('/login')
     }
-    const { getUsers } = this.props
+    const { getUsers, users } = this.props
     getUsers({})
   }
-
-  // fetch = () => {
-  //   const { filter } = this.state
-  //   const { getUsers } = this.props
-  //   getUsers({
-  //     filter: {
-  //       ...filter,
-  //     },
-  //   })
-  // }
 
   handleCheckboxUserType = async (e, data) => {
     const { value } = data
@@ -106,8 +116,6 @@ class HomePageAdmin extends Component {
         user_role: newUserType,
       },
     })
-
-    // this.fetch()
   }
 
   handleInputChange = async ({ target }) => {
@@ -126,6 +134,7 @@ class HomePageAdmin extends Component {
         user_role: [],
         keyword: '',
       },
+      usersState: null,
     })
   }
 
@@ -159,6 +168,20 @@ class HomePageAdmin extends Component {
     })
   }
 
+  sortItem = (sort_by) => {
+    const { users } = this.props
+    let dataSort = []
+    if (sort_by === 'id') {
+      dataSort = users.sort((a, b) => (a.get(sort_by).toUpperCase() - b.get(sort_by).toUpperCase()))
+    }
+    if (sort_by === 'email' || sort_by === 'firstname') {
+      dataSort = users.sort((c, b) => c.get(sort_by).localeCompare(b.get(sort_by)))
+    }
+    this.setState({
+      usersState: dataSort,
+    })
+  }
+
   render() {
     const {
       users,
@@ -166,6 +189,7 @@ class HomePageAdmin extends Component {
 
     const {
       filter,
+      usersState,
     } = this.state
 
     return (
@@ -180,7 +204,7 @@ class HomePageAdmin extends Component {
               handleResetFilter={this.handleResetFilter}
             />
           </FilterWrapper>
-          <RowContainer style={{ paddingTop: 0 }}>
+          <RowContainer style={{ paddingTop: 0, marginBottom: '24px'}}>
             <ListCol
               style={{
                 position: 'relative',
@@ -196,10 +220,12 @@ class HomePageAdmin extends Component {
                 {
                     users !== null && users.size > 0 && (
                       <ListCol>
-                        <TableHeader />
+                        <TableHeader
+                          sortItem={this.sortItem}
+                        />
                         <ListCol>
                           <ListUsers
-                            users={users}
+                            users={usersState === null ? users : usersState}
                             filter={filter}
                             handleDeleteUser={this.showDeleteConfirm}
                           />
