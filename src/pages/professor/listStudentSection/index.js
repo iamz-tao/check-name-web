@@ -17,34 +17,39 @@ import { subjectAction } from '~/modules/subject/actions'
 import { subjectsSelector } from '~/modules/subject/selectors'
 
 
-const TableHeader = ({ subject_code, subject_name, section }) => (
+const TableHeader = ({ students }) => (
   <Wrapper>
     <Header>
       SUBJECT:
       {' '}
-      {subject_code}
+      {students.get('subject_code')}
       {' '}
-      {subject_name}
+      {students.get('subject_name')}
     </Header>
     <Header style={{ paddingBottom: '16px' }}>
       SECTION NUMBER:
       {' '}
-      {section}
+      {students.get('section_number')}
     </Header>
-    <Row>
-      <UserDetailGroup>
-        <ListHeader>
-          <ItemHeader>
-            STUDENT ID
-          </ItemHeader>
-        </ListHeader>
-        <ListHeader style={{ flex: '3' }}>
-          <ItemHeader>
-            STUDENT NAME
-          </ItemHeader>
-        </ListHeader>
-      </UserDetailGroup>
-    </Row>
+    {
+      students.get('students').size > 0 && (
+        <Row>
+          <UserDetailGroup>
+            <ListHeader>
+              <ItemHeader>
+                STUDENT ID
+              </ItemHeader>
+            </ListHeader>
+            <ListHeader style={{ flex: '3' }}>
+              <ItemHeader>
+                STUDENT NAME
+              </ItemHeader>
+            </ListHeader>
+          </UserDetailGroup>
+        </Row>
+      )
+    }
+
   </Wrapper>
 )
 
@@ -91,15 +96,7 @@ class ListStudents extends Component {
       filter,
     } = this.state
 
-    let subject_code = '-'
-    let subject_name = '-'
-    let section = '-'
-console.log(students && students.toJS())
-    if (students) {
-      subject_code = students.getIn([0, 'subject_code'])
-      subject_name = students.getIn([0, 'subject_name'])
-      section = students.getIn([0, 'section_number'])
-    }
+    const studentInsec = students && students.get('students')
     return (
       <PageWrapper>
         <HeaderProfessor />
@@ -124,40 +121,43 @@ console.log(students && students.toJS())
                       <LoadingPulse />
                     )
                   }
-                {/* {
-                    students !== null && students.size > 0 && (
+                {
+                    students !== null && studentInsec.size > 0 && (
                     <ListCol>
                       <TableHeader
-                        subject_code={subject_code}
-                        subject_name={subject_name}
-                        section={section}
+                        students={students}
                       />
                       <ListCol>
                         <StudentLists
-                          students={students}
+                          students={studentInsec}
                           filter={filter}
                         />
                       </ListCol>
                       <ButtonWrapper>
-                          <Button type='dashed' size='large' onClick={() => Router.push('/professor')}>
-                            BACK
-                          </Button>
-                        </ButtonWrapper>
+                        <Button type='dashed' size='large' style={{ marginTop: '16px' }} onClick={() => Router.push('/professor')}>
+                          BACK
+                        </Button>
+                      </ButtonWrapper>
                     </ListCol>
                     )
-                  } */}
+                  }
 
                 {
-                    students !== null && students.size === 0 && (
-                      <div>
-                        <NotFound />
+                    students !== null && studentInsec.size === 0 && (
+                      <ListCol>
+                        <TableHeader
+                          students={students}
+                        />
+                        <NotFound
+                          message={'There\'s no student in section.'}
+                        />
 
                         <ButtonWrapper>
-                          <Button type='dashed' size='large' onClick={() => Router.push('/professor')}>
+                          <Button type='dashed' size='large' style={{ marginTop: '16px' }} onClick={() => Router.push('/professor')}>
                             BACK
                           </Button>
                         </ButtonWrapper>
-                      </div>
+                      </ListCol>
                     )
                   }
 
@@ -194,9 +194,8 @@ const PageWrapper = styled.div`
   }
 
   .ant-btn-dashed {
-    width: 86px;
+    width: 100px;
     border-radius: 24px;
-    margin-top: 16px;
   }
 `
 

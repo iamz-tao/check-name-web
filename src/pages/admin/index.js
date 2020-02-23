@@ -236,7 +236,7 @@ class HomePageAdmin extends Component {
 
                 {
                     users !== null && users.size === 0 && (
-                      <NotFound />
+                      <NotFound  message={`There's no user.`} />
                     )
                   }
               </Fragment>

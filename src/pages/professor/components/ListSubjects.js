@@ -71,7 +71,7 @@ const SubjectsList = (props) => {
   ))
 
   if (items.length === 0) {
-    return <NotFound />
+    return <NotFound message={`There's no section in this semester.`} />
   }
   return (
     items

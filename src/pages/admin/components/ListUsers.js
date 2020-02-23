@@ -94,7 +94,7 @@ const UserList = (props) => {
   ))
 
   if (items.length === 0) {
-    return <NotFound />
+    return <NotFound message={`There's no user list.`} />
   }
   return (
     items

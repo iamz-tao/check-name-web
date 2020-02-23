@@ -229,7 +229,7 @@ class HomePageAdmin extends Component {
 
                 {
                     list_year !== null && list_year.size === 0 && (
-                      <NotFound />
+                      <NotFound message={`There's no year list.`} />
                     )
                   }
               </Fragment>
