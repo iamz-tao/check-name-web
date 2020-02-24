@@ -192,6 +192,7 @@ class ListStudents extends Component {
                       </ListCol>
                     )
                   }
+
               </Fragment>
             </ListCol>
           </RowContainer>
