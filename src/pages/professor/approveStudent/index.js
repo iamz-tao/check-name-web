@@ -204,7 +204,6 @@ class ApproveStudent extends Component {
       onChange: this.onSelectChange,
     }
     const hasSelected = selectedRowKeys.length > 0
-    const waitApprove = students ? students.filter(s => s.get('status') === 'PENDING') : []
 
     return (
       <PageWrapper>
@@ -239,12 +238,13 @@ class ApproveStudent extends Component {
                     search === true && students !== null && students.size > 0 && (
                     <ListCol>
                       <ListStudent
+                        sortItem={this.sortItem}
                         start={this.start}
                         hasSelected={hasSelected}
                         loading={loading}
                         selectedRowKeys={selectedRowKeys}
                         rowSelection={rowSelection}
-                        students={waitApprove}
+                        students={allStudentsApproveState === null ? students : allStudentsApproveState}
                         allSection={allSection && allSection.toJS()}
                         handleApprove={this.handleApprove}
                         handleReject={this.handleReject}
@@ -257,7 +257,7 @@ class ApproveStudent extends Component {
                      search === false && allStudentsApprove !== null && allStudentsApprove !== undefined && allStudentsApprove.size > 0 && (
                      <ListCol>
                        <ListAllStudent
-                        sortItem={this.sortItem}
+                         sortItem={this.sortItem}
                          start={this.start}
                          hasSelected={hasSelected}
                          loading={loading}

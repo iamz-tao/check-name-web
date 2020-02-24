@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Table, Button } from 'antd'
+import { Icon } from 'semantic-ui-react'
 
 
 const ListStudent = (props) => {
@@ -16,15 +17,36 @@ const ListStudent = (props) => {
     handleReject,
     handleApprove,
     handleApproveSubjects,
+    sortItem,
   } = props
+
+  const waitApprove = students ? students.filter(s => s.get('status') === 'PENDING') : []
 
   const columns = [
     {
-      title: 'STUDENT ID',
+      title: (
+        <div>
+          STUDENT ID
+          <Icon
+            name='sort'
+            style={{ cursor: 'pointer' }}
+            onClick={() => sortItem('std_id')}
+          />
+        </div>
+      ),
       dataIndex: 'student_id',
     },
     {
-      title: 'NAME',
+      title: (
+        <div>
+          NAME
+          <Icon
+            name='sort'
+            style={{ cursor: 'pointer' }}
+            onClick={() => sortItem('firstname')}
+          />
+        </div>
+      ),
       dataIndex: 'name',
     },
     {
@@ -48,7 +70,7 @@ const ListStudent = (props) => {
   ]
   
   const data = []
-  students.toJS().map((s) => {
+  waitApprove.toJS().map((s) => {
     data.push({
       key: s.auto_id,
       student_id: s.std_id,
