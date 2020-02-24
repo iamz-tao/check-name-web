@@ -28,6 +28,7 @@ class ApproveStudent extends Component {
     search: false,
     selectedRowKeys: [],
     loading: false,
+    allStudentsApproveState: null,
   }
 
   componentDidMount() {
@@ -128,6 +129,7 @@ class ApproveStudent extends Component {
         subject: '',
       },
       search: !search,
+      allStudentsApproveState: null,
     })
     const { getAllStudentsApprove } = this.props
     getAllStudentsApprove()
@@ -167,6 +169,20 @@ class ApproveStudent extends Component {
     })
   }
 
+  sortItem = (sort_by) => {
+    const { allStudentsApprove } = this.props
+    let dataSort = []
+    if (sort_by === 'std_id' || sort_by === 'subject_code') {
+      dataSort = allStudentsApprove.sort((a, b) => (a.get(sort_by).toUpperCase() - b.get(sort_by).toUpperCase()))
+    }
+    if (sort_by === 'firstname') {
+      dataSort = allStudentsApprove.sort((c, b) => c.get(sort_by).localeCompare(b.get(sort_by)))
+    }
+    this.setState({
+      allStudentsApproveState: dataSort,
+    })
+  }
+
 
   render() {
     const {
@@ -179,6 +195,7 @@ class ApproveStudent extends Component {
     const {
       filter,
       search,
+      allStudentsApproveState,
     } = this.state
 
     const { loading, selectedRowKeys } = this.state
@@ -240,12 +257,13 @@ class ApproveStudent extends Component {
                      search === false && allStudentsApprove !== null && allStudentsApprove !== undefined && allStudentsApprove.size > 0 && (
                      <ListCol>
                        <ListAllStudent
+                        sortItem={this.sortItem}
                          start={this.start}
                          hasSelected={hasSelected}
                          loading={loading}
                          selectedRowKeys={selectedRowKeys}
                          rowSelection={rowSelection}
-                         students={allStudentsApprove}
+                         students={allStudentsApproveState === null ? allStudentsApprove : allStudentsApproveState}
                          allSection={allSection && allSection.toJS()}
                          handleApprove={this.handleApprove}
                          handleReject={this.handleReject}

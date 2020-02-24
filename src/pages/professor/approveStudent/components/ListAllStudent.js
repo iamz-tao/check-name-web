@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Table, Button } from 'antd'
+import { Icon } from 'semantic-ui-react'
 
 
 const ListAllStudents = (props) => {
@@ -16,19 +17,47 @@ const ListAllStudents = (props) => {
     handleReject,
     handleApprove,
     handleApproveSubjects,
+    sortItem,
   } = props
 
   const columns = [
     {
-      title: 'STUDENT ID',
+      title: (
+        <div>
+          STUDENT ID
+          <Icon
+            name='sort'
+            style={{ cursor: 'pointer' }}
+            onClick={() => sortItem('std_id')}
+          />
+        </div>
+      ),
       dataIndex: 'student_id',
     },
     {
-      title: 'NAME',
+      title: (
+        <div>
+          NAME
+          <Icon
+            name='sort'
+            style={{ cursor: 'pointer' }}
+            onClick={() => sortItem('firstname')}
+          />
+        </div>
+      ),
       dataIndex: 'name',
     },
     {
-      title: 'SUBJECT',
+      title: (
+        <div>
+          SUBJECT
+          <Icon
+            name='sort'
+            style={{ cursor: 'pointer' }}
+            onClick={() => sortItem('subject_code')}
+          />
+        </div>
+      ),
       dataIndex: 'subject_name',
     },
     {
@@ -143,13 +172,13 @@ const CustomClear = styled(Button)`
 const CustomApprove = styled(Button)`
   background-color: #1AB433;
   border: 0.8px solid #1AB433;
-  display: ${p => p.selectedRowKeys === 0 ? 'none': 'inline'};
+  display: ${p => (p.selectedRowKeys === 0 ? 'none' : 'inline')};
 `
 
 const CustomReject = styled(Button)`
   background-color: #CA5353;
   border: 0.8px solid #CA5353;
-  display: ${p => p.selectedRowKeys === 0 ? 'none': 'inline'};
+  display: ${p => (p.selectedRowKeys === 0 ? 'none' : 'inline')};
 `
 const Customdiv = styled.div`
 display: flex;
