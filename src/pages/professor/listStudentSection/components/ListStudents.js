@@ -21,22 +21,42 @@ const StudentList = (props) => {
       <Wrapper>
         <Column>
           {/* {students.map(s => ( */}
-            <ItemWrapper>
-              <Row>
-                  <UserDetailGroup>
-                    <ListDetail>
-                      <ItemSpan>
-                        {s.get('std_id')}
-                      </ItemSpan>
-                    </ListDetail>
-                    <ListDetail style={{ flex: '3' }}>
-                      <ItemSpan>
-                        {s.get('firstname')} {s.get('lastname')}
-                      </ItemSpan>
-                    </ListDetail>
-                  </UserDetailGroup>
-              </Row>
-            </ItemWrapper>
+          <ItemWrapper>
+            <Row>
+              <UserDetailGroup>
+                <ListDetail>
+                  <ItemSpan>
+                    {s.get('std_id')}
+                  </ItemSpan>
+                </ListDetail>
+                <ListDetail style={{ flex: '2' }}>
+                  <ItemSpan>
+                    {s.get('firstname')}
+                    {' '}
+                    {s.get('lastname')}
+                  </ItemSpan>
+                </ListDetail>
+                <ListDetail>
+                  <ItemSpan>
+                    {
+                        s.get('status') === 'DROP' && (
+                          <ItemSpan style={{ color: '#D94646' }}>
+                            DROP
+                          </ItemSpan>
+                        )
+                      }
+                    {
+                        s.get('status') === 'APPROVE' && (
+                          <ItemSpan style={{ color: '#001AFF' }}>
+                            ACTIVE
+                          </ItemSpan>
+                        )
+                      }
+                  </ItemSpan>
+                </ListDetail>
+              </UserDetailGroup>
+            </Row>
+          </ItemWrapper>
           {/* ))} */}
         </Column>
       </Wrapper>
@@ -44,7 +64,7 @@ const StudentList = (props) => {
   ))
 
   if (items.length === 0) {
-    return <NotFound message={`There's no student in section.`} />
+    return <NotFound message={'There\'s no student in section.'} />
   }
   return (
     items

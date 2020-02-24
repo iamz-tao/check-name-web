@@ -22,10 +22,10 @@ const HeaderProfessor = () => (
               <LinkButton>
                 <ItemWrapper>
                   <ItemHeader>
-                    MY SECTION
+                    MY SUBJECT
                   </ItemHeader>
                   <ItemDetail>
-                    List all Sections.
+                    List all subjects and sections.
                   </ItemDetail>
                 </ItemWrapper>
               </LinkButton>

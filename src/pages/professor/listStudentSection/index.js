@@ -4,6 +4,7 @@ import { createStructuredSelector } from 'reselect'
 import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
 import { Button } from 'antd'
+import { Icon } from 'semantic-ui-react'
 import FilterAndCriteria from './components/FilterAndCriteria'
 import StudentLists from './components/ListStudents'
 
@@ -17,7 +18,7 @@ import { subjectAction } from '~/modules/subject/actions'
 import { subjectsSelector } from '~/modules/subject/selectors'
 
 
-const TableHeader = ({ students }) => (
+const TableHeader = ({ students, sortItem }) => (
   <Wrapper>
     <Header>
       SUBJECT:
@@ -39,10 +40,25 @@ const TableHeader = ({ students }) => (
               <ItemHeader>
                 STUDENT ID
               </ItemHeader>
+              <Icon
+                name='sort'
+                style={{ paddingTop: '2px', cursor: 'pointer' }}
+                onClick={() => sortItem('std_id')}
+              />
             </ListHeader>
-            <ListHeader style={{ flex: '3' }}>
+            <ListHeader style={{ flex: '2' }}>
               <ItemHeader>
                 STUDENT NAME
+              </ItemHeader>
+              <Icon
+                name='sort'
+                style={{ paddingTop: '2px', cursor: 'pointer' }}
+                onClick={() => sortItem('firstname')}
+              />
+            </ListHeader>
+            <ListHeader>
+              <ItemHeader>
+                STATUS
               </ItemHeader>
             </ListHeader>
           </UserDetailGroup>
@@ -55,7 +71,7 @@ const TableHeader = ({ students }) => (
 
 class ListStudents extends Component {
   state = {
-    students: null,
+    studentsState: null,
     filter: {
       keyword: '',
     },
@@ -86,6 +102,20 @@ class ListStudents extends Component {
     })
   }
 
+  sortItem = (sort_by) => {
+    const { students } = this.props
+    let dataSort = []
+    if (sort_by === 'std_id') {
+      dataSort = students.get('students').sort((a, b) => (a.get(sort_by).toUpperCase() - b.get(sort_by).toUpperCase()))
+    }
+    if (sort_by === 'firstname') {
+      dataSort = students.get('students').sort((c, b) => c.get(sort_by).localeCompare(b.get(sort_by)))
+    }
+    this.setState({
+      studentsState: dataSort,
+    })
+  }
+
 
   render() {
     const {
@@ -94,6 +124,7 @@ class ListStudents extends Component {
 
     const {
       filter,
+      studentsState,
     } = this.state
 
     const studentInsec = students && students.get('students')
@@ -125,11 +156,12 @@ class ListStudents extends Component {
                     students !== null && studentInsec.size > 0 && (
                     <ListCol>
                       <TableHeader
+                        sortItem={this.sortItem}
                         students={students}
                       />
                       <ListCol>
                         <StudentLists
-                          students={studentInsec}
+                          students={studentsState === null ? studentInsec : studentsState}
                           filter={filter}
                         />
                       </ListCol>
@@ -143,7 +175,7 @@ class ListStudents extends Component {
                   }
 
                 {
-                    students !== null && studentInsec.size === 0 && (
+                     students !== null && studentInsec.size === 0 && (
                       <ListCol>
                         <TableHeader
                           students={students}
@@ -160,7 +192,6 @@ class ListStudents extends Component {
                       </ListCol>
                     )
                   }
-
               </Fragment>
             </ListCol>
           </RowContainer>
