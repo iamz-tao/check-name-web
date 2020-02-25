@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Table, Button } from 'antd'
-import NotFound from '~/components/Table/NotFound'
-
+import { Icon } from 'semantic-ui-react'
 
 const UserList = (props) => {
   const {
@@ -16,15 +15,34 @@ const UserList = (props) => {
     handleReject,
     handleApprove,
     handleApproveSubjects,
+    sortItem,
   } = props
 
   const columns = [
     {
-      title: 'SUBJECT CODE',
+      title: (
+        <div>
+          SUBJECT CODE
+          <Icon
+            name='sort'
+            style={{ cursor: 'pointer' }}
+            onClick={() => sortItem('subject_code')}
+          />
+        </div>
+      ),
       dataIndex: 'subject_code',
     },
     {
-      title: 'SUBJECT NAME',
+      title: (
+        <div>
+          SUBJECT NAME
+          <Icon
+            name='sort'
+            style={{ cursor: 'pointer' }}
+            onClick={() => sortItem('subject_name')}
+          />
+        </div>
+      ),
       dataIndex: 'subject_name',
     },
     {

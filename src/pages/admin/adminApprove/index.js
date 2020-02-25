@@ -25,6 +25,7 @@ class AdminApprove extends Component {
     },
     selectedRowKeys: [],
     loading: false,
+    subjectsState: null,
   }
 
   componentDidMount() {
@@ -107,6 +108,7 @@ class AdminApprove extends Component {
       filter: {
         keyword: '',
       },
+      subjectsState: null,
     })
   }
 
@@ -126,6 +128,20 @@ class AdminApprove extends Component {
     })
   }
 
+  sortItem = (sort_by) => {
+    const { subjects } = this.props
+    let dataSort = []
+    if (sort_by === 'subject_code') {
+      dataSort = subjects.sort((a, b) => (a.get(sort_by).toUpperCase() - b.get(sort_by).toUpperCase()))
+    }
+    if (sort_by === 'subject_name') {
+      dataSort = subjects.sort((c, b) => c.get(sort_by).localeCompare(b.get(sort_by)))
+    }
+    this.setState({
+      subjectsState: dataSort,
+    })
+  }
+
 
   render() {
     const {
@@ -134,6 +150,7 @@ class AdminApprove extends Component {
 
     const {
       filter,
+      subjectsState,
     } = this.state
     const { loading, selectedRowKeys } = this.state
     const rowSelection = {
@@ -142,8 +159,12 @@ class AdminApprove extends Component {
     }
     const hasSelected = selectedRowKeys.length > 0
     let subjectWait = {}
+    let subjectsStateWait = {}
     if (subjects) {
       subjectWait = subjects.toJS().filter(s => s.approved_status === 'PENDING')
+    }
+    if (subjectsState) {
+      subjectsStateWait = subjectsState.toJS().filter(s => s.approved_status === 'PENDING')
     }
 
     return (
@@ -176,12 +197,13 @@ class AdminApprove extends Component {
                     <ListCol>
                       <ListCol>
                         <ListSubject
+                          sortItem={this.sortItem}
                           start={this.start}
                           hasSelected={hasSelected}
                           loading={loading}
                           selectedRowKeys={selectedRowKeys}
                           rowSelection={rowSelection}
-                          subjects={subjectWait}
+                          subjects={subjectsState === null ? subjectWait : subjectsStateWait}
                           handleApprove={this.handleApprove}
                           handleReject={this.handleReject}
                           handleApproveSubjects={this.handleApproveSubjects}
