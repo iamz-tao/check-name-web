@@ -7,7 +7,7 @@ import { Icon } from 'semantic-ui-react'
 const ListStudent = (props) => {
   const {
     students,
-    // filter,
+    filter,
     // handleDeleteUser,
     hasSelected,
     start,
@@ -19,6 +19,7 @@ const ListStudent = (props) => {
     handleApproveSubjects,
     sortItem,
   } = props
+  console.log('filter>>', filter)
 
   const waitApprove = students ? students.filter(s => s.get('status') === 'PENDING') : []
 
@@ -68,7 +69,7 @@ const ListStudent = (props) => {
       ),
     },
   ]
-  
+
   const data = []
   waitApprove.toJS().map((s) => {
     data.push({
@@ -77,9 +78,18 @@ const ListStudent = (props) => {
       name: `${s.firstname} ${s.lastname}`,
       status: s.status,
       id: s.auto_id,
+      subject: `${s.subject_code} ${s.subject_name}`,
     })
   })
 
+  if (filter.section !== null) {
+    columns.splice(2, 0,
+      {
+        title: 'SUBJECT',
+        dataIndex: 'subject',
+      })
+  }
+  
   return (
     <Column>
       <Wrapper>
@@ -94,7 +104,7 @@ const ListStudent = (props) => {
                   {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
                 </span>
               </div>
-              <Customdiv style={{paddingRight: '16px'}}>
+              <Customdiv style={{ paddingRight: '16px' }}>
                 <CustomApprove type='dashed' onClick={() => handleApproveSubjects('A')} selectedRowKeys={selectedRowKeys.length}>
                   APPROVE
                 </CustomApprove>
@@ -153,16 +163,15 @@ const CustomClear = styled(Button)`
 const CustomApprove = styled(Button)`
   background-color: #1AB433;
   border: 0.8px solid #1AB433;
-  display: ${p => p.selectedRowKeys === 0 ? 'none': 'inline'};
+  display: ${p => (p.selectedRowKeys === 0 ? 'none' : 'inline')};
 `
 
 const CustomReject = styled(Button)`
   background-color: #CA5353;
   border: 0.8px solid #CA5353;
-  display: ${p => p.selectedRowKeys === 0 ? 'none': 'inline'};
+  display: ${p => (p.selectedRowKeys === 0 ? 'none' : 'inline')};
 `
 const Customdiv = styled.div`
 display: flex;
 justify-content: flex-end;
 `
-
