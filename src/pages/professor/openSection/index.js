@@ -134,8 +134,6 @@ const OpenSection = class extends React.Component {
       time_absent: absent_time,
       total_mark,
     }
-console.log('xx',currentYear.get('semester'))
-    console.log('xxx',data)
     openSection({ data })
     this.openNotificationWithIcon('success')
   }
