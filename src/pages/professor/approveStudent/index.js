@@ -238,6 +238,7 @@ class ApproveStudent extends Component {
                     search === true && students !== null && students.size > 0 && (
                     <ListCol>
                       <ListStudent
+                        filter={filter}
                         sortItem={this.sortItem}
                         start={this.start}
                         hasSelected={hasSelected}
