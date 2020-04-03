@@ -80,3 +80,14 @@ export const studentInSection = createSelector(
     }
   },
 )
+
+export const getSubjectsExport = createSelector(
+  stateSelector,
+  (state) => {
+    try {
+      return state.getIn(['professor', 'subjectsExport'], '')
+    } catch (error) {
+      return fromJS({})
+    }
+  },
+)

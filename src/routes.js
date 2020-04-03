@@ -15,6 +15,7 @@ routes
   .add('open-section', '/open-section', '/professor/openSection')
   .add('approve-student', '/approve-student', 'professor/approveStudent')
   .add('list-students-section', '/list-students-section/:id', 'professor/listStudentSection')
+  .add('export-report', '/export-report', '/professor/exportReport')
   
   // Admin
   .add('admin', '/admin', '/admin')

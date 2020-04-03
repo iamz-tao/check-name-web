@@ -53,7 +53,7 @@ const HeaderProfessor = () => (
 
       <Link
         to='/approve-student'
-        href='/approve-studentv'
+        href='/approve-student'
       >
         <CustomMenuItem
           link
@@ -62,7 +62,10 @@ const HeaderProfessor = () => (
         </CustomMenuItem>
       </Link>
 
-      <Link>
+      <Link
+      to='/export-report'
+      href='/export-report'
+      >
         <CustomMenuItem
           link
         >

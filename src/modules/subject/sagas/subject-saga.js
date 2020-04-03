@@ -29,9 +29,11 @@ import {
   REJECT_STUDENT,
   GET_ALL_STUDENTS_APPROVE,
   GET_STUDENTS_IN_SECTION,
+  GET_SUBJECTS_EXPORT,
 } from '../constants'
 import {
   getSubjectsAPI,
+  getSubjectsExportAPI,
   getSubjectsProfessorAPI,
   deleteSectionAPI,
   deleteSubjectAPI,
@@ -139,6 +141,22 @@ export function* getSubjects() {
     console.log('error', error)
   }
 }
+
+export function* getSubjectsExport() {
+  try {
+    const token = Cookie.get('token')
+    if (!isNil(token)) {
+      const { data, error } = yield getSubjectsExportAPI()
+      if (error) {
+        return
+      }
+      yield put(subjectAction.setSubjectsExport(data.data))
+    }
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
 //admin get subject
 export function* getSubject(payload) {
   try {
@@ -500,5 +518,6 @@ export default function* authSaga() {
     takeLatest(REJECT_STUDENT, rejectStudent),
     takeLatest(GET_ALL_STUDENTS_APPROVE, getAllStudentsApprove),
     takeLatest(GET_STUDENTS_IN_SECTION, getStudentsInSection),
+    takeLatest(GET_SUBJECTS_EXPORT, getSubjectsExport),
   ])
 }
