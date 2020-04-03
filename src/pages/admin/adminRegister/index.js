@@ -120,9 +120,9 @@ class RegisterPage extends Component {
           </FormHeader>
           <br />
           <Wrapper>
-            <Grid style={{ display: 'flex', alignItems: 'center' }}>
+            {/* <Grid style={{ display: 'flex', alignItems: 'center' }}>
               <Avatar icon='user' />
-            </Grid>
+            </Grid> */}
             <StyleBorder
               container
               centered
@@ -253,7 +253,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   position: relative;
   margin: 0px;
-  max-width: 100%;
+  max-width: 48vw;
   @media (max-width: 320px) {
     width: 325px;
   }
