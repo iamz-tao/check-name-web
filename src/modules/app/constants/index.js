@@ -6,5 +6,5 @@ export const USER_ROLES = {
   VA: 'vendor',
   VO: 'vendor',
   A: 'admin',
-  PROFESSOR: 'PROFESSOR',
+  PROFESSOR: 'LECTURER',
 }
