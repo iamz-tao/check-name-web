@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { bindActionCreators, compose } from 'redux'
-import {Button, Form as SemanticForm } from 'semantic-ui-react'
+import { Button, Form as SemanticForm } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { Field, reduxForm, FormSection } from 'redux-form/immutable'
 import { createStructuredSelector } from 'reselect'
@@ -25,9 +25,6 @@ import { yearSelector } from '~/modules/admin/selectors'
 
 const ExportReport = class extends React.Component {
   state = {
-    adsTypes: null,
-    allFeatures: null,
-    keyword: '',
     id: '',
     section: '',
     subject: '',
@@ -43,6 +40,14 @@ const ExportReport = class extends React.Component {
   }
 
   handleInput = (type, e) => {
+    const { change } = this.props
+    change(type, e)
+    this.setState({
+      id: e,
+    })
+  }
+
+  handleInputSection = (type, e) => {
     const { change } = this.props
     change(type, e)
   }
@@ -62,6 +67,7 @@ const ExportReport = class extends React.Component {
 
     const {
       currentYear,
+      exportReport,
     } = this.props
 
     const year = currentYear.get('year')
@@ -74,7 +80,8 @@ const ExportReport = class extends React.Component {
       section,
     }
 
-    // createSubject({ data })
+    // console.log(data)
+    exportReport({ data })
   }
 
   render() {
@@ -86,16 +93,37 @@ const ExportReport = class extends React.Component {
       // initialValues,
     } = this.props
 
+    const {
+      id,
+    } = this.state
 
     if (!currentYear || !subjects) {
       return (
         <LoadingPulse />
       )
     }
-    
-    console.log('subjects',subjects && subjects.toJS())
+
     const year = currentYear.get('year')
     const semester = currentYear.get('semester') === 'FIRST' ? 1 : currentYear.get('semester') === 'SECOND' ? 2 : 'SUMMER'
+
+    const subject = []
+    const sections = []
+    subjects.map((sub) => {
+      subject.push({
+        value: sub.getIn(['Subject', 'subject_code']),
+        text: `${sub.getIn(['Subject', 'subject_code'])} ${sub.getIn(['Subject', 'subject_name'])}`,
+      })
+    })
+
+    if (id !== '') {
+      subjects.filter(s => s.getIn(['Subject', 'subject_code']) === id).getIn([0, 'sections']).map((sec) => {
+        sections.push({
+          value: sec.getIn(['section_number']),
+          text: sec.getIn(['section_number']),
+        })
+      })
+    }
+
 
     return (
       <PageWrapper>
@@ -116,16 +144,17 @@ const ExportReport = class extends React.Component {
                             /
                             {semester}
                           </LabelWrapper>
-                          {/* <DefaultForm
+                          <DefaultForm
                             isRequired
-                            label='SUBJECT'
+                            label='SELECT SUBJECT'
+                            width='122px'
                           >
                             <Field
                               required
                               name='subject'
                               placeholder='Subject'
                               component={DropdownWithLabel}
-                              options={subjects}
+                              options={subject}
                               handleInput={this.handleInput}
                             />
                           </DefaultForm>
@@ -133,16 +162,17 @@ const ExportReport = class extends React.Component {
                           <DefaultForm
                             isRequired
                             label='SECTION NUMBER'
+                            width='122px'
                           >
                             <Field
                               required
                               name='section'
                               placeholder='Section'
                               component={DropdownWithLabel}
-                              options={subjects}
-                              handleInput={this.handleInput}
+                              options={sections}
+                              handleInput={this.handleInputSection}
                             />
-                          </DefaultForm> */}
+                          </DefaultForm>
                         </CustomFormSection>
                         <CustomButtonGroup>
                           <FormButton
@@ -189,6 +219,7 @@ const mapStateToProps = (state, props) => createStructuredSelector({
 const mapDispatchToProps = dispatch => bindActionCreators({
   getSections: subjectAction.getSubjectsExport,
   getCurrentYear: yearAction.getCurrentYear,
+  exportReport: subjectAction.exportReport,
 }, dispatch)
 
 const withForm = reduxForm({

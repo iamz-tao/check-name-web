@@ -43,6 +43,7 @@ import {
   SET_STUDENTS_IN_SECTION,
   GET_SUBJECTS_EXPORT,
   SET_SUBJECTS_EXPORT,
+  EXPORT_REPORT,
 } from '../constants'
 
 export const createSubject = payload => ({
@@ -264,4 +265,9 @@ export const getSubjectsExport = payload => ({
 export const setSubjectsExport = payload => ({
   payload,
   type: SET_SUBJECTS_EXPORT,
+})
+
+export const exportReport = payload => ({
+  payload,
+  type: EXPORT_REPORT,
 })

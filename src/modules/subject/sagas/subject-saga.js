@@ -30,6 +30,7 @@ import {
   GET_ALL_STUDENTS_APPROVE,
   GET_STUDENTS_IN_SECTION,
   GET_SUBJECTS_EXPORT,
+  EXPORT_REPORT,
 } from '../constants'
 import {
   getSubjectsAPI,
@@ -122,6 +123,34 @@ export function* openSection({ payload }) {
     }
 
     Router.replace('/professor')
+  } catch (exception) {
+    yield put(subjectAction.openSectionFailure({ message: 'Internal Error' }))
+  }
+}
+
+
+export function* exportReport({ payload }) {
+  try {
+    const {
+      year,
+      semester,
+      subject,
+      section,
+    } = payload.data
+    console.log('xxxx',section)
+    // const response = yield call(http.post, {
+    //   url: '/api/subject_register',
+    //   payload: {
+    //   },
+    // })
+
+    // const { error } = response
+    // if (error) {
+    //   yield put(subjectAction.openSectionFailure({ message: response.message || 'Error has been occured' }))
+    //   return
+    // }
+
+    // Router.replace('/export-report')
   } catch (exception) {
     yield put(subjectAction.openSectionFailure({ message: 'Internal Error' }))
   }
@@ -519,5 +548,6 @@ export default function* authSaga() {
     takeLatest(GET_ALL_STUDENTS_APPROVE, getAllStudentsApprove),
     takeLatest(GET_STUDENTS_IN_SECTION, getStudentsInSection),
     takeLatest(GET_SUBJECTS_EXPORT, getSubjectsExport),
+    takeLatest(EXPORT_REPORT, exportReport),
   ])
 }
