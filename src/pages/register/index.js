@@ -4,7 +4,7 @@ import {
   Grid,
   Form,
 } from 'semantic-ui-react'
-import { notification } from 'antd'
+import { notification, Upload, Button, Icon, Input } from 'antd'
 import styled from 'styled-components'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
@@ -15,7 +15,6 @@ import Router from 'next/router'
 import get from 'lodash/get'
 import Cookie from 'js-cookie'
 import isNil from 'lodash/isNil'
-
 import validate from './validate'
 
 import Avatar from '~/components/UploadProfile'
@@ -27,6 +26,28 @@ import LoadingPulse from '~/components/LoadingPulse'
 import renderInput from '~/components/ReduxForm/NomalInput'
 
 const FORM_NAME = 'CREATE_ACCOUNT'
+const props = {
+  action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+  transformFile(file) {
+    return new Promise((resolve) => {
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = () => {
+        const canvas = document.createElement('canvas')
+        const img = document.createElement('img')
+        img.src = reader.result
+        img.onload = () => {
+          const ctx = canvas.getContext('2d')
+          ctx.drawImage(img, 0, 0)
+          ctx.fillStyle = 'red'
+          ctx.textBaseline = 'middle'
+          ctx.fillText('Ant Design', 20, 20)
+          canvas.toBlob(resolve)
+        }
+      }
+    })
+  },
+}
 
 class RegisterPage extends Component {
   static getDerivedStateFromProps(props) {
@@ -47,6 +68,11 @@ class RegisterPage extends Component {
     return {}
   }
 
+  state = {
+    selectedFile: null,
+    imagePreviewUrl: null,
+  }
+
   componentDidMount() {
     const authToken = Cookie.get('token')
     if (!isNil(authToken)) {
@@ -64,6 +90,38 @@ class RegisterPage extends Component {
       description:
         'We will redirect to login page.',
     })
+  }
+
+  fileChangedHandler = (event) => {
+    this.setState({
+      selectedFile: event.target.files[0],
+    })
+
+    const reader = new FileReader()
+
+    reader.onloadend = () => {
+      this.setState({
+        imagePreviewUrl: reader.result,
+      })
+    }
+
+    reader.readAsDataURL(event.target.files[0])
+  }
+
+  submit = () => {
+    const fd = new FormData()
+
+    fd.append('file', this.state.selectedFile)
+
+    const request = new XMLHttpRequest()
+
+    request.onreadystatechange = function () {
+      if (this.readyState === 4 && this.status === 200) {
+        alert('Uploaded!')
+      }
+    }
+    request.open('POST', 'https://us-central1-tutorial-e6ea7.cloudfunctions.net/fileUpload', true)
+    request.send(fd)
   }
 
   handleRegister = (values) => {
@@ -103,6 +161,15 @@ class RegisterPage extends Component {
       handleSubmit,
     } = this.props
 
+    let $imagePreview = (<div className="previewText image-container">Please select an Image for Preview</div>)
+    if (this.state.imagePreviewUrl) {
+      $imagePreview = (
+        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <img src={this.state.imagePreviewUrl} alt='icon' width='300' />
+          {' '}
+        </div>
+      )
+    }
 
     if (get(getAuthenticationRegisterState, 'isFetching')) {
       return (<LoadingPulse />)
@@ -117,8 +184,34 @@ class RegisterPage extends Component {
           <br />
           <Wrapper>
             <Grid style={{ display: 'flex', alignItems: 'center' }}>
-              <Avatar />
+              <AppWrapper>
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                  {/* <Upload {...props}>
+                    <Button>
+                      <Icon type='upload' onChange={this.fileChangedHandler}/>
+                      <Input type='file' name='avatar' onChange={this.fileChangedHandler} />
+                      {' '}
+                      Upload
+                    </Button>
+                  </Upload> */}
+                  <input type='file' name='avatar' onChange={this.fileChangedHandler} />
+                  <button 
+                    style={{
+                      border: 'antiquewhite',
+                      borderRadius: '18px',
+                      width: '82px',
+                      height: '33px',
+                      cursor: 'pointer',
+                    }}
+                    type='button' 
+                    onClick={this.submit}
+                  > Upload </button>
+                </div>
+
+                { $imagePreview }
+              </AppWrapper>
             </Grid>
+
             <StyleBorder
               container
               centered
@@ -179,7 +272,7 @@ class RegisterPage extends Component {
                 />
               </StyledForm>
               <FormButton
-                disabled={ pristine || submitting }
+                disabled={pristine || submitting}
                 type='cancel'
                 txtButton='CANCEL'
                 width='50%'
@@ -245,6 +338,13 @@ const FormWrapper = styled.div`
   } 
 `
 
+const AppWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+flex-direction: column;
+`
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -255,13 +355,19 @@ const Wrapper = styled.div`
     width: 325px;
   }
 
+  .umg {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .ui.grid {
     display: flex;
     flex: 1;
     justify-content: center;
     margin: 20px;
   }
-
 
   .ui.checkbox label, .ui.checkbox input:focus~label {
     color: #666666;
