@@ -4,6 +4,8 @@ import {
   Grid,
   Form,
 } from 'semantic-ui-react'
+import { fromJS, Iterable } from 'immutable'
+
 import { notification, Upload, Button, Icon, Input } from 'antd'
 import styled from 'styled-components'
 import { createStructuredSelector } from 'reselect'
@@ -16,38 +18,20 @@ import get from 'lodash/get'
 import Cookie from 'js-cookie'
 import isNil from 'lodash/isNil'
 import validate from './validate'
+import * as cropImageUtil from '~/helpers/crop-image-utils'
+import CropImage from '~/components/CropImage'
 
+import { UPLOAD_IMAGE_PROFILE } from '~/modules/authentication/constants'
 import Avatar from '~/components/UploadProfile'
 import FormButton from '~/components/Form/Button'
 import { registerSelector } from '~/modules/authentication/selectors'
 import { registerAction } from '~/modules/authentication/actions'
+import { uploadAction } from '~/modules/upload/actions'
 
 import LoadingPulse from '~/components/LoadingPulse'
 import renderInput from '~/components/ReduxForm/NomalInput'
 
 const FORM_NAME = 'CREATE_ACCOUNT'
-const props = {
-  action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-  transformFile(file) {
-    return new Promise((resolve) => {
-      const reader = new FileReader()
-      reader.readAsDataURL(file)
-      reader.onload = () => {
-        const canvas = document.createElement('canvas')
-        const img = document.createElement('img')
-        img.src = reader.result
-        img.onload = () => {
-          const ctx = canvas.getContext('2d')
-          ctx.drawImage(img, 0, 0)
-          ctx.fillStyle = 'red'
-          ctx.textBaseline = 'middle'
-          ctx.fillText('Ant Design', 20, 20)
-          canvas.toBlob(resolve)
-        }
-      }
-    })
-  },
-}
 
 class RegisterPage extends Component {
   static getDerivedStateFromProps(props) {
@@ -71,6 +55,9 @@ class RegisterPage extends Component {
   state = {
     selectedFile: null,
     imagePreviewUrl: null,
+    imageSrc: '',
+    openCrop: false,
+
   }
 
   componentDidMount() {
@@ -94,7 +81,8 @@ class RegisterPage extends Component {
 
   fileChangedHandler = (event) => {
     this.setState({
-      selectedFile: event.target.files[0],
+      imageSrc: event.target.files[0],
+      openCrop: true,
     })
 
     const reader = new FileReader()
@@ -111,7 +99,7 @@ class RegisterPage extends Component {
   submit = () => {
     const fd = new FormData()
 
-    fd.append('file', this.state.selectedFile)
+    fd.append('file', this.state.imageSrc)
 
     const request = new XMLHttpRequest()
 
@@ -152,6 +140,12 @@ class RegisterPage extends Component {
     this.openNotificationRegisterSuccess('success')
   }
 
+  cropImage = (e) => {
+    const { uploadImage } = this.props
+    const { openCrop } = this.state
+    this.setState({ openCrop: !openCrop })
+    cropImageUtil.cropImage(e,uploadImage , UPLOAD_IMAGE_PROFILE)
+  }
 
   render() {
     const {
@@ -160,7 +154,7 @@ class RegisterPage extends Component {
       submitting,
       handleSubmit,
     } = this.props
-
+    const {imageSrc,openCrop, imagePreviewUrl} = this.state
     let $imagePreview = (<div className="previewText image-container">Please select an Image for Preview</div>)
     if (this.state.imagePreviewUrl) {
       $imagePreview = (
@@ -170,6 +164,7 @@ class RegisterPage extends Component {
         </div>
       )
     }
+     
 
     if (get(getAuthenticationRegisterState, 'isFetching')) {
       return (<LoadingPulse />)
@@ -194,6 +189,15 @@ class RegisterPage extends Component {
                       Upload
                     </Button>
                   </Upload> */}
+                  <CropImage
+          open={openCrop}
+          imageSrc={imagePreviewUrl}
+          handleOpenModal={() => this.setState({
+            openCrop: !openCrop,
+            imagePreviewUrl: '',
+          })}
+          cropImage={this.cropImage}
+        />
                   <input type='file' name='avatar' onChange={this.fileChangedHandler} />
                   <button 
                     style={{
@@ -268,7 +272,7 @@ class RegisterPage extends Component {
                   name='mobile_phone'
                   component={renderInput}
                   type='phone'
-                  placeholder='Mobile Phone'
+                  placeholder='Phone Number'
                 />
               </StyledForm>
               <FormButton
@@ -303,8 +307,15 @@ RegisterPage.propTypes = {
   getAuthenticationRegisterState: PropTypes.instanceOf(Object).isRequired,
   registerUser: PropTypes.func.isRequired,
   registerUserReset: PropTypes.func.isRequired,
+  uploadImage: PropTypes.func,
 }
 
+RegisterPage.defaultProps = {
+  initialValues: fromJS({}),
+  uploadImage: () => {
+  },
+
+}
 const mapStateToProps = (state, props) => createStructuredSelector({
   getAuthenticationRegisterState: registerSelector.getAuthenticationRegisterState,
 })(state, props)
@@ -312,6 +323,8 @@ const mapStateToProps = (state, props) => createStructuredSelector({
 const mapDispatchToProps = dispatch => bindActionCreators({
   registerUser: registerAction.registerUser,
   registerUserReset: registerAction.registerUserReset,
+  uploadImage: uploadAction.uploadImage,
+
 }, dispatch)
 
 const withForm = reduxForm({

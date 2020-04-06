@@ -28,6 +28,7 @@ const CropImage = class extends React.PureComponent {
       imageSrc,
       handleOpenModal,
     } = this.props
+    // console.log('rop>>',imageSrc)
     return (
       <Modal
         closeIcon

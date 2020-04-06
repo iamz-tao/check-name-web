@@ -22,3 +22,5 @@ export const SET_PASSWORD_REQUEST = 'authentication/set-password/SET_PASSWORD_RE
 export const SET_PASSWORD_SUCCESS = 'authentication/set-password/SET_PASSWORD_SUCCESS'
 export const CLEAR_SET_PASSWORD = 'authentication/set-password/CLEAR_SET_PASSWORD'
 export const SET_PASSWORD_FAILURE = 'authentication/set-password/SET_PASSWORD_FAILURE'
+
+export const UPLOAD_IMAGE_PROFILE = 'authentication/profile/UPLOAD_IMAGE_PROFILE'
