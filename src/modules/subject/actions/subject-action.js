@@ -41,6 +41,8 @@ import {
   REJECT_STUDENTS_SUCCESS,
   GET_STUDENTS_IN_SECTION,
   SET_STUDENTS_IN_SECTION,
+  REMOVE_STD,
+  REMOVE_STD_SUCCESS,
 } from '../constants'
 
 export const createSubject = payload => ({
@@ -252,4 +254,14 @@ export const getStudentsInSection = payload => ({
 export const setStudentsInSection = payload => ({
   payload,
   type: SET_STUDENTS_IN_SECTION,
+})
+
+export const removeStudent = payload => ({
+  payload,
+  type: REMOVE_STD,
+})
+
+export const removeStudentSuccess = payload => ({
+  payload,
+  type: REMOVE_STD_SUCCESS,
 })
