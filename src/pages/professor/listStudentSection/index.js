@@ -61,6 +61,11 @@ const TableHeader = ({ students, sortItem }) => (
                 STATUS
               </ItemHeader>
             </ListHeader>
+            <ListHeader style={{paddingLeft: 0}}>
+              <ItemHeader>
+                {/* STATUS */}
+              </ItemHeader>
+            </ListHeader>
           </UserDetailGroup>
         </Row>
       )
@@ -116,6 +121,12 @@ class ListStudents extends Component {
     })
   }
 
+  handleRemove = (id) => {
+    const { removeStd } = this.props
+    removeStd({
+      id,
+    })
+  }
 
   render() {
     const {
@@ -127,7 +138,7 @@ class ListStudents extends Component {
       studentsState,
     } = this.state
 
-    const studentInsec = students && students.get('students')
+    const studentInsec = students && students.get('students').filter(std => std.get('status') !== 'PENDING')
     return (
       <PageWrapper>
         <HeaderProfessor />
@@ -163,6 +174,7 @@ class ListStudents extends Component {
                         <StudentLists
                           students={studentsState === null ? studentInsec : studentsState}
                           filter={filter}
+                          handleRemove={this.handleRemove}
                         />
                       </ListCol>
                       <ButtonWrapper>
@@ -208,6 +220,7 @@ const mapStateToProps = (state, props) => createStructuredSelector({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getStudents: subjectAction.getStudentsInSection,
+  removeStd: subjectAction.removeStudent,
 }, dispatch)
 
 export default compose(

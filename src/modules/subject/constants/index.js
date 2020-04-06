@@ -51,3 +51,5 @@ export const SET_ALL_STUDENTS_APPROVE = 'app/subject/SET_ALL_STUDENTS_APPROVE'
 
 export const GET_STUDENTS_IN_SECTION = 'app/subject/GET_STUDENTS_IN_SECTION'
 export const SET_STUDENTS_IN_SECTION = 'app/subject/SET_STUDENTS_IN_SECTION'
+export const REMOVE_STD = 'app/subject/REMOVE_STD'
+export const REMOVE_STD_SUCCESS = 'app/subject/REMOVE_STD_SUCCESS'

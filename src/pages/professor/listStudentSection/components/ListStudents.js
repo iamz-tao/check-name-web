@@ -1,12 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Segment } from 'semantic-ui-react'
+import { Button } from 'antd'
 import NotFound from '~/components/Table/NotFound'
 
 const StudentList = (props) => {
   const {
     students,
     filter,
+    handleRemove,
   } = props
 
   const items = students.filter((s) => {
@@ -44,7 +46,7 @@ const StudentList = (props) => {
                             DROP
                           </ItemSpan>
                         )
-                      }
+                     }
                     {
                         s.get('status') === 'APPROVE' && (
                           <ItemSpan style={{ color: '#001AFF' }}>
@@ -52,6 +54,14 @@ const StudentList = (props) => {
                           </ItemSpan>
                         )
                       }
+                  </ItemSpan>
+                </ListDetail>
+                <ListDetail style={{ paddingLeft: 0 }}>
+                  <ItemSpan>
+                    {
+                        s.get('status') === 'DROP' && (
+                          <Button disabled={s.get('status') === 'APPROVE'} style={{ backgroundColor: '#1AB433', border: '0.8px solid rgb(217, 70, 70)' }} onClick={() => handleRemove(s.get('request_id'))}>REMOVE</Button>
+                        )}
                   </ItemSpan>
                 </ListDetail>
               </UserDetailGroup>
@@ -84,13 +94,16 @@ const Wrapper = styled.div`
     font-size: 13px;
     margin-right: 23px;
     border-radius: 24px;
-    background-color: #ffff !important;
+    background-color: rgb(217, 70, 70) !important;
     border: 1px solid #a2a2a2;
     box-sizing: border-box;
-    color: #1AB433 !important;
+    color: #FFFFFF !important;
     :hover {
       background-color: #ffff !important;
       color: #CA5353 !important;
+    }
+    :disabled {
+      cursor: not-allowed;
     }
   }
 `
