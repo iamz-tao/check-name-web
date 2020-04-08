@@ -189,7 +189,7 @@ class Navbar extends Component {
       lname = userProfile.get('lastname', '-')
     }
 
-    const userRole = Cookie.get('role', '')
+    const userRole = Cookie.get('role', '') === 'PROFESSOR' ? 'LECTURER' : Cookie.get('role', '')
     const isProfessor = token !== null && userRole === 'PROFESSOR'
     const isAdmin = token !== null && userRole === 'ADMIN'
     const homePath = isProfessor ? '/professor' : isAdmin ? '/admin' : '/'

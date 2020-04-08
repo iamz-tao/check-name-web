@@ -4,7 +4,11 @@ import {
   Grid,
   Form,
 } from 'semantic-ui-react'
-import { notification } from 'antd'
+import { fromJS, Iterable } from 'immutable'
+
+import {
+  notification, Upload, Button, Icon, Input,
+} from 'antd'
 import styled from 'styled-components'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
@@ -15,13 +19,17 @@ import Router from 'next/router'
 import get from 'lodash/get'
 import Cookie from 'js-cookie'
 import isNil from 'lodash/isNil'
-
 import validate from './validate'
+import * as cropImageUtil from '~/helpers/crop-image-utils'
+import CropImage from '~/components/CropImage'
 
+import * as helper from '~/helpers/normalize'
+import Dropzone from '~/components/Dropzone'
 import Avatar from '~/components/UploadProfile'
 import FormButton from '~/components/Form/Button'
 import { registerSelector } from '~/modules/authentication/selectors'
 import { registerAction } from '~/modules/authentication/actions'
+import DefaultForm from '~/components/DefaultForm'
 
 import LoadingPulse from '~/components/LoadingPulse'
 import renderInput from '~/components/ReduxForm/NomalInput'
@@ -47,12 +55,35 @@ class RegisterPage extends Component {
     return {}
   }
 
+  state = {
+    selectedFile: null,
+    imagePreviewUrl: null,
+    imageSrc: '',
+    openCrop: false,
+
+  }
+
   componentDidMount() {
     const authToken = Cookie.get('token')
     if (!isNil(authToken)) {
       Router.push('/profile')
     }
   }
+
+  handleUploadImage = (e) => {
+    this.setState({
+      openCrop: true,
+      imageSrc: e[0].preview,
+    })
+  }
+
+  cropImage = (e) => {
+    // const { uploadImage } = this.props
+    const { openCrop } = this.state
+    this.setState({ openCrop: !openCrop })
+    // cropImageUtil.cropImage(e, uploadImage, UPDATE_BUNDLE_IMAGE)
+  }
+
 
   handleInputChange = ({ target }) => {
     this.setState({ [target.name]: target.value })
@@ -64,6 +95,39 @@ class RegisterPage extends Component {
       description:
         'We will redirect to login page.',
     })
+  }
+
+  fileChangedHandler = (event) => {
+    this.setState({
+      imageSrc: event.target.files[0],
+      openCrop: true,
+    })
+
+    const reader = new FileReader()
+
+    reader.onloadend = () => {
+      this.setState({
+        imagePreviewUrl: reader.result,
+      })
+    }
+
+    reader.readAsDataURL(event.target.files[0])
+  }
+
+  submit = () => {
+    const fd = new FormData()
+
+    fd.append('file', this.state.imageSrc)
+
+    const request = new XMLHttpRequest()
+
+    request.onreadystatechange = function () {
+      if (this.readyState === 4 && this.status === 200) {
+        alert('Uploaded!')
+      }
+    }
+    request.open('POST', 'https://us-central1-tutorial-e6ea7.cloudfunctions.net/fileUpload', true)
+    request.send(fd)
   }
 
   handleRegister = (values) => {
@@ -94,7 +158,6 @@ class RegisterPage extends Component {
     this.openNotificationRegisterSuccess('success')
   }
 
-
   render() {
     const {
       getAuthenticationRegisterState,
@@ -102,6 +165,23 @@ class RegisterPage extends Component {
       submitting,
       handleSubmit,
     } = this.props
+    const {
+      openCrop,
+      imageSrc,
+      id,
+      width,
+      imagePreviewUrl,
+    } = this.state
+    // const { imageSrc, openCrop, imagePreviewUrl } = this.state
+    // let $imagePreview = (<div className='previewText image-container'>Please select an Image for Preview</div>)
+    // if (this.state.imagePreviewUrl) {
+    //   $imagePreview = (
+    //     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    //       <img src={this.state.imagePreviewUrl} alt='icon' width='300'  height='300' />
+    //       {' '}
+    //     </div>
+    //   )
+    // }
 
 
     if (get(getAuthenticationRegisterState, 'isFetching')) {
@@ -116,9 +196,55 @@ class RegisterPage extends Component {
           </FormHeader>
           <br />
           <Wrapper>
+            {/* <CropImage
+              open={openCrop}
+              imageSrc={imageSrc}
+              handleOpenModal={() => this.setState({
+                openCrop: !openCrop,
+                imageSrc: '',
+              })}
+              cropImage={this.cropImage}
+            /> */}
             <Grid style={{ display: 'flex', alignItems: 'center' }}>
-              <Avatar />
+              <AppWrapper>
+                {/* <div style={{ display: 'flex', flexDirection: 'row' }}>
+
+                  <input type='file' name='avatar' onChange={this.fileChangedHandler} />
+                  <button
+                    style={{
+                      border: 'antiquewhite',
+                      borderRadius: '18px',
+                      width: '82px',
+                      height: '33px',
+                      cursor: 'pointer',
+                    }}
+                    type='button'
+                    onClick={this.submit}
+                  >
+                    {' '}
+Upload
+                    {' '}
+                  </button>
+                </div>
+
+                { $imagePreview } */}
+
+                <DefaultForm
+                  id='images'
+                  defaultMessage='images'
+                >
+                  <StyleForm
+                    name='image_url'
+                    component={Dropzone}
+                    images={imageSrc}
+              // isLoading={isLoading}
+                    handleUploadImage={this.handleUploadImage}
+                    handleRemoveImage={this.handleRemoveImage}
+                  />
+                </DefaultForm>
+              </AppWrapper>
             </Grid>
+
             <StyleBorder
               container
               centered
@@ -175,11 +301,11 @@ class RegisterPage extends Component {
                   name='mobile_phone'
                   component={renderInput}
                   type='phone'
-                  placeholder='Mobile Phone'
+                  placeholder='Phone Number'
                 />
               </StyledForm>
               <FormButton
-                disabled={ pristine || submitting }
+                disabled={pristine || submitting}
                 type='cancel'
                 txtButton='CANCEL'
                 width='50%'
@@ -245,6 +371,17 @@ const FormWrapper = styled.div`
   } 
 `
 
+const StyleForm = styled(Field)`
+  width: 100% !important;
+`
+
+const AppWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+flex-direction: column;
+`
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -255,13 +392,19 @@ const Wrapper = styled.div`
     width: 325px;
   }
 
+  .umg {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .ui.grid {
     display: flex;
     flex: 1;
     justify-content: center;
     margin: 20px;
   }
-
 
   .ui.checkbox label, .ui.checkbox input:focus~label {
     color: #666666;

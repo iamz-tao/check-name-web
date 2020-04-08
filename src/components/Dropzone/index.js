@@ -27,75 +27,46 @@ const CustomDropzone = (field) => {
           <Label>{label}</Label>
         )
       }
-      {get(images, 'length') === 0 && (
-        <UploadImage
-          multiple
-          onDrop={e => handleUploadImage(e)}
-          isBundle={isBundle}
-        >
-          <UploadTextWrapper>
-            <FileLoading
-              open={isLoading}
-            >
-              <LoadingPulse isSmall />
-            </FileLoading>
-            <CustomIcon
-              name='cloud upload'
-              size='large'
-            />
-            &nbsp;&nbsp;
-            <UploadText>
-              <FormattedMessage
-                id='click-here-to-upload'
-                defaultMessage='Click here to upload'
-              />
-            </UploadText>
-          </UploadTextWrapper>
-        </UploadImage>
-      )}
       {get(images, 'length') > 0 && (
         <ImageWrapper isBundle={isBundle}>
-          {get(images, 'length') > 0 && (
-            images.map(file => (
-              <StyleImage>
-                <ImagePreview
-                  src={file.url}
-                  alt='preview'
-                  key={shortid.generate()}
-                />
-                <DeleteIcon
+          <StyleImage>
+            <ImagePreview
+              src={images}
+              alt='preview'
+              key={shortid.generate()}
+            />
+            {/* <DeleteIcon
                   className='trash'
-                  onClick={() => handleRemoveImage(file.url)}
-                />
-                <div className='overlay' />
-              </StyleImage>
-            ))
-          )}
-          <UploadImageSmall
-            isBundle={isBundle}
-            multiple
-            onDrop={e => handleUploadImage(e)}
-          >
-            <UploadTextSmallWrapper>
-              <FileLoading
-                open={isLoading}
-              >
-                <LoadingPulse isSmall />
-              </FileLoading>
-              <CustomIcon
-                name='cloud upload'
-                size='large'
-              />
-              <UploadText>
-                <FormattedMessage
-                  id='click-to-upload'
-                  defaultMessage='Click to upload'
-                />
-              </UploadText>
-            </UploadTextSmallWrapper>
-          </UploadImageSmall>
+                  onClick={() => handleRemoveImage(images.url)}
+                /> */}
+            <div className='overlay' />
+          </StyleImage>
         </ImageWrapper>
       )}
+      <UploadImage
+        multiple
+        onDrop={e => handleUploadImage(e)}
+        isBundle={isBundle}
+      >
+        <UploadTextWrapper>
+          <FileLoading
+            open={isLoading}
+          >
+            <LoadingPulse isSmall />
+          </FileLoading>
+          <CustomIcon
+            name='cloud upload'
+            size='large'
+          />
+            &nbsp;&nbsp;
+          <UploadText>
+            <FormattedMessage
+              id='click-here-to-upload'
+              defaultMessage='Click here to upload'
+            />
+          </UploadText>
+        </UploadTextWrapper>
+      </UploadImage>
     </FormWrapper>
   )
 }
@@ -109,6 +80,7 @@ const FormWrapper = styled(Form.Field)`
   align-self: center;
   width: 100%;
   position: relative;
+  flex-direction: column;
 `
 const Label = styled.label`
   width: 20%;
@@ -128,7 +100,7 @@ const UploadImage = styled(Dropzone)`
   height: 100px;
   width: ${props => (props.isBundle ? '100%' : '380px')};
   border: 1px solid #DADDE1;
-  border-radius: 4px;
+  border-radius: 31px;
   //margin: 0px 10px 10px 0px;
 
   @media (max-width: 700px) {
@@ -176,10 +148,11 @@ const CustomIcon = styled(Icon)`
   margin: 0px !important;
 `
 const ImagePreview = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 300px;
+  height: 300px;
   margin: 0px 0px 10px 0px;
   object-fit: cover;
+  border-radius: 32px;
 `
 const StyleImage = styled.div`
   margin-right: 10px;
@@ -223,7 +196,8 @@ const StyleImage = styled.div`
 const ImageWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: ${props => (props.isBundle ? '100%' : '380px')};
+  width: 380px;
+  justify-content: center;
 
   @media (max-width: 700px) {
     width: ${props => (props.isBundle ? '100%' : '80%')};
