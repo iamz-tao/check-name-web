@@ -6,7 +6,9 @@ import {
 } from 'semantic-ui-react'
 import { fromJS, Iterable } from 'immutable'
 
-import { notification, Upload, Button, Icon, Input } from 'antd'
+import {
+  notification, Upload, Button, Icon, Input,
+} from 'antd'
 import styled from 'styled-components'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
@@ -21,12 +23,13 @@ import validate from './validate'
 import * as cropImageUtil from '~/helpers/crop-image-utils'
 import CropImage from '~/components/CropImage'
 
-import { UPLOAD_IMAGE_PROFILE } from '~/modules/authentication/constants'
+import * as helper from '~/helpers/normalize'
+import Dropzone from '~/components/Dropzone'
 import Avatar from '~/components/UploadProfile'
 import FormButton from '~/components/Form/Button'
 import { registerSelector } from '~/modules/authentication/selectors'
 import { registerAction } from '~/modules/authentication/actions'
-import { uploadAction } from '~/modules/upload/actions'
+import DefaultForm from '~/components/DefaultForm'
 
 import LoadingPulse from '~/components/LoadingPulse'
 import renderInput from '~/components/ReduxForm/NomalInput'
@@ -66,6 +69,21 @@ class RegisterPage extends Component {
       Router.push('/profile')
     }
   }
+
+  handleUploadImage = (e) => {
+    this.setState({
+      openCrop: true,
+      imageSrc: e[0].preview,
+    })
+  }
+
+  cropImage = (e) => {
+    // const { uploadImage } = this.props
+    const { openCrop } = this.state
+    this.setState({ openCrop: !openCrop })
+    // cropImageUtil.cropImage(e, uploadImage, UPDATE_BUNDLE_IMAGE)
+  }
+
 
   handleInputChange = ({ target }) => {
     this.setState({ [target.name]: target.value })
@@ -140,13 +158,6 @@ class RegisterPage extends Component {
     this.openNotificationRegisterSuccess('success')
   }
 
-  cropImage = (e) => {
-    const { uploadImage } = this.props
-    const { openCrop } = this.state
-    this.setState({ openCrop: !openCrop })
-    cropImageUtil.cropImage(e,uploadImage , UPLOAD_IMAGE_PROFILE)
-  }
-
   render() {
     const {
       getAuthenticationRegisterState,
@@ -154,17 +165,24 @@ class RegisterPage extends Component {
       submitting,
       handleSubmit,
     } = this.props
-    const {imageSrc,openCrop, imagePreviewUrl} = this.state
-    let $imagePreview = (<div className="previewText image-container">Please select an Image for Preview</div>)
-    if (this.state.imagePreviewUrl) {
-      $imagePreview = (
-        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-          <img src={this.state.imagePreviewUrl} alt='icon' width='300' />
-          {' '}
-        </div>
-      )
-    }
-     
+    const {
+      openCrop,
+      imageSrc,
+      id,
+      width,
+      imagePreviewUrl,
+    } = this.state
+    // const { imageSrc, openCrop, imagePreviewUrl } = this.state
+    // let $imagePreview = (<div className='previewText image-container'>Please select an Image for Preview</div>)
+    // if (this.state.imagePreviewUrl) {
+    //   $imagePreview = (
+    //     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    //       <img src={this.state.imagePreviewUrl} alt='icon' width='300'  height='300' />
+    //       {' '}
+    //     </div>
+    //   )
+    // }
+
 
     if (get(getAuthenticationRegisterState, 'isFetching')) {
       return (<LoadingPulse />)
@@ -178,28 +196,21 @@ class RegisterPage extends Component {
           </FormHeader>
           <br />
           <Wrapper>
+            {/* <CropImage
+              open={openCrop}
+              imageSrc={imageSrc}
+              handleOpenModal={() => this.setState({
+                openCrop: !openCrop,
+                imageSrc: '',
+              })}
+              cropImage={this.cropImage}
+            /> */}
             <Grid style={{ display: 'flex', alignItems: 'center' }}>
               <AppWrapper>
-                <div style={{ display: 'flex', flexDirection: 'row' }}>
-                  {/* <Upload {...props}>
-                    <Button>
-                      <Icon type='upload' onChange={this.fileChangedHandler}/>
-                      <Input type='file' name='avatar' onChange={this.fileChangedHandler} />
-                      {' '}
-                      Upload
-                    </Button>
-                  </Upload> */}
-                  <CropImage
-          open={openCrop}
-          imageSrc={imagePreviewUrl}
-          handleOpenModal={() => this.setState({
-            openCrop: !openCrop,
-            imagePreviewUrl: '',
-          })}
-          cropImage={this.cropImage}
-        />
+                {/* <div style={{ display: 'flex', flexDirection: 'row' }}>
+
                   <input type='file' name='avatar' onChange={this.fileChangedHandler} />
-                  <button 
+                  <button
                     style={{
                       border: 'antiquewhite',
                       borderRadius: '18px',
@@ -207,12 +218,30 @@ class RegisterPage extends Component {
                       height: '33px',
                       cursor: 'pointer',
                     }}
-                    type='button' 
+                    type='button'
                     onClick={this.submit}
-                  > Upload </button>
+                  >
+                    {' '}
+Upload
+                    {' '}
+                  </button>
                 </div>
 
-                { $imagePreview }
+                { $imagePreview } */}
+
+                <DefaultForm
+                  id='images'
+                  defaultMessage='images'
+                >
+                  <StyleForm
+                    name='image_url'
+                    component={Dropzone}
+                    images={imageSrc}
+              // isLoading={isLoading}
+                    handleUploadImage={this.handleUploadImage}
+                    handleRemoveImage={this.handleRemoveImage}
+                  />
+                </DefaultForm>
               </AppWrapper>
             </Grid>
 
@@ -307,15 +336,8 @@ RegisterPage.propTypes = {
   getAuthenticationRegisterState: PropTypes.instanceOf(Object).isRequired,
   registerUser: PropTypes.func.isRequired,
   registerUserReset: PropTypes.func.isRequired,
-  uploadImage: PropTypes.func,
 }
 
-RegisterPage.defaultProps = {
-  initialValues: fromJS({}),
-  uploadImage: () => {
-  },
-
-}
 const mapStateToProps = (state, props) => createStructuredSelector({
   getAuthenticationRegisterState: registerSelector.getAuthenticationRegisterState,
 })(state, props)
@@ -323,8 +345,6 @@ const mapStateToProps = (state, props) => createStructuredSelector({
 const mapDispatchToProps = dispatch => bindActionCreators({
   registerUser: registerAction.registerUser,
   registerUserReset: registerAction.registerUserReset,
-  uploadImage: uploadAction.uploadImage,
-
 }, dispatch)
 
 const withForm = reduxForm({
@@ -349,6 +369,10 @@ const FormWrapper = styled.div`
     margin-top: 16px;
     margin-bottom: 16px;
   } 
+`
+
+const StyleForm = styled(Field)`
+  width: 100% !important;
 `
 
 const AppWrapper = styled.div`

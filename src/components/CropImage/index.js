@@ -62,8 +62,8 @@ const CropImage = class extends React.PureComponent {
         </Modal.Content>
         <Modal.Actions>
           <ButtonGroup>
-            <Button onClick={() => this.rotateImage(90)}>Rotate 90</Button>
-            <Button onClick={() => this.rotateImage(-90)}>Rotate -90</Button>
+            {/* <Button onClick={() => this.rotateImage(90)}>Rotate 90</Button> */}
+            {/* <Button onClick={() => this.rotateImage(-90)}>Rotate -90</Button> */}
           </ButtonGroup>
           <Button
             color='blue'
