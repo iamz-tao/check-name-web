@@ -4,7 +4,9 @@ import { Segment } from 'semantic-ui-react'
 import Router from 'next/router'
 import DeleteIcon from '~/components/DeleteIcon'
 import ListIcon from '~/components/ListIcon'
+import HistoryIcon from '~/components/HistoryIcon'
 import NotFound from '~/components/Table/NotFound'
+import {Tooltip} from 'antd'
 
 const SubjectsList = (props) => {
   const {
@@ -44,6 +46,16 @@ const SubjectsList = (props) => {
                     </ItemSpan>
                   </ListDetail>
                   <DeleteIconWrapper>
+                  <Tooltip placement="top" title={'Teach History'}>
+                    <HistoryIcon
+                      className='unordered list'
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        Router.replace(`/list-students-section/${s.get('id')}`)
+                      }}
+                    />
+                    </Tooltip>
+                    &nbsp; &nbsp;
                     <ListIcon
                       className='unordered list'
                       onClick={(e) => {
@@ -71,7 +83,7 @@ const SubjectsList = (props) => {
   ))
 
   if (items.length === 0) {
-    return <NotFound message={`There's no section in this semester.`} />
+    return <NotFound message={'There\'s no section in this semester.'} />
   }
   return (
     items
