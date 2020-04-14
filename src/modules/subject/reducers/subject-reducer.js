@@ -5,6 +5,7 @@ import {
   CREATE_SUBJECT_SUCCESS,
   CREATE_SUBJECT_FAILED,
   SET_TO_SUBJECTS,
+  SET_SUBJECTS_EXPORT,
   APPROVE_SUBJECT,
   APPROVE_SUBJECT_SUCCESS,
   REJECT_SUBJECT,
@@ -42,6 +43,7 @@ const initialState = fromJS({
     section: null,
     studentApprove: null,
     allStudentsApprove: null,
+    subjectsExport: null,
   },
   httpState: {
     isFetching: false,
@@ -78,6 +80,10 @@ export default (state = initialState, { type, payload }) => {
     case SET_TO_SUBJECTS:
       return state
         .set('subjects', fromJS(payload))
+        .set('isFetching', true)
+    case SET_SUBJECTS_EXPORT:
+      return state
+        .setIn(['professor', 'subjectsExport'], fromJS(payload))
         .set('isFetching', true)
     case APPROVE_SUBJECT:
       return state

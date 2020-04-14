@@ -22,6 +22,21 @@ export function* getSubjectsAPI() {
   })
 }
 
+export function* getSubjectsExportAPI() {
+  const token = Cookie.get('token')
+  const email = Cookie.get('email')
+  const data = {}
+
+  return yield call(http.post, {
+    url: '/api/ListSectionTeacher',
+    payload: {
+      token,
+      email,
+      data,
+    },
+  })
+}
+
 
 export function* getSubjectsProfessorAPI() {
   const token = Cookie.get('token')
