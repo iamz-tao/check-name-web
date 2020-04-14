@@ -2,95 +2,77 @@ import React from 'react'
 import styled from 'styled-components'
 import { Segment } from 'semantic-ui-react'
 import Router from 'next/router'
-import DeleteIcon from '~/components/DeleteIcon'
 import ListIcon from '~/components/ListIcon'
-import HistoryIcon from '~/components/HistoryIcon'
 import NotFound from '~/components/Table/NotFound'
-import {Tooltip} from 'antd'
 
-const SubjectsList = (props) => {
+
+const TeachHistoryList = (props) => {
   const {
-    subjects,
+    history,
     filter,
-    handleDeleteSection,
     handleModal,
+    students,
   } = props
-  const items = subjects.filter((s) => {
+  // console.log(students && students.toJS())
+  const items = history.filter((s) => {
     if (filter.keyword === '') return s
-    if (s.getIn(['Subject', 'subject_name']).toLowerCase().includes(filter.keyword.toLowerCase())
-    || s.getIn(['Subject', 'subject_code']).toLowerCase().includes(filter.keyword.toLowerCase())) {
+    if (s.getIn(['date']).toLowerCase().includes(filter.keyword.toLowerCase())
+    || s.getIn(['tiem']).toLowerCase().includes(filter.keyword.toLowerCase())) {
       return s
     }
   }).map(s => (
     <Column>
       <Wrapper>
         <Column>
-          {/* {subjects.map(s => ( */}
           <ItemWrapper>
             <Row>
-              <a onClick={() => handleModal(s.get('id'))} style={{ width: '100%', color: '#575757' }}>
+              {/* <a onClick={() => handleModal(s.get('id'))} style={{ width: '100%', color: '#575757' }}> */}
                 <UserDetailGroup>
-                  <ListDetail>
+                  <ListDetail style={{minWidth: '82px', flex: 0}}>
                     <ItemSpan>
-                      {s.getIn(['Subject', 'subject_code'])}
+                      {s.getIn(['number'])} 
                     </ItemSpan>
                   </ListDetail>
                   <ListDetail>
                     <ItemSpan>
-                      {s.getIn(['Subject', 'subject_name'])}
+                      {s.getIn(['date'])}
                     </ItemSpan>
                   </ListDetail>
                   <ListDetail style={{ minWidth: '180px' }}>
                     <ItemSpan>
-                      {s.get('section_number')}
+                      {s.get('time')}
                     </ItemSpan>
                   </ListDetail>
                   <DeleteIconWrapper>
-                  <Tooltip placement="top" title={'Teach History'}>
-                    <HistoryIcon
-                      className='unordered list'
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        Router.replace(`/list-students-section/${s.get('id')}`)
-                      }}
-                    />
-                    </Tooltip>
-                    &nbsp; &nbsp;
                     <ListIcon
                       className='unordered list'
                       onClick={(e) => {
                         e.stopPropagation()
-                        Router.replace(`/list-students-section/${s.get('id')}`)
+                        handleModal(s.get('class_id'))
                       }}
                     />
                       &nbsp; &nbsp;
-                    <DeleteIcon
-                      className='trash'
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        handleDeleteSection(s.get('id'))
-                      }}
-                    />
+                    
                   </DeleteIconWrapper>
                 </UserDetailGroup>
-              </a>
+              {/* </a> */}
             </Row>
           </ItemWrapper>
-          {/* ))} */}
         </Column>
       </Wrapper>
     </Column>
   ))
 
   if (items.length === 0) {
-    return <NotFound message={'There\'s no section in this semester.'} />
+    return <NotFound message={'There\'s no teaching history in this section.'} />
   }
   return (
     items
   )
+  
 }
 
-export default SubjectsList
+export default TeachHistoryList
 
 const Wrapper = styled.div`
   display: flex;

@@ -32,6 +32,8 @@ import {
   GET_SUBJECTS_EXPORT,
   EXPORT_REPORT,
   REMOVE_STD,
+  GET_TEACH_HISTORY,
+  GET_STD_IN_CLASS_HISTORY,
 } from '../constants'
 import {
   getSubjectsAPI,
@@ -533,12 +535,58 @@ export function* removeStudent({ payload }) {
   try {
     const token = Cookie.get('token')
     if (!isNil(token)) {
-      // const { data, error } = yield removeStudentAPI(payload.id)
-      // if (error) {
-      //   return
-      // }
+      const { data, error } = yield removeStudentAPI(payload.id)
+      if (error) {
+        return
+      }
       yield put(subjectAction.removeStudentSuccess(payload.id))
     }
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
+export function* getTeachHistory({ payload }) {
+  try {
+    const { id } = payload
+    const token = Cookie.get('token')
+    const data = {}
+    const response = yield call(httpGet.post, {
+      url: `/api/TeachHistory/${id}`,
+      payload: {
+        token,
+        data,
+      },
+    })
+    const { error } = response
+    if (error) {
+      // yield put(subjectAction.openSectionFailure({ message: response.message || 'Error has been occured' }))
+      return
+    }
+    yield put(subjectAction.setTeachHistory(response.data.data))
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
+export function* getStudentInClassHitory({ payload }) {
+  try {
+    const { id } = payload
+    const token = Cookie.get('token')
+    const data = {}
+    const response = yield call(httpGet.post, {
+      url: `/api/studentInClass/${id}`,
+      payload: {
+        token,
+        data,
+      },
+    })
+    const { error } = response
+    if (error) {
+      // yield put(subjectAction.openSectionFailure({ message: response.message || 'Error has been occured' }))
+      return
+    }
+    yield put(subjectAction.setStudentInClassHistory(response.data.data))
   } catch (error) {
     console.log('error', error)
   }
@@ -568,5 +616,7 @@ export default function* authSaga() {
     takeLatest(GET_SUBJECTS_EXPORT, getSubjectsExport),
     takeLatest(EXPORT_REPORT, exportReport),
     takeLatest(REMOVE_STD, removeStudent),
+    takeLatest(GET_TEACH_HISTORY, getTeachHistory),
+    takeLatest(GET_STD_IN_CLASS_HISTORY, getStudentInClassHitory),
   ])
 }

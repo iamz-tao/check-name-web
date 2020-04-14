@@ -32,6 +32,10 @@ import {
   REJECT_STUDENTS_SUCCESS,
   SET_STUDENTS_IN_SECTION,
   REMOVE_STD_SUCCESS,
+  GET_TEACH_HISTORY,
+  SET_TEACH_HISTORY,
+  GET_STD_IN_CLASS_HISTORY,
+  SET_STD_IN_CLASS_HISTORY,
 } from '../constants'
 
 const initialState = fromJS({
@@ -44,6 +48,10 @@ const initialState = fromJS({
     studentApprove: null,
     allStudentsApprove: null,
     subjectsExport: null,
+  },
+  history: {
+    teachingHistory: null,
+    studentsCheckInClass: null,
   },
   httpState: {
     isFetching: false,
@@ -232,6 +240,24 @@ export default (state = initialState, { type, payload }) => {
       const index = state.getIn(['studentInSection','students']).findIndex(i => i.get('request_id') === payload)
       return state
         .removeIn(['studentInSection','students', index])
+        .setIn(['httpState', 'isFetching'], false)
+    }
+    case GET_TEACH_HISTORY: {
+      return state
+        .setIn(['httpState', 'isFetching'], true)
+    }
+    case SET_TEACH_HISTORY: {
+      return state
+        .setIn(['history', 'teachingHistory'], fromJS(payload))
+        .setIn(['httpState', 'isFetching'], false)
+    }
+    case GET_STD_IN_CLASS_HISTORY: {
+      return state
+        .setIn(['httpState', 'isFetching'], true)
+    }
+    case SET_STD_IN_CLASS_HISTORY: {
+      return state
+        .setIn(['history', 'studentsCheckInClass'], fromJS(payload))
         .setIn(['httpState', 'isFetching'], false)
     }
     default:
