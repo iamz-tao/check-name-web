@@ -46,6 +46,10 @@ import {
   EXPORT_REPORT,
   REMOVE_STD,
   REMOVE_STD_SUCCESS,
+  GET_TEACH_HISTORY,
+  SET_TEACH_HISTORY,
+  GET_STD_IN_CLASS_HISTORY,
+  SET_STD_IN_CLASS_HISTORY,
 } from '../constants'
 
 export const createSubject = payload => ({
@@ -282,4 +286,24 @@ export const removeStudent = payload => ({
 export const removeStudentSuccess = payload => ({
   payload,
   type: REMOVE_STD_SUCCESS,
+})
+
+export const getTeachHistory = payload => ({
+  payload,
+  type: GET_TEACH_HISTORY,
+})
+
+export const setTeachHistory = payload => ({
+  payload,
+  type: SET_TEACH_HISTORY,
+})
+
+export const getStudentInClassHistory = payload => ({
+  payload,
+  type: GET_STD_IN_CLASS_HISTORY,
+})
+
+export const setStudentInClassHistory = payload => ({
+  payload,
+  type: SET_STD_IN_CLASS_HISTORY,
 })

@@ -91,3 +91,25 @@ export const getSubjectsExport = createSelector(
     }
   },
 )
+
+export const getTeachingHistory = createSelector(
+  stateSelector,
+  (state) => {
+    try {
+      return state.getIn(['history', 'teachingHistory'], '')
+    } catch (error) {
+      return fromJS({})
+    }
+  },
+)
+
+export const getStudentsCheckInClass = createSelector(
+  stateSelector,
+  (state) => {
+    try {
+      return state.getIn(['history', 'studentsCheckInClass'], '')
+    } catch (error) {
+      return fromJS({})
+    }
+  },
+)

@@ -63,6 +63,17 @@ const HeaderProfessor = () => (
       </Link>
 
       <Link
+      to='/teaching-history'
+      href='/teaching-history'
+      >
+        <CustomMenuItem
+          link
+        >
+          HISTORY
+        </CustomMenuItem>
+      </Link>
+
+      <Link
       to='/export-report'
       href='/export-report'
       >
@@ -72,6 +83,7 @@ const HeaderProfessor = () => (
           REPORT
         </CustomMenuItem>
       </Link>
+
     </CustomMenu>
   </HeaderWrapper>
 )
