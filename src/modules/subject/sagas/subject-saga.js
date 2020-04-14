@@ -31,6 +31,7 @@ import {
   GET_STUDENTS_IN_SECTION,
   GET_SUBJECTS_EXPORT,
   EXPORT_REPORT,
+  REMOVE_STD,
 } from '../constants'
 import {
   getSubjectsAPI,
@@ -41,6 +42,7 @@ import {
   getSubjectAPI,
   getSectionAPI,
   getAllStudentsApproveAPI,
+  removeStudentAPI,
 } from '../api'
 
 import * as http from '~/helpers/axiosWrapperPostToken'
@@ -509,7 +511,7 @@ export function* getStudentsInSection({ payload }) {
     const token = Cookie.get('token')
     const data = {}
     const response = yield call(httpGet.post, {
-      url: `/api/getStudentSection/${id}`,
+      url: `/api/ListStudentInSection/${id}`,
       payload: {
         token,
         data,
@@ -521,6 +523,22 @@ export function* getStudentsInSection({ payload }) {
       return
     }
     yield put(subjectAction.setStudentsInSection(response.data.data))
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
+
+export function* removeStudent({ payload }) {
+  try {
+    const token = Cookie.get('token')
+    if (!isNil(token)) {
+      // const { data, error } = yield removeStudentAPI(payload.id)
+      // if (error) {
+      //   return
+      // }
+      yield put(subjectAction.removeStudentSuccess(payload.id))
+    }
   } catch (error) {
     console.log('error', error)
   }
@@ -549,5 +567,6 @@ export default function* authSaga() {
     takeLatest(GET_STUDENTS_IN_SECTION, getStudentsInSection),
     takeLatest(GET_SUBJECTS_EXPORT, getSubjectsExport),
     takeLatest(EXPORT_REPORT, exportReport),
+    takeLatest(REMOVE_STD, removeStudent),
   ])
 }

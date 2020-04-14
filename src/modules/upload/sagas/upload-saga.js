@@ -21,35 +21,35 @@ export function* uploadImageWithVendor({ payload }) {
     const { updateImage, content } = payload
     const token = Cookie.get('token')
     const email = Cookie.get('email')
-    const operation = 'upload_public_file'
-    if (!isNil(token)) {
-      yield put(loadingImage({ isLoading: true }))
-      const response = yield call(http.post, {
-        url: '/spotsme_v1_beta_api',
-        payload: {
-          email,
-          token,
-          operation,
-          data: { content },
-        },
-      })
-      yield put(loadingImage({ isLoading: false }))
-      const { error } = response
+    // const operation = 'upload_public_file'
+    // if (!isNil(token)) {
+    //   yield put(loadingImage({ isLoading: true }))
+    //   const response = yield call(http.post, {
+    //     url: '/spotsme_v1_beta_api',
+    //     payload: {
+    //       email,
+    //       token,
+    //       operation,
+    //       data: { content },
+    //     },
+    //   })
+    //   yield put(loadingImage({ isLoading: false }))
+    //   const { error } = response
 
-      if (error) {
-        yield put(loginAction.handleLogout())
-        window.location.href = '/login'
-        return
-      }
+    //   if (error) {
+    //     yield put(loginAction.handleLogout())
+    //     window.location.href = '/login'
+    //     return
+    //   }
 
-      yield put({
-        type: updateImage,
-        payload: response.data.data,
-      })
-    } else {
-      yield put(loginAction.handleLogout())
-      window.location.href = '/login'
-    }
+    //   yield put({
+    //     type: updateImage,
+    //     payload: response.data.data,
+    //   })
+    // } else {
+    //   yield put(loginAction.handleLogout())
+    //   window.location.href = '/login'
+    // }
   } catch (error) {
     console.log('error', error)
   }

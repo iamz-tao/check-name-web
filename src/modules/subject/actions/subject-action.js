@@ -44,6 +44,8 @@ import {
   GET_SUBJECTS_EXPORT,
   SET_SUBJECTS_EXPORT,
   EXPORT_REPORT,
+  REMOVE_STD,
+  REMOVE_STD_SUCCESS,
 } from '../constants'
 
 export const createSubject = payload => ({
@@ -270,4 +272,14 @@ export const setSubjectsExport = payload => ({
 export const exportReport = payload => ({
   payload,
   type: EXPORT_REPORT,
+})
+
+export const removeStudent = payload => ({
+  payload,
+  type: REMOVE_STD,
+})
+
+export const removeStudentSuccess = payload => ({
+  payload,
+  type: REMOVE_STD_SUCCESS,
 })

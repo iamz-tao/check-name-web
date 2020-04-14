@@ -31,6 +31,7 @@ import {
   APPROVE_STUDENTS_SUCCESS,
   REJECT_STUDENTS_SUCCESS,
   SET_STUDENTS_IN_SECTION,
+  REMOVE_STD_SUCCESS,
 } from '../constants'
 
 const initialState = fromJS({
@@ -226,6 +227,13 @@ export default (state = initialState, { type, payload }) => {
       return state
         .set('studentInSection', fromJS(payload))
         .setIn(['httpState', 'isFetching'], false)
+
+    case REMOVE_STD_SUCCESS: {
+      const index = state.getIn(['studentInSection','students']).findIndex(i => i.get('request_id') === payload)
+      return state
+        .removeIn(['studentInSection','students', index])
+        .setIn(['httpState', 'isFetching'], false)
+    }
     default:
       return state
   }

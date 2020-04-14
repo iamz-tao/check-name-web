@@ -86,7 +86,6 @@ class ProfilePage extends Component {
       userRole,
       profile,
     } = this.props
-
     return (
       <Form onSubmit={handleSubmit(this.handleSubmitForm)}>
         <Wrapper>

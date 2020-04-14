@@ -1,6 +1,8 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Field } from 'redux-form/immutable'
+import Cookie from 'js-cookie'
+
 import {
   Grid,
 } from 'semantic-ui-react'
@@ -17,21 +19,32 @@ const UpdateProfileForm = (props) => {
   const {
     submitting,
   } = props
+  const userRole = Cookie.get('role')
   return (
     <FormWrapper>
       <br />
-      <Wrapper>
+      <Wrapper role={userRole}>
+      {
+          userRole !== 'ADMIN' && (
         <Grid style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
           <FormHeader>
             UPDATE PROFILE
           </FormHeader>
-          <Avatar />
+            <Avatar />
         </Grid>
+         )   
+        }
         <StyleBorder
           container
           centered
         >
-
+{
+  userRole === 'ADMIN' && (
+    <FormHeader>
+            UPDATE PROFILE
+          </FormHeader>
+  )
+}
           <StyledForm>
             <Field
               label='PERSONNEL ID :'
@@ -135,6 +148,9 @@ flex: 1;
 justify-content: center;
 margin: 20px;
 margin-bottom: 36px;
+${props => props.role === 'ADMIN' && css `
+  max-width: 48vw !important;
+`
 }
 
 
