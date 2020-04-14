@@ -11,13 +11,12 @@ const TeachHistoryList = (props) => {
     history,
     filter,
     handleModal,
-    students,
   } = props
   // console.log(students && students.toJS())
   const items = history.filter((s) => {
     if (filter.keyword === '') return s
-    if (s.getIn(['date']).toLowerCase().includes(filter.keyword.toLowerCase())
-    || s.getIn(['tiem']).toLowerCase().includes(filter.keyword.toLowerCase())) {
+    if (s.getIn(['date'])
+    || s.getIn(['tiem'])) {
       return s
     }
   }).map(s => (
