@@ -43,7 +43,7 @@ const FilterAndCriteria = (props) => {
     <Wrapper>
       <HeaderSection>
         <HeaderText>
-          PLEASE SELECT SUBJECT
+          SELECT SUBJECT
         </HeaderText>
         <Button type='dashed' onClick={handleResetFilter}>Reset</Button>
       </HeaderSection>
