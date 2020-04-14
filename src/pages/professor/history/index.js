@@ -3,8 +3,9 @@ import styled from 'styled-components'
 import { createStructuredSelector } from 'reselect'
 import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
-import { Modal, notification, Button, List, Typography, Divider } from 'antd'
-import { Icon } from 'semantic-ui-react'
+import {
+  Modal, Button, Table,
+} from 'antd'
 
 import FilterAndCriteria from './components/FilterAndCriteria'
 import TeachHistoryList from './components/TeachHistoryList'
@@ -14,19 +15,11 @@ import NotFound from '~/components/Table/NotFound'
 import LoadingPulse from '~/components/LoadingPulse'
 
 import withLayout from '~/hocs/Layouts/withLayout'
-import { Link } from '~/routes'
 import { subjectAction } from '~/modules/subject/actions'
 import { subjectsSelector } from '~/modules/subject/selectors'
 import { yearAction } from '~/modules/admin/actions'
 import { yearSelector } from '~/modules/admin/selectors'
 
-const data = [
-  'Racing car sprays burning fuel into crowd.',
-  'Japanese princess to wed commoner.',
-  'Australian walks 100km after outback crash.',
-  'Man charged over missing wedding girl.',
-  'Los Angeles battles huge wildfires.',
-];
 
 const TableHeader = ({ teachingHistory }) => (
   <Wrapper>
@@ -73,6 +66,7 @@ class TeachingHistory extends Component {
     loading: false,
     open: false,
     reset: true,
+    classID: '',
   }
 
   componentDidMount() {
@@ -133,6 +127,7 @@ class TeachingHistory extends Component {
     })
     this.setState({
       open: true,
+      classID: id,
     })
   }
 
@@ -148,35 +143,103 @@ class TeachingHistory extends Component {
       filter: { subjectsData, sections },
       reset,
       open,
+      classID,
     } = this.state
     // console.log(subjectsData)
     if (subjects === null) {
       return <LoadingPulse />
     }
+
+    const data = []
+    const columns = [
+      {
+        title: 'ID',
+        dataIndex: 'id',
+        key: 'id',
+      },
+      {
+        title: 'NAME',
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: 'TIME',
+        dataIndex: 'time',
+        key: 'time',
+      },
+      {
+        title: 'STATUS',
+        key: 'status',
+        render: (text, record) => (
+          <span>
+            {record.status === 'ABSENT' && (
+              <a style={{ color: '#FF0000' }}>{record.status}</a>
+            )}
+            {record.status === 'LATE' && (
+              <a style={{ color: '#0029FF' }}>{record.status}</a>
+            )}
+            {record.status === 'ONTIME' && (
+              <a>{record.status}</a>
+            )}
+          </span>
+        ),
+      },
+    ]
+
+    if (studentsCheckInClass) {
+      studentsCheckInClass.get('students').map((s, i) => {
+        data.push({
+          key: i,
+          id: s.get('id'),
+          name: `${s.get('firstname')} ${s.get('lastname')}`,
+          time: s.get('time'),
+          status: s.get('status'),
+        })
+      })
+    }
+
     return (
       <PageWrapper>
-        <Modal
-          visible={open}
-          title="List of Students"
-          onCancel={this.handleClose}
-          footer={[
-            <Button key="back" onClick={this.handleClose}>
+        {studentsCheckInClass && (
+          <Modal
+            width={900}
+            visible={open}
+            title={(
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <ItemHeaderModal>
+                  {' '}
+                  SUBJECT NAME :{' '}
+                  {teachingHistory.getIn([0, 'subject_code'])}
+                  {' '}
+                  {teachingHistory.getIn([0, 'subject_name'])}
+                </ItemHeaderModal>
+                <ItemHeaderModal>
+                  DATE : {' '}
+                  {teachingHistory.getIn([0, 'class']).filter(c => c.get('class_id') === classID).getIn([0, 'date'])}
+                </ItemHeaderModal>
+                <ItemHeaderModal>
+                  TIME :{' '}
+                  <a>{teachingHistory.getIn([0, 'class']).filter(c => c.get('class_id') === classID).getIn([0, 'time'])}</a>
+                </ItemHeaderModal>
+                <ItemHeaderModal>
+                  AMOUNT :{' '}
+                  {studentsCheckInClass.get('amount')}
+                </ItemHeaderModal>
+              </div>
+                  )}
+            onCancel={this.handleClose}
+            footer={[
+              <Button key='back' onClick={this.handleClose}>
               Close
-            </Button>,
-          ]}
-        >
-          <div>
-          <Divider orientation="left">Small Size</Divider>
-    <List
-      size="small"
-      header={<div style={{display: 'flex', flexDirection: 'row'}}><div>Header</div><div>AAAa</div></div>}
-      footer={<div>Footer</div>}
-      bordered
-      dataSource={data}
-      renderItem={item => <List.Item>{item}</List.Item>}
-    />
-          </div>
-        </Modal>
+              </Button>,
+            ]}
+          >
+            <div>
+              <Table columns={columns} pagination={{ position: 'none' }} dataSource={data} />
+            </div>
+          </Modal>
+        )}
+
         <HeaderProfessor />
         <RowContainer>
           <FilterWrapper>
@@ -264,6 +327,11 @@ const PageWrapper = styled.div`
     line-height: 1.4;
     font-family: kanit;
   }
+ 
+  /* .ant-table-thead>tr:first-child>th:first-child {
+    width: 16px;
+} */
+
 `
 
 const ItemHeader = styled.span`
@@ -338,4 +406,11 @@ const UserDetailGroup = styled.div`
   color: #929598;
   font-size: 16px;
   flex: 3;
+`
+const ItemHeaderModal = styled.span`
+  font-family: kanit;
+  font-size: 14px;
+  margin: 0;
+  color: #3d3d3d;
+  font-weight: lighter;
 `
