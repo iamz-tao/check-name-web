@@ -14,10 +14,10 @@ const YearList = (props) => {
     handleGetId,
     handleDeleteYear,
   } = props
-
   const items = list_year.filter((y) => {
+// console.log('list_year',y.get('year').toString().toLowerCase())
     if (filter.keyword === '' && filter.user_role === []) return y
-    if (y.get('year').toLowerCase().includes(filter.keyword.toLowerCase())
+    if (y.get('year').toString().toLowerCase().includes(filter.keyword.toLowerCase())
     || y.get('semester').toLowerCase().includes(filter.keyword.toLowerCase())
     ) {
       return y
