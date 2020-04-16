@@ -19,7 +19,7 @@ const ListStudent = (props) => {
     handleApproveSubjects,
     sortItem,
   } = props
-  console.log('filter>>', filter)
+  // console.log('filter>>', filter)
 
   const waitApprove = students ? students.filter(s => s.get('status') === 'PENDING') : []
 

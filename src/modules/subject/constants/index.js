@@ -64,4 +64,6 @@ export const SET_TEACH_HISTORY = 'app/subject/SET_TEACH_HISTORY'
 export const GET_STD_IN_CLASS_HISTORY = 'app/subject/GET_STD_IN_CLASS_HISTORY'
 export const SET_STD_IN_CLASS_HISTORY = 'app/subject/SET_STD_IN_CLASS_HISTORY'
 
+export const GET_LIST_SECTION_TEACHER = 'app/subject/GET_LIST_SECTION_TEACHER'
+export const SET_LIST_SECTION_TEACHER = 'app/subject/SET_LIST_SECTION_TEACHER'
 

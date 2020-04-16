@@ -36,6 +36,8 @@ import {
   SET_TEACH_HISTORY,
   GET_STD_IN_CLASS_HISTORY,
   SET_STD_IN_CLASS_HISTORY,
+  GET_LIST_SECTION_TEACHER,
+  SET_LIST_SECTION_TEACHER,
 } from '../constants'
 
 const initialState = fromJS({
@@ -48,6 +50,7 @@ const initialState = fromJS({
     studentApprove: null,
     allStudentsApprove: null,
     subjectsExport: null,
+    sectionsTeach: null,
   },
   history: {
     teachingHistory: null,
@@ -103,14 +106,16 @@ export default (state = initialState, { type, payload }) => {
         .setIn(['httpState', 'isFetching'], false)
     }
     case REJECT_SUBJECT: {
+      return state
+        .setIn(['httpState', 'isFetching'], true)
+    }
+    case REJECT_SUBJECT_SUCCESS: {
       const index = state.getIn(['subjects']).findIndex(i => i.get('id') === payload)
       return state
         .removeIn(['subjects', index])
         .setIn(['httpState', 'isFetching'], false)
     }
-    case REJECT_SUBJECT_SUCCESS:
-      return state
-        .setIn(['httpState', 'isFetching'], false)
+
     case APPROVE_SUBJECTS:
       return state
         .setIn(['httpState', 'isFetching'], true)
@@ -237,9 +242,9 @@ export default (state = initialState, { type, payload }) => {
         .setIn(['httpState', 'isFetching'], false)
 
     case REMOVE_STD_SUCCESS: {
-      const index = state.getIn(['studentInSection','students']).findIndex(i => i.get('request_id') === payload)
+      const index = state.getIn(['studentInSection', 'students']).findIndex(i => i.get('request_id') === payload)
       return state
-        .removeIn(['studentInSection','students', index])
+        .removeIn(['studentInSection', 'students', index])
         .setIn(['httpState', 'isFetching'], false)
     }
     case GET_TEACH_HISTORY: {
@@ -258,6 +263,15 @@ export default (state = initialState, { type, payload }) => {
     case SET_STD_IN_CLASS_HISTORY: {
       return state
         .setIn(['history', 'studentsCheckInClass'], fromJS(payload))
+        .setIn(['httpState', 'isFetching'], false)
+    }
+    case GET_LIST_SECTION_TEACHER: {
+      return state
+        .setIn(['httpState', 'isFetching'], true)
+    }
+    case SET_LIST_SECTION_TEACHER: {
+      return state
+        .setIn(['professor', 'sectionsTeach'], fromJS(payload))
         .setIn(['httpState', 'isFetching'], false)
     }
     default:

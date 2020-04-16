@@ -184,6 +184,8 @@ class AdminListSubjects extends Component {
       subjectsAll,
     } = this.state
 
+  //  console.log(subjects && subjects.toJS())
+
     return (
       <PageWrapper>
         <HeaderAdmin />

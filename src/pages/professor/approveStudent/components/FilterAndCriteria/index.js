@@ -39,17 +39,20 @@ const FilterAndCriteria = (props) => {
         },
       )
     })
+  }
 
-    allSection.map((s, index) => {
+  if (filter.subject !== '') {
+    allSection.filter(s => s.getIn(['Subject', 'subject_name']) === filter.subject).getIn([0, 'sections']).map((sec, index) => {
       sections.push(
         {
           key: index,
-          text: s.getIn(['section_number']),
-          value: s.getIn(['section_number']),
+          text: sec.getIn(['section_number']),
+          value: sec.getIn(['section_number']),
         },
       )
     })
   }
+
 
   return (
     <Wrapper>

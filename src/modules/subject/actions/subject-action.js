@@ -50,6 +50,8 @@ import {
   SET_TEACH_HISTORY,
   GET_STD_IN_CLASS_HISTORY,
   SET_STD_IN_CLASS_HISTORY,
+  GET_LIST_SECTION_TEACHER,
+  SET_LIST_SECTION_TEACHER,
 } from '../constants'
 
 export const createSubject = payload => ({
@@ -306,4 +308,14 @@ export const getStudentInClassHistory = payload => ({
 export const setStudentInClassHistory = payload => ({
   payload,
   type: SET_STD_IN_CLASS_HISTORY,
+})
+
+export const getListSectionsTeacher = payload => ({
+  payload,
+  type: GET_LIST_SECTION_TEACHER,
+})
+
+export const setListSectionsTeacher = payload => ({
+  payload,
+  type: SET_LIST_SECTION_TEACHER,
 })

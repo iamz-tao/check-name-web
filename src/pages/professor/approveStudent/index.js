@@ -318,14 +318,14 @@ class ApproveStudent extends Component {
 
 const mapStateToProps = (state, props) => createStructuredSelector({
   subjects: subjectsSelector.getSubjects,
-  allSection: subjectsSelector.getSubjectsProfessor,
+  allSection: subjectsSelector.getSectionsTeach,
   currentYear: yearSelector.getCurrentYear,
   students: subjectsSelector.getStudentApprove,
   allStudentsApprove: subjectsSelector.getAllStudentsApprove,
 })(state, props)
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  getSubjects: subjectAction.getSubjectsProfessor,
+  getSubjects: subjectAction.getListSectionsTeacher,
   approveStudent: subjectAction.approveStudent,
   rejectStudent: subjectAction.rejectStudent,
   getCurrentYear: yearAction.getCurrentYear,
