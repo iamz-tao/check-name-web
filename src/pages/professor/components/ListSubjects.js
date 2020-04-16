@@ -14,6 +14,7 @@ const SubjectsList = (props) => {
     filter,
     handleDeleteSection,
     handleModal,
+    handleExportModal,
   } = props
   const items = subjects.filter((s) => {
     if (filter.keyword === '') return s
@@ -51,7 +52,7 @@ const SubjectsList = (props) => {
                       className='unordered list'
                       onClick={(e) => {
                         e.stopPropagation()
-                        Router.replace(`/list-students-section/${s.get('id')}`)
+                        handleExportModal()
                       }}
                     />
                     </Tooltip>

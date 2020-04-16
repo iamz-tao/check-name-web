@@ -9,6 +9,7 @@ import { Icon } from 'semantic-ui-react'
 import FilterAndCriteria from './components/FilterAndCriteria'
 import SubjectsList from './components/ListSubjects'
 import UpdateSection from './components/updateSection'
+import ListStudentExport from './components/ListStudentExport'
 
 import HeaderProfessor from '~/components/HeaderNavbar/Professor'
 import NotFound from '~/components/Table/NotFound'
@@ -67,6 +68,7 @@ class HomePageProfessor extends Component {
     },
     addDay: false,
     open: false,
+    openExport: false,
   }
 
   componentDidMount() {
@@ -130,6 +132,13 @@ class HomePageProfessor extends Component {
     })
   }
 
+  handleExportModal = () => {
+    const { openExport } = this.state
+    this.setState({
+      openExport: !openExport,
+    })
+  }
+
   sortItem = (sort_by) => {
     const { subjects } = this.props
     let dataSort = []
@@ -154,6 +163,7 @@ class HomePageProfessor extends Component {
       filter,
       open,
       subjectsState,
+      openExport,
     } = this.state
 
     return (
@@ -161,6 +171,10 @@ class HomePageProfessor extends Component {
         <UpdateSection
           open={open}
           handleModal={this.handleModal}
+        />
+        <ListStudentExport
+          open={openExport}
+          handleClose={this.handleExportModal}
         />
         <HeaderProfessor />
         <RowContainer>
@@ -196,6 +210,7 @@ class HomePageProfessor extends Component {
                             filter={filter}
                             handleDeleteSection={this.handleDeleteSection}
                             handleModal={this.handleModal}
+                            handleExportModal={this.handleExportModal}
                           />
                         </ListCol>
                       </ListCol>
