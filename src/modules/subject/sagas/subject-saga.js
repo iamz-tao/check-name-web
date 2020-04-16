@@ -467,7 +467,7 @@ export function* rejectStudent({ payload }) {
       if (error) {
         return
       }
-
+    
       yield put(subjectAction.rejectStudentSuccess(payload.id))
     } else {
       const { id } = payload

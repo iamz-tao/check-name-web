@@ -175,7 +175,7 @@ export default (state = initialState, { type, payload }) => {
     }
     case SET_STUDENTS_SECTION: {
       return state
-        .setIn(['professor', 'studentApprove'], fromJS(payload))
+        .setIn(['professor', 'allStudentsApprove'], fromJS(payload))
         .setIn(['httpState', 'isFetching'], false)
     }
     case APPROVE_STUDENT_SUCCESS: {
@@ -185,9 +185,9 @@ export default (state = initialState, { type, payload }) => {
           .removeIn(['professor', 'allStudentsApprove', index])
           .setIn(['httpState', 'isFetching'], false)
       }
-      const index = state.getIn(['professor', 'studentApprove']).findIndex(i => i.get('auto_id') === payload.id[0])
+      const index = state.getIn(['professor', 'allStudentsApprove']).findIndex(i => i.get('auto_id') === payload.id[0])
       return state
-        .removeIn(['professor', 'studentApprove', index])
+        .removeIn(['professor', 'allStudentsApprove', index])
         .setIn(['httpState', 'isFetching'], false)
     }
     case REJECT_STUDENT_SUCCESS: {
@@ -197,9 +197,9 @@ export default (state = initialState, { type, payload }) => {
           .removeIn(['professor', 'allStudentsApprove', index])
           .setIn(['httpState', 'isFetching'], false)
       }
-      const index = state.getIn(['professor', 'studentApprove']).findIndex(i => i.get('auto_id') === payload[0])
+      const index = state.getIn(['professor', 'allStudentsApprove']).findIndex(i => i.get('auto_id') === payload[0])
       return state
-        .removeIn(['professor', 'studentApprove', index])
+        .removeIn(['professor', 'allStudentsApprove', index])
         .setIn(['httpState', 'isFetching'], false)
     }
     case SET_ALL_STUDENTS_APPROVE: {
