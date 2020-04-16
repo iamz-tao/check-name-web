@@ -177,6 +177,8 @@ class HomePageAdmin extends Component {
       list_year_state,
     } = this.state
 
+    // console.log(list_year_state)
+    // console.log('xxxxxl',list_year)
     return (
       <PageWrapper>
         <CreateYear
