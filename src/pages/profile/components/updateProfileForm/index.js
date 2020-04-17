@@ -24,27 +24,27 @@ const UpdateProfileForm = (props) => {
     <FormWrapper>
       <br />
       <Wrapper role={userRole}>
-      {
+      {/* {
           userRole !== 'ADMIN' && (
         <Grid style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
           <FormHeader>
             UPDATE PROFILE
-          </FormHeader>
-            <Avatar />
-        </Grid>
+          </FormHeader> */}
+            {/* <Avatar /> */}
+         {/* </Grid>
          )   
-        }
+        } */}
         <StyleBorder
           container
           centered
         >
-{
-  userRole === 'ADMIN' && (
+{/*{
+  userRole === 'ADMIN' && ( */}
     <FormHeader>
             UPDATE PROFILE
           </FormHeader>
-  )
-}
+  {/* )
+} */}
           <StyledForm>
             <Field
               label='PERSONNEL ID :'
@@ -148,10 +148,11 @@ flex: 1;
 justify-content: center;
 margin: 20px;
 margin-bottom: 36px;
-${props => props.role === 'ADMIN' && css `
+max-width: 48vw !important;
+/* ${props => props.role === 'ADMIN' && css `
   max-width: 48vw !important;
 `
-}
+} */
 
 
 .ui.checkbox label, .ui.checkbox input:focus~label {

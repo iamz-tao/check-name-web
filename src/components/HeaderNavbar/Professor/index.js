@@ -58,7 +58,7 @@ const HeaderProfessor = () => (
         <CustomMenuItem
           link
         >
-          NISIT APPROVE
+          STUDENT APPROVE
         </CustomMenuItem>
       </Link>
 
