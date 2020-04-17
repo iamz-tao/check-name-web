@@ -15,14 +15,11 @@ import {
 
 export function* forgetPasswordRequest({ payload }) {
   try {
-    const { email, url } = payload
-    const operation = 'forget_password'
+    const { email } = payload
     const resp = yield call(http.post, {
-      url: '/api',
+      url: '/api/forgetPassword',
       payload: {
-        operation,
         email,
-        data: { url },
       },
     })
 
@@ -30,7 +27,7 @@ export function* forgetPasswordRequest({ payload }) {
       return
     }
 
-    yield put(forgetPasswordAction.forgetPasswordSuccess())
+    yield put(forgetPasswordAction.forgetPasswordSuccess(email))
   } catch (error) {
     console.log('errrrr', error)
   }
