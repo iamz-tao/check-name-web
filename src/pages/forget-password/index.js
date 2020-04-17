@@ -13,53 +13,50 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import is from 'is_js'
+import Router from 'next/router'
+import { Modal } from 'antd'
 
 import withIntl from '~/helpers/withIntl'
-import withLayout from '~/hocs/Layouts/withLayout'
 
 import { forgetPasswordAction } from '~/modules/authentication/actions'
 import { forgetPasswordSelector } from '~/modules/authentication/selectors'
 
-// import CompleteModal from '~/hocs/Layouts/Modals/Success'
-// import * as modalAction from '~/modules/modal/actions'
+import * as modalAction from '~/modules/modal/actions'
 import LoadingPulse from '~/components/LoadingPulse'
 
 
 class SetPassword extends Component {
   state = {
     email: '',
+    open: false,
   }
 
   handleSubmit = () => {
-    const { forgetPassword, setModal } = this.props
+    const { forgetPassword } = this.props
     const { email } = this.state
-    const showModal = true
     forgetPassword({
       email,
-      url: `${window.location.origin}/set-password`,
     })
 
-    setModal({
-      showModal,
-      id: 'CompleteModal',
-      header: 'Reset Password',
-      message: {
-        msg1: 'We’ve sent reset password link to',
-        msg2: email,
-        msg3: 'please check you email before proceeding to the next step.',
-      },
-      backUrl: '/login',
-      okText: 'Back to Login',
+    this.setState({
+      open: true,
+    })
+  }
+
+  handleClose = () => {
+    this.setState({
+      open: false,
     })
   }
 
   render() {
-    const { email } = this.state
+    const { email, open } = this.state
     const { getAuthenticationForgetPasswordState } = this.props
 
     if (get(getAuthenticationForgetPasswordState, 'isFetching')) {
       return (<LoadingPulse />)
     }
+
 
     return (
       <Wrapper>
@@ -70,19 +67,13 @@ class SetPassword extends Component {
               <CardHeader>
                 <CardHeaderLeft>
                   <CardTitle>
-                    <FormattedMessage
-                      id='retrieve-password'
-                      defaultMessage='RETRIEVE PASSWORD'
-                    />
+                  RETRIEVE PASSWORD
                   </CardTitle>
                 </CardHeaderLeft>
                 <CardHeaderRight />
               </CardHeader>
               <SubtitleRow>
-                <FormattedMessage
-                  id='msg-forget-password'
-                  defaultMessage='Enter your email address and we’ll send you a link to reset your password'
-                />
+                Enter your email address and we’ll send you a link to reset your password.
               </SubtitleRow>
               <StyledForm
                 onSubmit={this.handleSubmit}
@@ -93,10 +84,7 @@ class SetPassword extends Component {
                     width={5}
                     textAlign='right'
                   >
-                    <FormattedMessage
-                      id='label-email'
-                      defaultMessage='Email'
-                    />
+                  Email
                   </FloatLeft>
                   <StyledColumn>
                     <Form.Input
@@ -120,16 +108,29 @@ class SetPassword extends Component {
                     disabled={is.email(email) === false}
                     type='submit'
                   >
-                    <FormattedMessage
-                      id='submit'
-                      defaultMessage='SUBMIT'
-                    />
+                    SUBMIT
                   </SubmitButton>
                 </StyledButton>
               </StyledForm>
             </CardInfo>
           </CustomerFormWrapper>
-          {/* <CompleteModal /> */}
+          <Modal
+            visible={open}
+            width={620}
+            title='Reset Password'
+            onCancel={this.handleClose}
+            footer={[
+              <Button key='back' onClick={() => Router.push('/login')}>
+              BACK TO LOGIN
+              </Button>,
+            ]}
+          >
+            <div>
+             We’ve sent reset password link to
+            email
+        please check your email before proceeding to the next step.
+            </div>
+          </Modal>
         </FormItem>
       </Wrapper>
     )
@@ -155,7 +156,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withIntl,
-  withLayout,
+  // withLayout,
 )(SetPassword)
 
 
@@ -167,7 +168,8 @@ const Wrapper = styled.div`
 
     .ui.form .field .ui.input input, .ui.form .fields .field .ui.input input {
       width: auto;
-      height: 32px;
+      height: 38px;
+      border-radius: 21px;
     }
 
     .ui.form.error .error.message:not(:empty) {
@@ -190,13 +192,15 @@ const FormItem = styled.div`
 // language=SCSS prefix=&{ suffix=}
 const SubmitButton = styled(Button)`
     color: #fff !important;
-    background: #F37021 !important;
+    background: #CA5353 !important;
     margin: 0 !important;
     padding-top: 15px !important;
     padding-bottom: 15px !important;
     width: 50%;
     text-transform: uppercase;
     font-family: Kanit;
+    border-radius: 2.285714rem !important;
+    width: 10em;
 `
 
 const SetPasswordRow = styled(Grid.Row)`
@@ -245,7 +249,7 @@ const CardInfo = styled.section`
     padding-bottom: 20px;
     margin-bottom: 25px;
     border: 1px solid #E1E1E1;
-    border-radius: 4px;
+    border-radius: 18px;
     box-shadow: rgba(119, 119, 119, 0.1) 0 3px 6px;
 `
 
@@ -264,7 +268,7 @@ const CardHeader = styled.header`
 const CardHeaderLeft = styled.div`
     display: flex;
     flex: 1;
-    background: #00A699;
+    background: #CA5353;
     position: absolute;
     top: 0;
     left: 20px;
@@ -304,7 +308,7 @@ const CustomerFormWrapper = styled.div`
 const FloatLeft = styled.section`
     padding-right: 10px;
     line-height: 32px;
-    width: 150px;
+    width: 52px;
     text-align: right;
     @media (max-width: 425px) {
       text-align: start;
