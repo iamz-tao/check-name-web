@@ -34,6 +34,7 @@ import {
   REMOVE_STD,
   GET_TEACH_HISTORY,
   GET_STD_IN_CLASS_HISTORY,
+  GET_LIST_SECTION_TEACHER,
 } from '../constants'
 import {
   getSubjectsAPI,
@@ -45,6 +46,7 @@ import {
   getSectionAPI,
   getAllStudentsApproveAPI,
   removeStudentAPI,
+  getListSectionTeacherAPI,
 } from '../api'
 
 import * as http from '~/helpers/axiosWrapperPostToken'
@@ -205,7 +207,6 @@ export function* getSubject(payload) {
     console.log('error', error)
   }
 }
-
 
 export function* approveSubject({ payload }) {
   try {
@@ -466,7 +467,7 @@ export function* rejectStudent({ payload }) {
       if (error) {
         return
       }
-
+    
       yield put(subjectAction.rejectStudentSuccess(payload.id))
     } else {
       const { id } = payload
@@ -491,6 +492,22 @@ export function* rejectStudent({ payload }) {
     console.log('error', error)
   }
 }
+
+export function* getListSectionsTeacher() {
+  try {
+    const token = Cookie.get('token')
+    if (!isNil(token)) {
+      const { data, error } = yield getListSectionTeacherAPI()
+      if (error) {
+        return
+      }
+      yield put(subjectAction.setListSectionsTeacher(data.data))
+    }
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
 
 export function* getAllStudentsApprove() {
   try {
@@ -618,5 +635,6 @@ export default function* authSaga() {
     takeLatest(REMOVE_STD, removeStudent),
     takeLatest(GET_TEACH_HISTORY, getTeachHistory),
     takeLatest(GET_STD_IN_CLASS_HISTORY, getStudentInClassHitory),
+    takeLatest(GET_LIST_SECTION_TEACHER, getListSectionsTeacher),
   ])
 }

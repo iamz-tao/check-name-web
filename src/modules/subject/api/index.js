@@ -51,6 +51,19 @@ export function* getSubjectsProfessorAPI() {
   })
 }
 
+export function* getListSectionTeacherAPI() {
+  const token = Cookie.get('token')
+  const data = {}
+
+  return yield call(http.post, {
+    url: '/api/ListSectionTeacher',
+    payload: {
+      token,
+      data,
+    },
+  })
+}
+
 export function* deleteSectionAPI(id) {
   const token = Cookie.get('token')
   const data = {}
