@@ -52,7 +52,7 @@ const Home = () =>
 
 
 export default compose(
-  withIntl,
+  // withIntl,
   // withLayout,
 )(Home)
 

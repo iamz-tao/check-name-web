@@ -155,7 +155,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  withIntl,
+  // withIntl,
   // withLayout,
 )(SetPassword)
 
