@@ -9,7 +9,7 @@ export const uploadImage = async (payload) => {
       //   headers: {
       //     'Content-Type': 'text/plain',
       //   },
-      //   url: `${apiEndpoint}/spotsme_v1/Upload%20API`,
+      //   url: ``,
       //   data: JSON.stringify(payload),
       // })
 
