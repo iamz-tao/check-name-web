@@ -36,37 +36,6 @@ const AdminCreateSubject = (props) => {
     <Wrapper name='createSubject'>
       <CardForm title='CREATE SUBJECT' height='fit-content'>
         <CustomFormSection name=''>
-          {/* <DefaultForm
-            isRequired
-            label='YEAR'
-            align='end'
-          >
-            <Field
-              required
-              name='year'
-              placeholder='Year'
-              component={SemanticInput}
-            />
-          </DefaultForm>
-
-          <DefaultForm
-            isRequired
-            label='SEMESTER'
-            align='end'
-          >
-            <Field
-              name='semester'
-              placeholder='Select Semester'
-              options={semesters}
-              required
-              component={DropdownWithLabel}
-              handleInput={handleInput}
-              style={{
-                width: '100%',
-              }}
-            />
-          </DefaultForm> */}
-
           <DefaultForm
             isRequired
             label='SUBJECT CODE'
