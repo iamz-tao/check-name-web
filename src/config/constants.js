@@ -10,7 +10,7 @@ module.exports = {
     },
     {
       label: 'Student',
-      value: 'NISIT',
+      value: 'STUDENT',
     },
   ],
   day: [

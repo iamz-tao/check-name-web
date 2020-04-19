@@ -16,7 +16,7 @@ import * as http from '~/helpers/axiosWrapper'
 import { loginAction } from '~/modules/authentication/actions'
 import { loadingImage } from '../actions/upload-action'
 
-export function* uploadImageWithVendor({ payload }) {
+export function* uploadImage({ payload }) {
   try {
     const { updateImage, content } = payload
     const token = Cookie.get('token')
@@ -25,7 +25,7 @@ export function* uploadImageWithVendor({ payload }) {
     // if (!isNil(token)) {
     //   yield put(loadingImage({ isLoading: true }))
     //   const response = yield call(http.post, {
-    //     url: '/spotsme_v1_beta_api',
+    //     url: '',
     //     payload: {
     //       email,
     //       token,
@@ -57,6 +57,6 @@ export function* uploadImageWithVendor({ payload }) {
 
 export default function* uploadSaga() {
   yield all([
-    takeLatest(UPLOAD_IMAGE, uploadImageWithVendor),
+    takeLatest(UPLOAD_IMAGE, uploadImage),
   ])
 }

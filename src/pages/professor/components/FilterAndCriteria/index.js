@@ -34,27 +34,6 @@ const FilterAndCriteria = (props) => {
           onChange={handleInputChange}
         />
       </SectionWrapper>
-      {/* <CustomButton>
-        <FormButton
-          isFilter
-          type='cancel'
-          txtButton='RESET'
-          width='50%'
-          onClick={() => {
-          }}
-        />
-                  &nbsp; &nbsp;
-        <FormButton
-          isFilter
-          colorButton='#CA5353'
-          type='submit'
-          txtButton='SEARCH'
-          width='50%'
-          onClick={() => {
-            fetch()
-          }}
-        />
-      </CustomButton> */}
     </Wrapper>
   )
 }

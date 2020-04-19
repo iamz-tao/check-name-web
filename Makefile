@@ -1,10 +1,10 @@
 build:
-	echo [Build] Spotme image version:$(tag)
-	docker build -t metromercespotme/spotme:$(tag) .
+	echo [Build] KU image version:$(tag)
+	docker build -t ku/attendanceku:$(tag) .
 
 push:
-	echo [Push] Spotme image version:$(tag) 
-	docker push metromercespotme/spotme:$(tag)
+	echo [Push] KU image version:$(tag) 
+	docker push ku/attendanceku:$(tag)
 
 both: 
 	make build tag=$(tag) && make push tag=$(tag)

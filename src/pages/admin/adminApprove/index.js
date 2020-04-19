@@ -114,7 +114,7 @@ class AdminApprove extends Component {
 
   openNotificationRejectSuccess = (type) => {
     notification[type]({
-      message: 'Reject Success!',
+      message: 'Reject Succeeded!',
       description:
         'Action completed successfully.',
     })
@@ -122,7 +122,7 @@ class AdminApprove extends Component {
 
   openNotificationApproveSuccess = (type) => {
     notification[type]({
-      message: 'Approve Success!',
+      message: 'Approve Succeeded!',
       description:
         'Action completed successfully.',
     })
@@ -219,7 +219,7 @@ class AdminApprove extends Component {
                       <RowContainerNotFound>
                         <NotFoundWrapper>
                           <h1>
-                            THERE&apos;S NO SUBJECT WAIT FOR APPROVE.
+                            THERE AREN&apos;T SUBJECT WAITING FOR APPROVEAL.
                           </h1>
                         </NotFoundWrapper>
                       </RowContainerNotFound>

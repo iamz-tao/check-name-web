@@ -63,7 +63,7 @@ class RegisterPage extends Component {
     notification[type]({
       message: 'Registration Successful!',
       description:
-        'Check in user lists and then return to log in.',
+        'You can check this user in list of users and then return to log in.',
     })
   }
 
