@@ -8,8 +8,8 @@ import { createStructuredSelector } from 'reselect'
 import get from 'lodash/get'
 import Cookie from 'js-cookie'
 
-import * as localeActions from '~/modules/locale/actions'
-import * as localeSelectors from '~/modules/locale/selectors'
+// import * as localeActions from '~/modules/locale/actions'
+// import * as localeSelectors from '~/modules/locale/selectors'
 
 addLocaleData([...enLocaleData, ...thLocaleData])
 export default (ComposedComponent) => {

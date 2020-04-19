@@ -213,7 +213,7 @@ const UpdateSection = class extends React.Component {
             UPDATE SECTION
           </Header>
           <LabelWrapper>
-            SUBJECT NAME :
+            SUBJECT :
             {' '}
             {section && section.getIn(['Subject', 'subject_name'])}
           </LabelWrapper>

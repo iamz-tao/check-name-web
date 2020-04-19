@@ -72,7 +72,7 @@ const TeachHistoryList = (props) => {
   ))
 
   if (items.length === 0) {
-    return <NotFound message={'There\'s no teaching history in this section.'} />
+    return <NotFound message={'There aren\'t teaching history in this section.'} />
   }
   return (
     items

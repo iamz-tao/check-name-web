@@ -37,33 +37,6 @@ const FilterAndCriteria = (props) => {
         />
       </SectionWrapper>
       <Button style={{ left: '58%' }} type='dashed' onClick={handleResetFilter}>Reset Filter</Button>
-
-      {/* <SectionWrapper>
-        <SearchText>
-          SEMESTER:
-        </SearchText>
-        <Dropdown placeholder='Select Semester' search selection options={semesters} />
-      </SectionWrapper>
-      <CustomButton>
-        <FormButton
-          isFilter
-          type='cancel'
-          txtButton='RESET'
-          width='50%'
-          onClick={() => {
-          }}
-        />
-                  &nbsp; &nbsp;
-        <FormButton
-          isFilter
-          colorButton='#CA5353'
-          type='submit'
-          txtButton='SEARCH'
-          width='50%'
-          onClick={() => {
-          }}
-        />
-      </CustomButton> */}
     </Wrapper>
   )
 }

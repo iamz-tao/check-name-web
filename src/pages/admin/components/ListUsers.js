@@ -65,7 +65,7 @@ const UserList = (props) => {
                         )
                       }
                     {
-                        user.get('role') === 'NISIT' && (
+                        user.get('role') === 'STUDENT' && (
                           <ItemSpan style={{ color: '#1AB433' }}>
                             STUDENT
                           </ItemSpan>
