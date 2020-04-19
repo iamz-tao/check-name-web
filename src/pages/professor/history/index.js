@@ -25,7 +25,7 @@ const TableHeader = ({ teachingHistory }) => (
   <Wrapper>
     <Row>
       <ItemHeader>
-      SUBJECT NAME :
+      SUBJECT :
         {' '}
         {teachingHistory.getIn([0, 'subject_code'])}
         {' '}
@@ -208,7 +208,7 @@ class TeachingHistory extends Component {
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <ItemHeaderModal>
                   {' '}
-                  SUBJECT NAME :{' '}
+                  SUBJECT :{' '}
                   {teachingHistory.getIn([0, 'subject_code'])}
                   {' '}
                   {teachingHistory.getIn([0, 'subject_name'])}

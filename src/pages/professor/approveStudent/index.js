@@ -278,7 +278,7 @@ class ApproveStudent extends Component {
                       <RowContainerNotFound>
                         <NotFoundWrapper>
                           <h1>
-                            THERE&apos;S NO STUDENT WAIT FOR APPROVE.
+                            THERE AREN&apos;T STUDENT WAITING FOR APPROVAL.
                           </h1>
                         </NotFoundWrapper>
                       </RowContainerNotFound>
