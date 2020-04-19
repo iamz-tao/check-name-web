@@ -18,14 +18,14 @@ test('should return data follow schema', () => {
   }
 
   const data = {
-    name: 'metromerce',
+    name: 'attendanceku',
     age: 2,
     status: 'active',
   }
 
   const actual = utils.validateSchema(schema, data)
   const expectData = {
-    name: 'metromerce',
+    name: 'attendanceku',
     age: 2,
   }
 
