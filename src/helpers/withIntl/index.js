@@ -52,8 +52,8 @@ export default (ComposedComponent) => {
   })
 
   const mapStateToProps = state => createStructuredSelector({
-    locale: localeSelectors.selectLocale,
-    messages: localeSelectors.selectMessages,
+    // locale: localeSelectors.selectLocale,
+    // messages: localeSelectors.selectMessages,
   })(state)
 
   PageWithIntl.propTypes = {
