@@ -140,23 +140,23 @@ export function* exportReport({ payload }) {
     const {
       year,
       semester,
-      subject,
+      subject_code,
+      subject_name,
       section,
     } = payload.data
-    console.log('xxxx',section)
-    // const response = yield call(http.post, {
-    //   url: '/api/subject_register',
-    //   payload: {
-    //   },
-    // })
+    const response = yield call(httpGet.post, {
+      url: `/api/export?year=${year}&semester=${semester}&subject_code=${subject_code}&subject_name=${subject_name}&section=${section}`,
+      payload: {
+      },
+    })
 
-    // const { error } = response
-    // if (error) {
-    //   yield put(subjectAction.openSectionFailure({ message: response.message || 'Error has been occured' }))
-    //   return
-    // }
+    const { error } = response
+    if (error) {
+      yield put(subjectAction.openSectionFailure({ message: response.message || 'Error has been occured' }))
+      return
+    }
 
-    // Router.replace('/export-report')
+    Router.replace('/export-report')
   } catch (exception) {
     yield put(subjectAction.openSectionFailure({ message: 'Internal Error' }))
   }

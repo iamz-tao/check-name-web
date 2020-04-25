@@ -68,19 +68,21 @@ const ExportReport = class extends React.Component {
     const {
       currentYear,
       exportReport,
+      subjects,
     } = this.props
 
     const year = currentYear.get('year')
-    const semester = currentYear.get('semester') === 'FIRST' ? 1 : currentYear.get('semester') === 'SECOND' ? 2 : 'SUMMER'
-
+    const semester = currentYear.get('semester')
+    const subject_name = subjects.filter(s => s.getIn(['Subject', 'subject_code']) === subject).getIn([0,'Subject','subject_name'])
     const data = {
       year,
       semester,
-      subject,
+      subject_code: subject,
+      subject_name,
       section,
     }
 
-    // console.log(data)
+    // console.log(subject_name)
     exportReport({ data })
   }
 
