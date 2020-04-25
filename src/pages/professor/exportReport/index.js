@@ -81,7 +81,6 @@ const ExportReport = class extends React.Component {
       subject_name,
       section,
     }
-
     // console.log(subject_name)
     exportReport({ data })
   }
