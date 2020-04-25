@@ -238,7 +238,7 @@ class AdminListSubjects extends Component {
 
                 {
                     subjects !== null && subjects.size === 0 && (
-                      <NotFound  message={`There's no subject.`} />
+                      <NotFound  message={`There isn't a subject.`} />
                     )
                   }
               </Fragment>
