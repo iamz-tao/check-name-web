@@ -35,7 +35,7 @@ NotFound.propTypes = {
 }
 
 NotFound.defaultProps = {
-  message: `There's no item in this list`,
+  message: 'There\'s no item in this list',
 }
 
 export default NotFound
