@@ -304,7 +304,7 @@ Upload
                 />
               </StyledForm>
               <FormButton
-                disabled={pristine || submitting}
+                // disabled={pristine || submitting}
                 type='cancel'
                 txtButton='CANCEL'
                 width='50%'
