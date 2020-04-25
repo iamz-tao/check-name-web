@@ -60,6 +60,7 @@ const ExportReport = class extends React.Component {
   }
 
   submitForm = (values) => {
+    console.log("OOPOPOPO")
     const {
       subject,
       section,
@@ -81,7 +82,6 @@ const ExportReport = class extends React.Component {
       subject_name,
       section,
     }
-
     // console.log(subject_name)
     exportReport({ data })
   }
