@@ -15,7 +15,7 @@ const YearList = (props) => {
     handleDeleteYear,
   } = props
   const items = list_year.filter((y) => {
-// console.log('list_year',y.get('year').toString().toLowerCase())
+    // console.log('list_year',y.get('year').toString().toLowerCase())
     if (filter.keyword === '' && filter.user_role === []) return y
     if (y.get('year').toString().toLowerCase().includes(filter.keyword.toLowerCase())
     || y.get('semester').toLowerCase().includes(filter.keyword.toLowerCase())
@@ -27,60 +27,60 @@ const YearList = (props) => {
       <Wrapper>
         <Column>
           {/* {list_year.map(y => ( */}
-            <ItemWrapper>
-              <Row>
-                <UserDetailGroup>
-                  <ListDetail>
-                    <ItemSpan>
-                      {y.get('year')}
-                    </ItemSpan>
-                  </ListDetail>
-                  <ListDetail>
-                    <ItemSpan>
-                      {y.get('semester')}
-                    </ItemSpan>
-                  </ListDetail>
-                  <ListDetail>
-                    <ItemSpan>
-                      {
+          <ItemWrapper>
+            <Row>
+              <UserDetailGroup>
+                <ListDetail>
+                  <ItemSpan>
+                    {y.get('year')}
+                  </ItemSpan>
+                </ListDetail>
+                <ListDetail>
+                  <ItemSpan>
+                    {y.get('semester')}
+                  </ItemSpan>
+                </ListDetail>
+                <ListDetail>
+                  <ItemSpan>
+                    {
                         y.get('status') === 'DISABLE' && (
                           <ItemSpan style={{ color: '#D94646' }}>
                             DISABLE
                           </ItemSpan>
                         )
                       }
-                      {
+                    {
                         y.get('status') === 'ACTIVE' && (
                           <ItemSpan style={{ color: '#001AFF' }}>
                             ACTIVE
                           </ItemSpan>
                         )
                       }
-                    </ItemSpan>
-                  </ListDetail>
-                  <ListDetail style={{ textAlign: 'right' }}>
-                    <Switch defaultChecked={y.get('status') === 'ACTIVE'} checked={y.get('status') === 'ACTIVE'} onClick={() => handleGetId(y.get('id'))} />
-                  </ListDetail>
-                </UserDetailGroup>
-                <DeleteWrapper>
-                  <DeleteIcon
-                    className='trash'
-                    onClick={(e) => {
-                      e.preventDefault()
-                      handleDeleteYear(y.get('id'))
-                    }}
-                  />
-                </DeleteWrapper>
-              </Row>
-            </ItemWrapper>
+                  </ItemSpan>
+                </ListDetail>
+                <ListDetail style={{ textAlign: 'right' }}>
+                  <Switch defaultChecked={y.get('status') === 'ACTIVE'} checked={y.get('status') === 'ACTIVE'} onClick={() => handleGetId(y.get('id'))} />
+                </ListDetail>
+              </UserDetailGroup>
+              <DeleteWrapper>
+                <DeleteIcon
+                  className='trash'
+                  onClick={(e) => {
+                    e.preventDefault()
+                    handleDeleteYear(y.get('id'))
+                  }}
+                />
+              </DeleteWrapper>
+            </Row>
+          </ItemWrapper>
           {/* ))} */}
         </Column>
       </Wrapper>
     </Column>
   ))
 
-  if (items.length === 0) {
-    return <NotFound message={`There aren't year in list.`} />
+  if (items.size === 0) {
+    return <NotFound message={'There isn\'t a year in list.'} />
   }
   return (
     items

@@ -184,7 +184,7 @@ class AdminListSubjects extends Component {
       subjectsAll,
     } = this.state
 
-  //  console.log(subjects && subjects.toJS())
+    //  console.log(subjects && subjects.toJS())
 
     return (
       <PageWrapper>
@@ -238,7 +238,7 @@ class AdminListSubjects extends Component {
 
                 {
                     subjects !== null && subjects.size === 0 && (
-                      <NotFound  message={`There isn't a subject.`} />
+                      <NotFound message={'There isn\'t a subject.'} />
                     )
                   }
               </Fragment>

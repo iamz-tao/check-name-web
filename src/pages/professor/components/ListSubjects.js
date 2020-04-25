@@ -82,8 +82,8 @@ const SubjectsList = (props) => {
     </Column>
   ))
 
-  if (items.length === 0) {
-    return <NotFound message={'There\'s no section in this semester.'} />
+  if (items.size === 0) {
+    return <NotFound message={'There isn\'t a section in this semester.'} />
   }
   return (
     items

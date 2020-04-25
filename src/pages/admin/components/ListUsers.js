@@ -93,8 +93,8 @@ const UserList = (props) => {
     </Column>
   ))
 
-  if (items.length === 0) {
-    return <NotFound message={`There aren't users in this list.`} />
+  if (items && items.toJS().length === 0) {
+    return <NotFound message={'There aren\'t users in this list.'} />
   }
   return (
     items
