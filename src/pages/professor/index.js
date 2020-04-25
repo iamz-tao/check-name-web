@@ -59,7 +59,6 @@ const TableHeader = ({ sortItem }) => (
 )
 
 class HomePageProfessor extends Component {
-  
   state = {
     subjectsState: null,
     filter: {
@@ -187,12 +186,12 @@ class HomePageProfessor extends Component {
                 {
                     subjects !== null && subjects.size > 0 && (
                       <ListCol>
-                        <TableHeader 
+                        <TableHeader
                           sortItem={this.sortItem}
                         />
                         <ListCol>
                           <SubjectsList
-                            subjects={subjectsState ===null ? subjects : subjectsState}
+                            subjects={subjectsState === null ? subjects : subjectsState}
                             filter={filter}
                             handleDeleteSection={this.handleDeleteSection}
                             handleModal={this.handleModal}
@@ -204,7 +203,7 @@ class HomePageProfessor extends Component {
 
                 {
                     subjects !== null && subjects.size === 0 && (
-                      <NotFound message={`There isn't a section in this semester.`} />
+                      <NotFound message={'There isn\'t a section in this semester.'} />
                     )
                   }
               </Fragment>
