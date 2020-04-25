@@ -78,7 +78,7 @@ const mapStateToProps = state => ({
 export default compose(
   memo,
   connect(mapStateToProps, null),
-  withIntl,
+  // withIntl,
 )(PageLayout)
 
 const Box = styled.div`

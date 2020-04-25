@@ -71,7 +71,7 @@ const OpenSection = class extends React.Component {
       duration: 3,
     })
     notification[type]({
-      message: 'Open section Success!',
+      message: 'Open section Succeeded!',
       description: 'Open section successfully.',
     })
   }

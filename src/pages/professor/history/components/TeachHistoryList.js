@@ -26,34 +26,43 @@ const TeachHistoryList = (props) => {
           <ItemWrapper>
             <Row>
               {/* <a onClick={() => handleModal(s.get('id'))} style={{ width: '100%', color: '#575757' }}> */}
-                <UserDetailGroup>
-                  <ListDetail style={{minWidth: '82px', flex: 0}}>
-                    <ItemSpan>
-                      {s.getIn(['number'])} 
-                    </ItemSpan>
-                  </ListDetail>
-                  <ListDetail>
-                    <ItemSpan>
-                      {s.getIn(['date'])}
-                    </ItemSpan>
-                  </ListDetail>
-                  <ListDetail style={{ minWidth: '180px' }}>
-                    <ItemSpan>
-                      {s.get('time')}
-                    </ItemSpan>
-                  </ListDetail>
-                  <DeleteIconWrapper>
-                    <ListIcon
-                      className='unordered list'
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        handleModal(s.get('class_id'))
-                      }}
-                    />
+              <UserDetailGroup>
+                <ListDetail style={{ minWidth: '82px', flex: 0 }}>
+                  <ItemSpan>
+                    {s.getIn(['number'])}
+                  </ItemSpan>
+                </ListDetail>
+                <ListDetail>
+                  <ItemSpan>
+                    {s.getIn(['date'])}
+                  </ItemSpan>
+                </ListDetail>
+                <ListDetail style={{ minWidth: '180px' }}>
+                  {
+                      s.get('time').includes('OPENING') ? (
+                        <ItemSpan style={{color:'#1AB433'}}>
+                          {s.get('time')}
+                        </ItemSpan>
+                      ) : (
+                        <ItemSpan>
+                          {s.get('time')}
+                        </ItemSpan>
+                      )
+                    }
+
+                </ListDetail>
+                <DeleteIconWrapper>
+                  <ListIcon
+                    className='unordered list'
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleModal(s.get('class_id'))
+                    }}
+                  />
                       &nbsp; &nbsp;
-                    
-                  </DeleteIconWrapper>
-                </UserDetailGroup>
+
+                </DeleteIconWrapper>
+              </UserDetailGroup>
               {/* </a> */}
             </Row>
           </ItemWrapper>
@@ -63,12 +72,11 @@ const TeachHistoryList = (props) => {
   ))
 
   if (items.length === 0) {
-    return <NotFound message={'There\'s no teaching history in this section.'} />
+    return <NotFound message={'There aren\'t teaching history in this section.'} />
   }
   return (
     items
   )
-  
 }
 
 export default TeachHistoryList

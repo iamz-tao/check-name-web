@@ -22,7 +22,7 @@ import { beaconSelector } from '~/modules/admin/selectors'
 const { confirm } = Modal
 
 const TableHeader = ({ sortItem }) => (
-  <Wrapper> 
+  <Wrapper>
     <Row>
       <UserDetailGroup>
         <ListHeader style={{ flex: 2 }}>
@@ -189,7 +189,7 @@ class ListBeacons extends Component {
 
                 {
                     beaconList !== null && beaconList.size === 0 && (
-                      <NotFound message={`There's no beacon.`}/>
+                      <NotFound message={'There isn\'t a beacon.'} />
                     )
                   }
               </Fragment>

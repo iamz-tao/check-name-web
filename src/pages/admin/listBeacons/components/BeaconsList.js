@@ -23,57 +23,57 @@ const BeaconList = (props) => {
       <Wrapper>
         <Column>
           {/* {beaconList.map(y => ( */}
-            <ItemWrapper>
-              <Row>
-                <UserDetailGroup>
-                  <ListDetail style={{ flex: 2 }}>
-                    <ItemSpan>
-                      {beacon.get('uuid')}
-                    </ItemSpan>
-                  </ListDetail>
-                  <ListDetail>
-                    <ItemSpan>
-                      {beacon.get('name')}
-                    </ItemSpan>
-                  </ListDetail>
-                  <ListDetail>
-                    <ItemSpan>
-                      {
+          <ItemWrapper>
+            <Row>
+              <UserDetailGroup>
+                <ListDetail style={{ flex: 2 }}>
+                  <ItemSpan>
+                    {beacon.get('uuid')}
+                  </ItemSpan>
+                </ListDetail>
+                <ListDetail>
+                  <ItemSpan>
+                    {beacon.get('name')}
+                  </ItemSpan>
+                </ListDetail>
+                <ListDetail>
+                  <ItemSpan>
+                    {
                         beacon.get('status') === 'DISABLE' && (
                           <ItemSpan style={{ color: '#D94646' }}>
                             DISABLE
                           </ItemSpan>
                         )
                       }
-                      {
+                    {
                         beacon.get('status') === 'ACTIVE' && (
                           <ItemSpan style={{ color: '#001AFF' }}>
                             ACTIVE
                           </ItemSpan>
                         )
                       }
-                    </ItemSpan>
-                  </ListDetail>
-                </UserDetailGroup>
-                <DeleteWrapper>
-                  <DeleteIcon
-                    className='trash'
-                    onClick={(e) => {
-                      e.preventDefault()
-                      handleDeleteBeacon(beacon.get('id'))
-                    }}
-                  />
-                </DeleteWrapper>
-              </Row>
-            </ItemWrapper>
+                  </ItemSpan>
+                </ListDetail>
+              </UserDetailGroup>
+              <DeleteWrapper>
+                <DeleteIcon
+                  className='trash'
+                  onClick={(e) => {
+                    e.preventDefault()
+                    handleDeleteBeacon(beacon.get('id'))
+                  }}
+                />
+              </DeleteWrapper>
+            </Row>
+          </ItemWrapper>
           {/* ))} */}
         </Column>
       </Wrapper>
     </Column>
   ))
 
-  if (items.length === 0) {
-    return <NotFound />
+  if (items && items.toJS().length === 0) {
+    return <NotFound message={'There isn\'t a beacon in this list.'} />
   }
   return (
     items

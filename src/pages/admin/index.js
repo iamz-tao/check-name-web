@@ -140,7 +140,7 @@ class HomePageAdmin extends Component {
 
   openNotificationDeleteSuccess = (type) => {
     notification[type]({
-      message: 'Delete Success!',
+      message: 'Delete Succeeded!',
       description:
         'Action completed successfully.',
     })
@@ -158,7 +158,7 @@ class HomePageAdmin extends Component {
       onOk() {
         deleteUser({ id })
         notification[success]({
-          message: 'Delete Success!',
+          message: 'Delete Succeeded!',
           description:
             'Action completed successfully.',
         })
@@ -236,7 +236,7 @@ class HomePageAdmin extends Component {
 
                 {
                     users !== null && users.size === 0 && (
-                      <NotFound  message={`There's no user.`} />
+                      <NotFound  message={`There aren't user.`} />
                     )
                   }
               </Fragment>

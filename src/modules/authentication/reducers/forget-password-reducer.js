@@ -7,6 +7,7 @@ import {
 
 const initialState = fromJS({
   isFetching: false,
+  status: null,
 })
 
 export default (state = initialState, { type, payload }) => {

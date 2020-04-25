@@ -65,7 +65,7 @@ const UserList = (props) => {
                         )
                       }
                     {
-                        user.get('role') === 'NISIT' && (
+                        user.get('role') === 'STUDENT' && (
                           <ItemSpan style={{ color: '#1AB433' }}>
                             STUDENT
                           </ItemSpan>
@@ -93,8 +93,8 @@ const UserList = (props) => {
     </Column>
   ))
 
-  if (items.length === 0) {
-    return <NotFound message={`There's no user list.`} />
+  if (items && items.toJS().length === 0) {
+    return <NotFound message={'There aren\'t users in this list.'} />
   }
   return (
     items

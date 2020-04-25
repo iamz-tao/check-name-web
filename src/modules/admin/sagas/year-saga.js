@@ -41,7 +41,7 @@ export function* createYear({ payload }) {
       yield put(yearAction.createYearFailure({ message: response.message || 'Error has been occured' }))
       return
     }
-    yield put(yearAction.createYearSusscess(response.data))
+    // yield put(yearAction.createYearSusscess(response.data))
     Router.replace('/list-year')
   } catch (exception) {
     yield put(yearAction.createYearFailure({ message: 'Internal Error' }))

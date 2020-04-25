@@ -55,7 +55,7 @@ class CustomApp extends App {
 export default compose(
   withReduxSaga,
   withRedux(createStore),
-  withIntl,
+  // withIntl,
 )(CustomApp)
 
 const Wrapper = styled.div`

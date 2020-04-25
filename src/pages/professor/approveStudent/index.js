@@ -235,7 +235,7 @@ class ApproveStudent extends Component {
                     )
                   }
                 {
-                    search === true && students !== null && students.size > 0 && (
+                    search === true && allStudentsApprove !== null && allStudentsApprove.size > 0 && (
                     <ListCol>
                       <ListStudent
                         filter={filter}
@@ -245,7 +245,7 @@ class ApproveStudent extends Component {
                         loading={loading}
                         selectedRowKeys={selectedRowKeys}
                         rowSelection={rowSelection}
-                        students={allStudentsApproveState === null ? students : allStudentsApproveState}
+                        students={allStudentsApproveState === null ? allStudentsApprove : allStudentsApproveState}
                         allSection={allSection && allSection.toJS()}
                         handleApprove={this.handleApprove}
                         handleReject={this.handleReject}
@@ -273,35 +273,12 @@ class ApproveStudent extends Component {
                      </ListCol>
                      )
                   }
-
-                {
-                    currentYear !== null && students !== null && students.size === 0 && allStudentsApprove !== null && allStudentsApprove.size === 0 && (
-                    <RowContainerNotFound>
-                      <NotFoundWrapper>
-                        <h1>
-                          THERE&apos;S NO STUDENT WAIT FOR APPROVE.
-                        </h1>
-                      </NotFoundWrapper>
-                    </RowContainerNotFound>
-                    )
-                  }
-                {
-                     search === true && students !== null && students.size === 0 && (
-                     <RowContainerNotFound>
-                       <NotFoundWrapper>
-                         <h1>
-                           THERE&apos;S NO STUDENT WAIT FOR APPROVE.
-                         </h1>
-                       </NotFoundWrapper>
-                     </RowContainerNotFound>
-                     )
-                   }
                 {
                     currentYear !== null && allStudentsApprove === undefined || allStudentsApprove !== null && allStudentsApprove.size === 0 && (
                       <RowContainerNotFound>
                         <NotFoundWrapper>
                           <h1>
-                            THERE&apos;S NO STUDENT WAIT FOR APPROVE.
+                            THERE AREN&apos;T STUDENT WAITING FOR APPROVAL.
                           </h1>
                         </NotFoundWrapper>
                       </RowContainerNotFound>
@@ -318,14 +295,14 @@ class ApproveStudent extends Component {
 
 const mapStateToProps = (state, props) => createStructuredSelector({
   subjects: subjectsSelector.getSubjects,
-  allSection: subjectsSelector.getSubjectsProfessor,
+  allSection: subjectsSelector.getSectionsTeach,
   currentYear: yearSelector.getCurrentYear,
   students: subjectsSelector.getStudentApprove,
   allStudentsApprove: subjectsSelector.getAllStudentsApprove,
 })(state, props)
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  getSubjects: subjectAction.getSubjectsProfessor,
+  getSubjects: subjectAction.getListSectionsTeacher,
   approveStudent: subjectAction.approveStudent,
   rejectStudent: subjectAction.rejectStudent,
   getCurrentYear: yearAction.getCurrentYear,

@@ -113,3 +113,14 @@ export const getStudentsCheckInClass = createSelector(
     }
   },
 )
+
+export const getSectionsTeach = createSelector(
+  stateSelector,
+  (state) => {
+    try {
+      return state.getIn(['professor', 'sectionsTeach'], '')
+    } catch (error) {
+      return fromJS({})
+    }
+  },
+)

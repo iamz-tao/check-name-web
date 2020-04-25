@@ -60,17 +60,6 @@ const FilterAndCriteria = (props) => {
         <Dropdown placeholder='Section Number' value={filter.sections} search selection options={sections} onChange={handleInputChangeSection} />
       </SectionWrapper>
       <CustomButton>
-        {/* <FormButton
-          isFilter
-          type='cancel'
-          txtButton='RESET'
-          width='50%'
-          margin='0px 0px 12px 0px'
-          onClick={() => {
-            handleResetFilter()
-          }}
-        />
-          &nbsp; &nbsp; */}
         <FormButton
           disabled={sectionID === ''}
           isFilter

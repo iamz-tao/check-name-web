@@ -42,7 +42,7 @@ const CreateSection = (props) => {
     >
       <Modal.Content>
         <Header>
-          ADD SECTION
+          SETTING SECTION
         </Header>
         <LabelWrapper>
           YEAR / SEMESTER :

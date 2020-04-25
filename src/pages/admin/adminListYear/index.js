@@ -177,6 +177,8 @@ class HomePageAdmin extends Component {
       list_year_state,
     } = this.state
 
+    // console.log(list_year_state)
+    // console.log('xxxxxl',list_year)
     return (
       <PageWrapper>
         <CreateYear
@@ -229,7 +231,7 @@ class HomePageAdmin extends Component {
 
                 {
                     list_year !== null && list_year.size === 0 && (
-                      <NotFound message={`There's no year list.`} />
+                      <NotFound message={`There aren't year in list.`} />
                     )
                   }
               </Fragment>

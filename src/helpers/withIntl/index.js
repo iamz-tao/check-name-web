@@ -8,8 +8,8 @@ import { createStructuredSelector } from 'reselect'
 import get from 'lodash/get'
 import Cookie from 'js-cookie'
 
-import * as localeActions from '~/modules/locale/actions'
-import * as localeSelectors from '~/modules/locale/selectors'
+// import * as localeActions from '~/modules/locale/actions'
+// import * as localeSelectors from '~/modules/locale/selectors'
 
 addLocaleData([...enLocaleData, ...thLocaleData])
 export default (ComposedComponent) => {
@@ -52,8 +52,8 @@ export default (ComposedComponent) => {
   })
 
   const mapStateToProps = state => createStructuredSelector({
-    locale: localeSelectors.selectLocale,
-    messages: localeSelectors.selectMessages,
+    // locale: localeSelectors.selectLocale,
+    // messages: localeSelectors.selectMessages,
   })(state)
 
   PageWithIntl.propTypes = {

@@ -140,7 +140,6 @@ class RegisterPage extends Component {
       surname,
     } = values.toJS()
 
-    const { role } = this.state
     const { registerUser } = this.props
 
     registerUser({
@@ -151,7 +150,7 @@ class RegisterPage extends Component {
         mobile: mobile_phone,
         firstname: name,
         lastname: surname,
-        role,
+        role: 'PROFESSOR',
       },
     })
 
@@ -205,8 +204,8 @@ class RegisterPage extends Component {
               })}
               cropImage={this.cropImage}
             /> */}
-            <Grid style={{ display: 'flex', alignItems: 'center' }}>
-              <AppWrapper>
+            {/* <Grid style={{ display: 'flex', alignItems: 'center' }}>
+              <AppWrapper> */}
                 {/* <div style={{ display: 'flex', flexDirection: 'row' }}>
 
                   <input type='file' name='avatar' onChange={this.fileChangedHandler} />
@@ -229,7 +228,7 @@ Upload
 
                 { $imagePreview } */}
 
-                <DefaultForm
+                {/* <DefaultForm
                   id='images'
                   defaultMessage='images'
                 >
@@ -243,7 +242,7 @@ Upload
                   />
                 </DefaultForm>
               </AppWrapper>
-            </Grid>
+            </Grid> */}
 
             <StyleBorder
               container
@@ -305,7 +304,7 @@ Upload
                 />
               </StyledForm>
               <FormButton
-                disabled={pristine || submitting}
+                // disabled={pristine || submitting}
                 type='cancel'
                 txtButton='CANCEL'
                 width='50%'
@@ -387,7 +386,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   position: relative;
   margin: 0px;
-  max-width: 100%;
+  max-width: 48vw;
   @media (max-width: 320px) {
     width: 325px;
   }
