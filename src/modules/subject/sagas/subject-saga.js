@@ -144,17 +144,21 @@ export function* exportReport({ payload }) {
       subject_name,
       section,
     } = payload.data
-    const response = yield call(httpGet.post, {
-      url: `/api/export?year=${year}&semester=${semester}&subject_code=${subject_code}&subject_name=${subject_name}&section=${section}`,
-      payload: {
-      },
-    })
-
-    const { error } = response
-    if (error) {
-      yield put(subjectAction.openSectionFailure({ message: response.message || 'Error has been occured' }))
-      return
-    }
+    // const response = yield call(httpGet.post, {
+    //   url: `/api/export?year=${year}&semester=${semester}&subject_code=${subject_code}&subject_name=${subject_name}&section=${section}`,
+    //   payload: {
+    //   },
+    // })
+    
+    window.open(
+      `https://us-central1-kpscheckin.cloudfunctions.net/api/export?year=${year}&semester=${semester}&subject_code=${subject_code}&subject_name=${subject_name}&section=${section}`,
+      'Download');
+    // window.open(dowloadUrl);
+    // const { error } = response
+    // if (error) {
+    //   yield put(subjectAction.openSectionFailure({ message: response.message || 'Error has been occured' }))
+    //   return
+    // }
 
     Router.replace('/export-report')
   } catch (exception) {
