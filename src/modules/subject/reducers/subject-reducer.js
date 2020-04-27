@@ -38,6 +38,8 @@ import {
   SET_STD_IN_CLASS_HISTORY,
   GET_LIST_SECTION_TEACHER,
   SET_LIST_SECTION_TEACHER,
+  GET_ATTENDANCE_SHEET,
+  SET_ATTENDANCE_SHEET,
 } from '../constants'
 
 const initialState = fromJS({
@@ -51,6 +53,7 @@ const initialState = fromJS({
     allStudentsApprove: null,
     subjectsExport: null,
     sectionsTeach: null,
+    attendanceSheet: null,
   },
   history: {
     teachingHistory: null,
@@ -274,6 +277,17 @@ export default (state = initialState, { type, payload }) => {
         .setIn(['professor', 'sectionsTeach'], fromJS(payload))
         .setIn(['httpState', 'isFetching'], false)
     }
+    case GET_ATTENDANCE_SHEET: {
+      return state
+        .setIn(['httpState', 'isFetching'], true)
+    }
+    case SET_ATTENDANCE_SHEET: {
+      console.log('xxxxx',payload)
+      return state
+        .setIn(['professor', 'attendanceSheet'], fromJS(payload))
+        .setIn(['httpState', 'isFetching'], false)
+    }
+
     default:
       return state
   }

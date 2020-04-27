@@ -68,12 +68,14 @@ class HomePageProfessor extends Component {
     addDay: false,
     open: false,
     openExport: false,
+    subject_code: '',
   }
 
   componentDidMount() {
-    const { getSections } = this.props
+    const { getSections, getCurrentYear } = this.props
     getSections({
     })
+    getCurrentYear({})
   }
 
   handleDeleteSection = (id) => {
@@ -131,11 +133,34 @@ class HomePageProfessor extends Component {
     })
   }
 
-  handleExportModal = () => {
+  handleExportModal = (id, subject_code) => {
     const { openExport } = this.state
+    const { getAttendanceSheet } = this.props
+    getAttendanceSheet({
+      id,
+    })
     this.setState({
       openExport: !openExport,
+      subject_code,
     })
+  }
+
+  handleExport = (subject_name, section) => {
+    const { currentYear } = this.props
+    const { subject_code } = this.state
+    const year = currentYear.get('year')
+    const semester = currentYear.get('semester')
+    const data = {
+      year,
+      semester,
+      subject_code,
+      subject_name,
+      section,
+    }
+    // const { exportReport } = this.props
+    // exportReport({
+    //   data,
+    // })
   }
 
   sortItem = (sort_by) => {
@@ -156,6 +181,8 @@ class HomePageProfessor extends Component {
   render() {
     const {
       subjects,
+      attendanceSheet,
+      currentYear,
     } = this.props
 
     const {
@@ -163,8 +190,13 @@ class HomePageProfessor extends Component {
       open,
       subjectsState,
       openExport,
+      subject_code,
     } = this.state
-
+    if (!currentYear) {
+      return (
+        <LoadingPulse />
+      )
+    }
     return (
       <PageWrapper>
         <UpdateSection
@@ -174,6 +206,9 @@ class HomePageProfessor extends Component {
         <ListStudentExport
           open={openExport}
           handleClose={this.handleExportModal}
+          handleExport={this.handleExport}
+          attendanceSheet={attendanceSheet}
+          subject_code={subject_code}
         />
         <HeaderProfessor />
         <RowContainer>
@@ -233,13 +268,16 @@ class HomePageProfessor extends Component {
 const mapStateToProps = (state, props) => createStructuredSelector({
   subjects: subjectsSelector.getSubjectsProfessor,
   currentYear: yearSelector.getCurrentYear,
+  attendanceSheet: subjectsSelector.getAttendanceSheet,
 })(state, props)
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getSections: subjectAction.getSubjectsProfessor,
   getSection: subjectAction.getSection,
   deleteSection: subjectAction.deleteSection,
+  getAttendanceSheet: subjectAction.getAttendanceSheet,
   getCurrentYear: yearAction.getCurrentYear,
+  exportReport: subjectAction.exportReport,
 }, dispatch)
 
 export default compose(

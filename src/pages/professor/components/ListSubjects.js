@@ -16,6 +16,7 @@ const SubjectsList = (props) => {
     handleModal,
     handleExportModal,
   } = props
+  
   const items = subjects.filter((s) => {
     if (filter.keyword === '') return s
     if (s.getIn(['Subject', 'subject_name']).toLowerCase().includes(filter.keyword.toLowerCase())
@@ -52,7 +53,7 @@ const SubjectsList = (props) => {
                       className='unordered list'
                       onClick={(e) => {
                         e.stopPropagation()
-                        handleExportModal()
+                        handleExportModal(s.get('id'),s.getIn(['Subject', 'subject_code']))
                       }}
                     />
                     </Tooltip>

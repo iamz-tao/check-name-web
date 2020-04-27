@@ -1,89 +1,142 @@
-import React, { Component, Fragment } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import {
-  Modal, Button, Table,
+  Modal, Button,
 } from 'antd'
 
-const ListStudentExport = ({ handleClose, open }) => {
-  const data = [{
-    key: 1,
-    id: '5920504522',
-    name: 'project nahee',
-    time: '10.31',
-    status: 'on time',
-  },
-  {
-    key: 2,
-    id: '5920504522',
-    name: 'project nahee',
-    time: '10.31',
-    status: 'on time',
-  }, {
-    key: 3,
-    id: '5920504522',
-    name: 'project nahee',
-    time: '10.31',
-    status: 'on time',
-  },
-  ]
-  const columns = [
-    {
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'id',
-    },
-    {
-      title: 'NAME',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'TIME',
-      dataIndex: 'time',
-      key: 'time',
-    },
-    {
-      title: 'STATUS',
-      key: 'status',
-      render: (text, record) => (
-        <span>
-          {record.status === 'ABSENT' && (
-          <a style={{ color: '#FF0000' }}>{record.status}</a>
-          )}
-          {record.status === 'LATE' && (
-          <a style={{ color: '#0029FF' }}>{record.status}</a>
-          )}
-          {record.status === 'ONTIME' && (
-          <a>{record.status}</a>
-          )}
-        </span>
-      ),
-    },
-  ]
-const test = [{
-  date: '20/12/2012'
-},
-{
-  date: '21/12/2012'
-},
-{
-  date: '22/12/2012'
-},
-{
-  date: '23/12/2012'
-}]
-  // if (studentsCheckInClass) {
-  //   studentsCheckInClass.get('students').map((s, i) => {
-  //     data.push({
-  //       key: i,
-  //       id: s.get('id'),
-  //       name: `${s.get('firstname')} ${s.get('lastname')}`,
-  //       time: s.get('time'),
-  //       status: s.get('status'),
-  //     })
-  //   })
-  // }
-// console.log(test.map(t => t.date))
+const ListStudentExport = ({ handleClose, open, subject_code, handleExport }) => {
+  const attendanceSheet = {
+    section_name: 'Project3',
+    section: '700',
+    total_mark: '10',
+    class: [
+      {
+        id: 'JIectO0CFzYQwkPIob03',
+        date: '22/04/2020',
+      },
+      {
+        id: 'jhKX8QbRobsxlUWwoMod',
+        date: '23/04/2020',
+      },
+      {
+        id: 'FJhpy3g8wFauRGytitfR',
+        date: '24/04/2020',
+      },
+    ],
+    student: [
+      {
+        id: '5920501848',
+        student: 'nisit test',
+        date: '24/04/2020',
+        score: 0,
+      },
+      {
+        id: '5920501995',
+        student: 'boon boon',
+        date: '24/04/2020',
+        score: 0,
+      },
+      {
+        id: '5920501979',
+        student: 'thanakit haruehansapong',
+        date: '24/04/2020',
+        score: 0,
+      },
+      {
+        id: '5920504243',
+        student: 'Nantipaht Tubjit',
+        date: '24/04/2020',
+        score: 1,
+      },
+      {
+        id: '5920501848',
+        student: 'nisit test',
+        date: '23/04/2020',
+        score: 0,
+      },
+      {
+        id: '5920501995',
+        student: 'boon boon',
+        date: '23/04/2020',
+        score: 0.5,
+      },
+      {
+        id: '5920501979',
+        student: 'thanakit haruehansapong',
+        date: '23/04/2020',
+        score: 0,
+      },
+      {
+        id: '5920504243',
+        student: 'Nantipaht Tubjit',
+        date: '23/04/2020',
+        score: 0,
+      },
+      {
+        id: '5920501848',
+        student: 'nisit test',
+        date: '22/04/2020',
+        score: 0,
+      },
+      {
+        id: '5920501995',
+        student: 'boon boon',
+        date: '22/04/2020',
+        score: 0,
+      },
+      {
+        id: '5920501979',
+        student: 'thanakit haruehansapong',
+        date: '22/04/2020',
+        score: 1,
+      },
+      {
+        id: '5920504243',
+        student: 'Nantipaht Tubjit',
+        date: '22/04/2020',
+        score: 0,
+      },
+    ],
+  }
+
+  const test = []
+  attendanceSheet.class.map((a) => {
+    test.push({
+      date: a.date,
+    })
+  })
+
+  //remove id dup
+  const idStd = [...new Set(idStd)]
+  attendanceSheet.student.map((s) => {
+    idStd.push(
+      s.id,
+    )
+  })
+  const id = [...new Set(idStd)]
+  const dataStd = id.map(s => attendanceSheet.student.filter(ss => ss.id === s))
+
+  const pl = attendanceSheet.student.reduce((accum, curr) => {
+    accum[curr.id] = {
+      ...accum[curr.date],
+      // date: curr.score,
+      [curr.date]: curr.score,
+    }
+    return accum
+  }, {})
+  const q = []
+  dataStd.map((z, i) => {
+    q.push({
+      name: z[0].student,
+      id: z[0].id,
+      date: z.map(s => s.date),
+      score: z.map(s => s.score),
+      sum: (z.map(s => s.score).reduce((a, b) => a + b, 0) * z.map(s => s.score).length) / parseInt(attendanceSheet.total_mark, 10),
+    })
+  })
+  // const zzdate= Object.keys(dateAtten).map(i => pl[i])
+
+
   return (
     <PageWrapper>
       <Modal
@@ -95,15 +148,15 @@ const test = [{
               {' '}
                   SUBJECT NAME :
               {' '}
-                  XXXXX
+              {subject_code}
               {' '}
-                  XXXX
+              {attendanceSheet.section_name}
             </ItemHeaderModal>
             <ItemHeaderModal>
                   SECTION NUMBER :
               {' '}
               {' '}
-                  701
+              {attendanceSheet.section}
             </ItemHeaderModal>
           </div>
                   )}
@@ -112,27 +165,58 @@ const test = [{
           <Button key='back' onClick={handleClose}>
               Close
           </Button>,
+          <Button key="submit" type="primary" onClick={() => handleExport(attendanceSheet.section_name,attendanceSheet.section)}>
+          Submit
+        </Button>,
         ]}
       >
         <div>
-          {/* <Table columns={columns} pagination={{ position: 'none' }} dataSource={data} /> */}
-          <div style={{border: '1px solid #dedcdc', borderRadius: '14px', padding: '8px'}}>
-            <div style={{ display: 'flex', flexDirection: 'row'}}>
-              <div style={{ width: '150px', paddingLeft: '8px'}}>ID</div>
-              <div style={{ flex: 0.4, minWidth: '210px'}}>NAME</div>
-              {test.map(t => {
-                return(<div style={{ width: '86px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{t.date}</div>)
-              })}
-              
-              <div style={{ width: '86px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>TOTAL</div>
+          <div style={{ border: '1px solid #dedcdc', borderRadius: '14px', padding: '8px' }}>
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <div style={{ width: '150px', paddingLeft: '8px' }}>ID</div>
+              <div style={{ flex: 0.4, minWidth: '210px' }}>NAME</div>
+
+              {test.map(t => (
+                <div style={{
+                  width: '86px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}
+                >
+                  {t.date}
+                </div>
+              ))}
+
+              <div style={{
+                width: '86px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}
+              >
+TOTAL
+              </div>
             </div>
-            <br/>
-            <div style={{ display: 'flex', flexDirection: 'row'}}>
-              <div style={{ width: '150px', paddingLeft: '8px'}}>5920545211</div>
-              <div style={{ flex: 0.4}}>Phiyada Srikhenkan</div>
-              <div style={{ width: '86px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>1</div>
-              <div style={{ width: '86px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>10</div>
-            </div>
+            <br />
+            {
+            q.map(qq => (
+              <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <div style={{ width: '150px', paddingLeft: '8px' }}>{qq.id}</div>
+                <div style={{ flex: 0.4, minWidth: '210px' }}>{qq.name}</div>
+                {qq.score.map(s => (
+                  <div style={{
+                    width: '86px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}
+                  >
+                    {s}
+                  </div>
+                ))}
+
+
+                <div style={{
+                  width: '86px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}
+                >
+                  {qq.sum}
+                </div>
+              </div>
+            ))
+          }
           </div>
         </div>
       </Modal>

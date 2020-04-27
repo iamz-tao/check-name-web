@@ -67,3 +67,6 @@ export const SET_STD_IN_CLASS_HISTORY = 'app/subject/SET_STD_IN_CLASS_HISTORY'
 export const GET_LIST_SECTION_TEACHER = 'app/subject/GET_LIST_SECTION_TEACHER'
 export const SET_LIST_SECTION_TEACHER = 'app/subject/SET_LIST_SECTION_TEACHER'
 
+export const GET_ATTENDANCE_SHEET = 'app/subject/GET_ATTENDANCE_SHEET'
+export const SET_ATTENDANCE_SHEET = 'app/subject/SET_ATTENDANCE_SHEET'
+
