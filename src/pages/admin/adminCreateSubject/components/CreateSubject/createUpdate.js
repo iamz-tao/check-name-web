@@ -13,6 +13,7 @@ import FormButton from '~/components/Form/Button'
 
 const AdminCreateSubject = (props) => {
   const handleInput = get(props, 'handleInput')
+  const pristine = get(props, 'pristine')
 //   const options = get(props, 'options')
   // const semesters = [
   //   {
@@ -74,6 +75,7 @@ const AdminCreateSubject = (props) => {
           />
            <EmptySpace />
           <FormButton
+            disabled={pristine}
             colorButton='#CA5353'
             type='submit'
             txtButton='SAVE'
