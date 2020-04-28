@@ -30,7 +30,8 @@ const SubjectsList = (props) => {
           {/* {subjects.map(s => ( */}
           <ItemWrapper>
             <Row>
-              <a onClick={() => handleModal(s.get('id'))} style={{ width: '100%', color: '#575757' }}>
+              {/* <a onClick={() => handleModal(s.get('id'))} style={{ width: '100%', color: '#575757' }}> */}
+              <a style={{ width: '100%', color: '#575757' }}>
                 <UserDetailGroup>
                   <ListDetail>
                     <ItemSpan>
