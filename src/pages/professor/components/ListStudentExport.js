@@ -220,7 +220,6 @@ TOTAL
           </div>
         </div>
       </Modal>
-        )}
     </PageWrapper>
   )
 }

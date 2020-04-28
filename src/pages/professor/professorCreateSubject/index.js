@@ -7,7 +7,7 @@ import { reduxForm } from 'redux-form/immutable'
 import { createStructuredSelector } from 'reselect'
 import { notification } from 'antd'
 
-// import validate from './validate'
+import validate from './validate'
 
 import {
   CreateSubject,
@@ -91,7 +91,7 @@ const CreateUpdateSubject = class extends React.Component {
     const {
       handleSubmit,
       currentYear,
-      // invalid,
+      pristine,
       // initialValues,
     } = this.props
 
@@ -107,6 +107,7 @@ const CreateUpdateSubject = class extends React.Component {
                   <div id='createSubject'>
                     <CreateSubject
                       currentYear={currentYear}
+                      pristine={pristine}
                     />
                   </div>
                 </Form>
@@ -133,7 +134,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 const withForm = reduxForm({
   form: FORM_NAME,
-  // validate,
+  validate,
   enableReinitialize: true,
   keepDirtyOnReinitialize: true,
 })

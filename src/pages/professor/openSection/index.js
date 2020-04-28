@@ -77,64 +77,64 @@ const OpenSection = class extends React.Component {
   }
 
   submitForm = (values) => {
-    const {
-      subject_code,
-      subject_name,
-      approved_status,
-    } = values.toJS().subject
+    // const {
+    //   subject_code,
+    //   subject_name,
+    //   approved_status,
+    // } = values.toJS().subject
 
-    const {
-      section_number,
-      late_time,
-      absent_time,
-      total_mark,
-    } = values.toJS()
+    // const {
+    //   section_number,
+    //   late_time,
+    //   absent_time,
+    //   total_mark,
+    // } = values.toJS()
 
-    const {
-      day1,
-      startTime1,
-      endTime1,
-      day2,
-      startTime2,
-      endTime2,
-    } = this.state
+    // const {
+    //   day1,
+    //   startTime1,
+    //   endTime1,
+    //   day2,
+    //   startTime2,
+    //   endTime2,
+    // } = this.state
 
-    const { openSection, currentYear } = this.props
-    const Time = []
-    if (day2 === '') {
-      Time.push({
-        day: day1,
-        start_time: startTime1,
-        end_time: endTime1,
-      })
-    } else {
-      Time.push({
-        day: day1,
-        start_time: startTime1,
-        end_time: endTime1,
-      },
-      {
-        day: day2,
-        start_time: startTime2,
-        end_time: endTime2,
-      })
-    }
+    // const { openSection, currentYear } = this.props
+    // const Time = []
+    // if (day2 === '') {
+    //   Time.push({
+    //     day: day1,
+    //     start_time: startTime1,
+    //     end_time: endTime1,
+    //   })
+    // } else {
+    //   Time.push({
+    //     day: day1,
+    //     start_time: startTime1,
+    //     end_time: endTime1,
+    //   },
+    //   {
+    //     day: day2,
+    //     start_time: startTime2,
+    //     end_time: endTime2,
+    //   })
+    // }
 
-    const data = {
-      year: Math.trunc(currentYear.get('year')),
-      semester: currentYear.get('semester'),
-      Subject: {
-        subject_code,
-        subject_name,
-        approved_status,
-      },
-      section_number,
-      Time,
-      time_late: late_time,
-      time_absent: absent_time,
-      total_mark,
-    }
-    openSection({ data })
+    // const data = {
+    //   year: Math.trunc(currentYear.get('year')),
+    //   semester: currentYear.get('semester'),
+    //   Subject: {
+    //     subject_code,
+    //     subject_name,
+    //     approved_status,
+    //   },
+    //   section_number,
+    //   Time,
+    //   time_late: late_time,
+    //   time_absent: absent_time,
+    //   total_mark,
+    // }
+    // openSection({ data })
     this.openNotificationWithIcon('success')
   }
 
@@ -209,6 +209,7 @@ const OpenSection = class extends React.Component {
       handleSubmit,
       subjects,
       invalid,
+      pristine,
       currentYear,
     } = this.props
 
@@ -222,7 +223,7 @@ const OpenSection = class extends React.Component {
       open,
       addDay,
     } = this.state
-    
+
     const options = []
     const subjectActive = subjects ? subjects.toJS().filter(s => s.approved_status === 'APPROVE') : []
     if (subjectActive.length !== 0) {
@@ -272,7 +273,7 @@ const OpenSection = class extends React.Component {
                       settingSec={settingSec}
                       handleSubmit={handleSubmit}
                       currentYear={currentYear}
-                      // invalid={invalid}
+                      pristine={pristine}
                     />
                   </div>
                 </Form>
