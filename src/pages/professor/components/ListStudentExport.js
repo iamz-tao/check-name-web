@@ -4,102 +4,109 @@ import {
   Modal, Button,
 } from 'antd'
 
-const ListStudentExport = ({ handleClose, open, subject_code, handleExport }) => {
-  const attendanceSheet = {
-    section_name: 'Project3',
-    section: '700',
-    total_mark: '10',
-    class: [
-      {
-        id: 'JIectO0CFzYQwkPIob03',
-        date: '22/04/2020',
-      },
-      {
-        id: 'jhKX8QbRobsxlUWwoMod',
-        date: '23/04/2020',
-      },
-      {
-        id: 'FJhpy3g8wFauRGytitfR',
-        date: '24/04/2020',
-      },
-    ],
-    student: [
-      {
-        id: '5920501848',
-        student: 'nisit test',
-        date: '24/04/2020',
-        score: 0,
-      },
-      {
-        id: '5920501995',
-        student: 'boon boon',
-        date: '24/04/2020',
-        score: 0,
-      },
-      {
-        id: '5920501979',
-        student: 'thanakit haruehansapong',
-        date: '24/04/2020',
-        score: 0,
-      },
-      {
-        id: '5920504243',
-        student: 'Nantipaht Tubjit',
-        date: '24/04/2020',
-        score: 1,
-      },
-      {
-        id: '5920501848',
-        student: 'nisit test',
-        date: '23/04/2020',
-        score: 0,
-      },
-      {
-        id: '5920501995',
-        student: 'boon boon',
-        date: '23/04/2020',
-        score: 0.5,
-      },
-      {
-        id: '5920501979',
-        student: 'thanakit haruehansapong',
-        date: '23/04/2020',
-        score: 0,
-      },
-      {
-        id: '5920504243',
-        student: 'Nantipaht Tubjit',
-        date: '23/04/2020',
-        score: 0,
-      },
-      {
-        id: '5920501848',
-        student: 'nisit test',
-        date: '22/04/2020',
-        score: 0,
-      },
-      {
-        id: '5920501995',
-        student: 'boon boon',
-        date: '22/04/2020',
-        score: 0,
-      },
-      {
-        id: '5920501979',
-        student: 'thanakit haruehansapong',
-        date: '22/04/2020',
-        score: 1,
-      },
-      {
-        id: '5920504243',
-        student: 'Nantipaht Tubjit',
-        date: '22/04/2020',
-        score: 0,
-      },
-    ],
-  }
+import LoadingPulse from '~/components/LoadingPulse'
 
+const ListStudentExport = ({ handleClose, open, subject_code, handleExport, attendanceSheet }) => {
+
+  // console.log(attendanceSheet)
+  // const attendanceSheet = {
+  //   section_name: 'Project3',
+  //   section: '700',
+  //   total_mark: '10',
+  //   class: [
+  //     {
+  //       id: 'JIectO0CFzYQwkPIob03',
+  //       date: '22/04/2020',
+  //     },
+  //     {
+  //       id: 'jhKX8QbRobsxlUWwoMod',
+  //       date: '23/04/2020',
+  //     },
+  //     {
+  //       id: 'FJhpy3g8wFauRGytitfR',
+  //       date: '24/04/2020',
+  //     },
+  //   ],
+  //   student: [
+  //     {
+  //       id: '5920501848',
+  //       student: 'nisit test',
+  //       date: '24/04/2020',
+  //       score: 0,
+  //     },
+  //     {
+  //       id: '5920501995',
+  //       student: 'boon boon',
+  //       date: '24/04/2020',
+  //       score: 0,
+  //     },
+  //     {
+  //       id: '5920501979',
+  //       student: 'thanakit haruehansapong',
+  //       date: '24/04/2020',
+  //       score: 0,
+  //     },
+  //     {
+  //       id: '5920504243',
+  //       student: 'Nantipaht Tubjit',
+  //       date: '24/04/2020',
+  //       score: 1,
+  //     },
+  //     {
+  //       id: '5920501848',
+  //       student: 'nisit test',
+  //       date: '23/04/2020',
+  //       score: 0,
+  //     },
+  //     {
+  //       id: '5920501995',
+  //       student: 'boon boon',
+  //       date: '23/04/2020',
+  //       score: 0.5,
+  //     },
+  //     {
+  //       id: '5920501979',
+  //       student: 'thanakit haruehansapong',
+  //       date: '23/04/2020',
+  //       score: 0,
+  //     },
+  //     {
+  //       id: '5920504243',
+  //       student: 'Nantipaht Tubjit',
+  //       date: '23/04/2020',
+  //       score: 0,
+  //     },
+  //     {
+  //       id: '5920501848',
+  //       student: 'nisit test',
+  //       date: '22/04/2020',
+  //       score: 0,
+  //     },
+  //     {
+  //       id: '5920501995',
+  //       student: 'boon boon',
+  //       date: '22/04/2020',
+  //       score: 0,
+  //     },
+  //     {
+  //       id: '5920501979',
+  //       student: 'thanakit haruehansapong',
+  //       date: '22/04/2020',
+  //       score: 1,
+  //     },
+  //     {
+  //       id: '5920504243',
+  //       student: 'Nantipaht Tubjit',
+  //       date: '22/04/2020',
+  //       score: 0,
+  //     },
+  //   ],
+  // }
+  // console.log('xxx',attendanceSheet)
   const test = []
+  const q = []
+if (attendanceSheet) {
+  
   attendanceSheet.class.map((a) => {
     test.push({
       date: a.date,
@@ -124,18 +131,20 @@ const ListStudentExport = ({ handleClose, open, subject_code, handleExport }) =>
     }
     return accum
   }, {})
-  const q = []
   dataStd.map((z, i) => {
     q.push({
       name: z[0].student,
       id: z[0].id,
       date: z.map(s => s.date),
       score: z.map(s => s.score),
-      sum: (z.map(s => s.score).reduce((a, b) => a + b, 0) * z.map(s => s.score).length) / parseInt(attendanceSheet.total_mark, 10),
+      sum: parseFloat(parseFloat((z.map(s => s.score).reduce((a, b) => a + b, 0) / attendanceSheet.class.length)) * parseInt(attendanceSheet.total_mark, 10)).toFixed(2),
     })
   })
-  // const zzdate= Object.keys(dateAtten).map(i => pl[i])
+}
 
+
+const section_name = attendanceSheet ? attendanceSheet.section_name : '-'
+const section = attendanceSheet ? attendanceSheet.section : '-'
 
   return (
     <PageWrapper>
@@ -150,13 +159,13 @@ const ListStudentExport = ({ handleClose, open, subject_code, handleExport }) =>
               {' '}
               {subject_code}
               {' '}
-              {attendanceSheet.section_name}
+              {section_name}
             </ItemHeaderModal>
             <ItemHeaderModal>
                   SECTION NUMBER :
               {' '}
               {' '}
-              {attendanceSheet.section}
+              {section}
             </ItemHeaderModal>
           </div>
                   )}
@@ -165,12 +174,19 @@ const ListStudentExport = ({ handleClose, open, subject_code, handleExport }) =>
           <Button key='back' onClick={handleClose}>
               Close
           </Button>,
-          <Button key="submit" type="primary" onClick={() => handleExport(attendanceSheet.section_name,attendanceSheet.section)}>
+          <Button disabled={!attendanceSheet} key="submit" type="primary" onClick={() => handleExport(section_name,section)}>
           Submit
         </Button>,
         ]}
       >
+
         <div>
+          {!attendanceSheet && (
+            <LoadingPulse />
+          )}
+
+          {attendanceSheet && (
+<div>
           <div style={{ border: '1px solid #dedcdc', borderRadius: '14px', padding: '8px' }}>
             <div style={{ display: 'flex', flexDirection: 'row' }}>
               <div style={{ width: '150px', paddingLeft: '8px' }}>ID</div>
@@ -219,6 +235,9 @@ TOTAL
           }
           </div>
         </div>
+          )}
+        </div>
+        
       </Modal>
     </PageWrapper>
   )

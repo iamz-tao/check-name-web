@@ -136,7 +136,7 @@ class HomePageProfessor extends Component {
   handleExportModal = (id, subject_code) => {
     const { openExport } = this.state
     const { getAttendanceSheet } = this.props
-    getAttendanceSheet({
+    getAttendanceSheet({  
       id,
     })
     this.setState({
@@ -157,10 +157,10 @@ class HomePageProfessor extends Component {
       subject_name,
       section,
     }
-    // const { exportReport } = this.props
-    // exportReport({
-    //   data,
-    // })
+    const { exportReport } = this.props
+    exportReport({
+      data,
+    })
   }
 
   sortItem = (sort_by) => {
@@ -197,6 +197,7 @@ class HomePageProfessor extends Component {
         <LoadingPulse />
       )
     }
+
     return (
       <PageWrapper>
         <UpdateSection
@@ -207,7 +208,7 @@ class HomePageProfessor extends Component {
           open={openExport}
           handleClose={this.handleExportModal}
           handleExport={this.handleExport}
-          attendanceSheet={attendanceSheet}
+          attendanceSheet={attendanceSheet && attendanceSheet.toJS()}
           subject_code={subject_code}
         />
         <HeaderProfessor />
