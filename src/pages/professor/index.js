@@ -208,7 +208,7 @@ class HomePageProfessor extends Component {
           open={openExport}
           handleClose={this.handleExportModal}
           handleExport={this.handleExport}
-          attendanceSheet={attendanceSheet && attendanceSheet.toJS()}
+          attendanceSheet={attendanceSheet}
           subject_code={subject_code}
         />
         <HeaderProfessor />

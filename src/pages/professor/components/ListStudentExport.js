@@ -6,146 +6,98 @@ import {
 
 import LoadingPulse from '~/components/LoadingPulse'
 
-const ListStudentExport = ({ handleClose, open, subject_code, handleExport, attendanceSheet }) => {
-
-  // console.log(attendanceSheet)
-  // const attendanceSheet = {
-  //   section_name: 'Project3',
-  //   section: '700',
-  //   total_mark: '10',
-  //   class: [
-  //     {
-  //       id: 'JIectO0CFzYQwkPIob03',
-  //       date: '22/04/2020',
-  //     },
-  //     {
-  //       id: 'jhKX8QbRobsxlUWwoMod',
-  //       date: '23/04/2020',
-  //     },
-  //     {
-  //       id: 'FJhpy3g8wFauRGytitfR',
-  //       date: '24/04/2020',
-  //     },
-  //   ],
-  //   student: [
-  //     {
-  //       id: '5920501848',
-  //       student: 'nisit test',
-  //       date: '24/04/2020',
-  //       score: 0,
-  //     },
-  //     {
-  //       id: '5920501995',
-  //       student: 'boon boon',
-  //       date: '24/04/2020',
-  //       score: 0,
-  //     },
-  //     {
-  //       id: '5920501979',
-  //       student: 'thanakit haruehansapong',
-  //       date: '24/04/2020',
-  //       score: 0,
-  //     },
-  //     {
-  //       id: '5920504243',
-  //       student: 'Nantipaht Tubjit',
-  //       date: '24/04/2020',
-  //       score: 1,
-  //     },
-  //     {
-  //       id: '5920501848',
-  //       student: 'nisit test',
-  //       date: '23/04/2020',
-  //       score: 0,
-  //     },
-  //     {
-  //       id: '5920501995',
-  //       student: 'boon boon',
-  //       date: '23/04/2020',
-  //       score: 0.5,
-  //     },
-  //     {
-  //       id: '5920501979',
-  //       student: 'thanakit haruehansapong',
-  //       date: '23/04/2020',
-  //       score: 0,
-  //     },
-  //     {
-  //       id: '5920504243',
-  //       student: 'Nantipaht Tubjit',
-  //       date: '23/04/2020',
-  //       score: 0,
-  //     },
-  //     {
-  //       id: '5920501848',
-  //       student: 'nisit test',
-  //       date: '22/04/2020',
-  //       score: 0,
-  //     },
-  //     {
-  //       id: '5920501995',
-  //       student: 'boon boon',
-  //       date: '22/04/2020',
-  //       score: 0,
-  //     },
-  //     {
-  //       id: '5920501979',
-  //       student: 'thanakit haruehansapong',
-  //       date: '22/04/2020',
-  //       score: 1,
-  //     },
-  //     {
-  //       id: '5920504243',
-  //       student: 'Nantipaht Tubjit',
-  //       date: '22/04/2020',
-  //       score: 0,
-  //     },
-  //   ],
-  // }
-  // console.log('xxx',attendanceSheet)
-  const test = []
-  const q = []
-if (attendanceSheet) {
+const ListStudentExport = ({
+  handleClose, open, subject_code, handleExport, attendanceSheet,
+}) => {
   
-  attendanceSheet.class.map((a) => {
-    test.push({
+  // console.log(attendanceSheet)
+  if (!attendanceSheet) {
+    return (
+    <LoadingPulse />
+    )
+  }
+
+  const  attendanceSheets = attendanceSheet.toJS()
+  const classOpen = []
+  const idStd = []
+  const xx = []
+  attendanceSheets.class.map((a) => {
+    classOpen.push({
       date: a.date,
+      id: a.id,
     })
   })
 
+  const dateOpen = classOpen.map(s => attendanceSheets.student.filter(ss => ss.date === s.date))
+  // console.log('dateOpen',dateOpen[0])
+
   //remove id dup
-  const idStd = [...new Set(idStd)]
-  attendanceSheet.student.map((s) => {
+
+  attendanceSheets.student.map((s) => {
     idStd.push(
       s.id,
     )
   })
+  // id std
   const id = [...new Set(idStd)]
-  const dataStd = id.map(s => attendanceSheet.student.filter(ss => ss.id === s))
 
-  const pl = attendanceSheet.student.reduce((accum, curr) => {
-    accum[curr.id] = {
-      ...accum[curr.date],
-      // date: curr.score,
-      [curr.date]: curr.score,
+  const filteredArr = dateOpen.map(data => data.reduce((acc, current, index) => {
+    const x = acc.find(item => item.id === current.id)
+    //console.log(index)
+    if (!x) {
+      return acc.concat([current])
     }
-    return accum
-  }, {})
-  dataStd.map((z, i) => {
-    q.push({
-      name: z[0].student,
-      id: z[0].id,
-      date: z.map(s => s.date),
-      score: z.map(s => s.score),
-      sum: parseFloat(parseFloat((z.map(s => s.score).reduce((a, b) => a + b, 0) / attendanceSheet.class.length)) * parseInt(attendanceSheet.total_mark, 10)).toFixed(2),
+    const a = acc.find(item => item.id === x.id)
+    Object.assign(a, { score: x.score += current.score })
+    return acc
+  }, []))
+  const all = filteredArr.reduce((acc, val) => [...acc, ...val])
+  //  console.log('all',all)
+  const aaa = []
+  all.map((al) => {
+    all.map((a) => {
+      if (al.id === a.id && al.date !== a.date) {
+        aaa.push({
+          id: al.id,
+          date: [
+            al.date, a.date,
+          ],
+          name: al.student,
+          score: [
+            al.score, a.score,
+          ],
+        })
+      } else {
+        aaa.push({
+          id: al.id,
+          date: [
+            al.date,
+          ],
+          name: al.student,
+          score: [
+            al.score,
+          ],
+        })
+      }
     })
   })
-}
+  console.log('ssss',aaa)
+
+  const data = aaa.reduce((acc, current, index) => {
+    const x = acc.find(item => item.id === current.id)
+    //console.log(index)
+    if (!x) {
+      return acc.concat([current])
+    }
+
+    return acc
+  }, [])
+  console.log(data)
 
 
-const section_name = attendanceSheet ? attendanceSheet.section_name : '-'
-const section = attendanceSheet ? attendanceSheet.section : '-'
-
+  const section_name = attendanceSheets ? attendanceSheets.section_name : '-'
+  const section = attendanceSheets ? attendanceSheets.section : '-'
+  // console.log(dataStd)
   return (
     <PageWrapper>
       <Modal
@@ -174,43 +126,43 @@ const section = attendanceSheet ? attendanceSheet.section : '-'
           <Button key='back' onClick={handleClose}>
               Close
           </Button>,
-          <Button disabled={!attendanceSheet} key="submit" type="primary" onClick={() => handleExport(section_name,section)}>
+          <Button disabled={!attendanceSheets} key='submit' type='primary' onClick={() => handleExport(section_name, section)}>
           Submit
-        </Button>,
+          </Button>,
         ]}
       >
 
         <div>
-          {!attendanceSheet && (
+          {/* {!attendanceSheet && (
             <LoadingPulse />
-          )}
+          )} */}
 
-          {attendanceSheet && (
-<div>
-          <div style={{ border: '1px solid #dedcdc', borderRadius: '14px', padding: '8px' }}>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-              <div style={{ width: '150px', paddingLeft: '8px' }}>ID</div>
-              <div style={{ flex: 0.4, minWidth: '210px' }}>NAME</div>
+          {attendanceSheets && (
+          <div>
+            <div style={{ border: '1px solid #dedcdc', borderRadius: '14px', padding: '8px' }}>
+              <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <div style={{ width: '150px', paddingLeft: '8px' }}>ID</div>
+                <div style={{ flex: 0.4, minWidth: '210px' }}>NAME</div>
 
-              {test.map(t => (
+                {classOpen.map(t => (
+                  <div style={{
+                    width: '86px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}
+                  >
+                    {t.date}
+                  </div>
+                ))}
+
                 <div style={{
                   width: '86px', display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}
                 >
-                  {t.date}
-                </div>
-              ))}
-
-              <div style={{
-                width: '86px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}
-              >
 TOTAL
+                </div>
               </div>
-            </div>
-            <br />
-            {
-            q.map(qq => (
+              <br />
+              {
+            data.map(qq => (
               <div style={{ display: 'flex', flexDirection: 'row' }}>
                 <div style={{ width: '150px', paddingLeft: '8px' }}>{qq.id}</div>
                 <div style={{ flex: 0.4, minWidth: '210px' }}>{qq.name}</div>
@@ -228,16 +180,19 @@ TOTAL
                   width: '86px', display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}
                 >
-                  {qq.sum}
+                  {/* {qq.sum} */}
+4
+
                 </div>
               </div>
             ))
           }
+            </div>
           </div>
-        </div>
+
           )}
         </div>
-        
+
       </Modal>
     </PageWrapper>
   )
