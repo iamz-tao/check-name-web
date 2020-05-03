@@ -86,7 +86,7 @@ const AdminCreateUpdateSubject = class extends React.Component {
   render() {
     const {
       handleSubmit,
-      // invalid,
+      pristine
     } = this.props
 
     // if (!allFeatures && !initialValues) {
@@ -104,6 +104,7 @@ const AdminCreateUpdateSubject = class extends React.Component {
                 <div id='createSubject'>
                   <AdminCreateSubject
                     handleInput={this.handleInput}
+                    pristine={pristine}
                   />
                 </div>
               </Form>
@@ -128,7 +129,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 const withForm = reduxForm({
   form: FORM_NAME,
-  // validate,
+  validate,
   enableReinitialize: true,
   keepDirtyOnReinitialize: true,
 })

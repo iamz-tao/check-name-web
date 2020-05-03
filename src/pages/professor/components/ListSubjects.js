@@ -14,11 +14,14 @@ const SubjectsList = (props) => {
     filter,
     handleDeleteSection,
     handleModal,
+    handleExportModal,
   } = props
+  
   const items = subjects.filter((s) => {
     if (filter.keyword === '') return s
     if (s.getIn(['Subject', 'subject_name']).toLowerCase().includes(filter.keyword.toLowerCase())
-    || s.getIn(['Subject', 'subject_code']).toLowerCase().includes(filter.keyword.toLowerCase())) {
+    || s.getIn(['Subject', 'subject_code']).toLowerCase().includes(filter.keyword.toLowerCase())
+    || s.getIn(['section_number']).toLowerCase().includes(filter.keyword.toLowerCase())) {
       return s
     }
   }).map(s => (
@@ -28,7 +31,8 @@ const SubjectsList = (props) => {
           {/* {subjects.map(s => ( */}
           <ItemWrapper>
             <Row>
-              <a onClick={() => handleModal(s.get('id'))} style={{ width: '100%', color: '#575757' }}>
+              {/* <a onClick={() => handleModal(s.get('id'))} style={{ width: '100%', color: '#575757' }}> */}
+              <a style={{ width: '100%', color: '#575757' }}>
                 <UserDetailGroup>
                   <ListDetail>
                     <ItemSpan>
@@ -51,7 +55,7 @@ const SubjectsList = (props) => {
                       className='unordered list'
                       onClick={(e) => {
                         e.stopPropagation()
-                        Router.replace(`/list-students-section/${s.get('id')}`)
+                        handleExportModal(s.get('id'),s.getIn(['Subject', 'subject_code']))
                       }}
                     />
                     </Tooltip>

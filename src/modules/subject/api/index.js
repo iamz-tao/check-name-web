@@ -13,7 +13,7 @@ export function* getSubjectsAPI() {
   const data = {}
 
   return yield call(http.post, {
-    url: '/api/getSubjectsApprove',
+    url: '/api/ListSubjects',
     payload: {
       token,
       email,
@@ -37,6 +37,19 @@ export function* getSubjectsExportAPI() {
   })
 }
 
+
+export function* getAttendanceSheetAPI(id) {
+  const token = Cookie.get('token')
+  const data = {}
+
+  return yield call(http.post, {
+    url: `/api/getExport/${id}`,
+    payload: {
+      token,
+      data,
+    },
+  })
+}
 
 export function* getSubjectsProfessorAPI() {
   const token = Cookie.get('token')

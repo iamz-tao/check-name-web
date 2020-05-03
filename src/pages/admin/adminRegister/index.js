@@ -81,7 +81,6 @@ class RegisterPage extends Component {
       surname,
     } = values.toJS()
 
-    const { role } = this.state
     const { registerUser } = this.props
 
     registerUser({
@@ -92,7 +91,7 @@ class RegisterPage extends Component {
         mobile: mobile_phone,
         firstname: name,
         lastname: surname,
-        role,
+        role: 'ADMIN',
       },
     })
 

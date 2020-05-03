@@ -230,6 +230,11 @@ const StyledWrapper = styled(Modal)`
   border: 1px solid #ccc2c2;
   width: 100%;
 }
+
+.ui.fluid.dropdown {
+    border-radius: 21px;
+    background-color: #EBEBEB !important
+}
 `
 const Wrapper = styled.div`
   display: flex;

@@ -18,6 +18,8 @@ import {
 import DefaultForm from '~/components/DefaultForm'
 import FormButton from '~/components/Form/Button'
 
+import validate from './validate'
+
 const FORM_NAME = 'CREATE_YEAR'
 class CreateYear extends Component {
   handleInput = (type, e) => {
@@ -33,7 +35,7 @@ class CreateYear extends Component {
         year: values.get('year'),
       },
     })
-
+    
     handleModal()
   }
 
@@ -43,7 +45,9 @@ class CreateYear extends Component {
       open,
       handleModal,
       handleSubmit,
+      pristine,
     } = this.props
+
     const semesters = [
       {
         key: 1,
@@ -120,6 +124,7 @@ class CreateYear extends Component {
                   &nbsp; &nbsp;
                 <FormButton
                   isFilter
+                  disabled={pristine}
                   colorButton='#CA5353'
                   type='submit'
                   txtButton='CREATE'
@@ -147,6 +152,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 
 const withForm = reduxForm({
   form: FORM_NAME,
+  validate,
   enableReinitialize: true,
   keepDirtyOnReinitialize: true,
 })

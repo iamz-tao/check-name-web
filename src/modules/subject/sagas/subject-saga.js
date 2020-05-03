@@ -35,6 +35,7 @@ import {
   GET_TEACH_HISTORY,
   GET_STD_IN_CLASS_HISTORY,
   GET_LIST_SECTION_TEACHER,
+  GET_ATTENDANCE_SHEET,
 } from '../constants'
 import {
   getSubjectsAPI,
@@ -47,6 +48,7 @@ import {
   getAllStudentsApproveAPI,
   removeStudentAPI,
   getListSectionTeacherAPI,
+  getAttendanceSheetAPI,
 } from '../api'
 
 import * as http from '~/helpers/axiosWrapperPostToken'
@@ -147,11 +149,30 @@ export function* exportReport({ payload }) {
 
     window.open(
       `https://us-central1-kpscheckin.cloudfunctions.net/api/export?year=${year}&semester=${semester}&subject_code=${subject_code}&subject_name=${subject_name}&section=${section}`,
-      'Download')
-
-    Router.replace('/export-report')
+      'Download',
+    )
+    if (payload.isShow) {
+      Router.replace('/professor')
+    } else {
+      Router.replace('/export-report')
+    }
   } catch (exception) {
     yield put(subjectAction.openSectionFailure({ message: 'Internal Error' }))
+  }
+}
+
+export function* getAttendanceSheet({ payload }) {
+  try {
+    const token = Cookie.get('token')
+    if (!isNil(token)) {
+      const { data, error } = yield getAttendanceSheetAPI(payload.id)
+      if (error) {
+        return
+      }
+      yield put(subjectAction.setAttendanceSheet(data.data))
+    }
+  } catch (error) {
+    console.log('error', error)
   }
 }
 
@@ -376,7 +397,7 @@ export function* updateSubject({ payload }) {
     if (error) {
       return
     }
-    Router.replace('/list-subjects')
+    // Router.replace('/list-subjects')
     yield put(subjectAction.updateSubjectSuccess(payload.data))
   } catch (error) {
     console.log('error', error)
@@ -460,7 +481,7 @@ export function* rejectStudent({ payload }) {
       if (error) {
         return
       }
-    
+
       yield put(subjectAction.rejectStudentSuccess(payload.id))
     } else {
       const { id } = payload
@@ -629,5 +650,6 @@ export default function* authSaga() {
     takeLatest(GET_TEACH_HISTORY, getTeachHistory),
     takeLatest(GET_STD_IN_CLASS_HISTORY, getStudentInClassHitory),
     takeLatest(GET_LIST_SECTION_TEACHER, getListSectionsTeacher),
+    takeLatest(GET_ATTENDANCE_SHEET, getAttendanceSheet),
   ])
 }

@@ -59,7 +59,7 @@ const YearList = (props) => {
                   </ItemSpan>
                 </ListDetail>
                 <ListDetail style={{ textAlign: 'right' }}>
-                  <Switch defaultChecked={y.get('status') === 'ACTIVE'} checked={y.get('status') === 'ACTIVE'} onClick={() => handleGetId(y.get('id'))} />
+                  <Switch disabled={y.get('status') === 'ACTIVE'} defaultChecked={y.get('status') === 'ACTIVE'} checked={y.get('status') === 'ACTIVE'} onClick={() => handleGetId(y.get('id'))} />
                 </ListDetail>
               </UserDetailGroup>
               <DeleteWrapper>

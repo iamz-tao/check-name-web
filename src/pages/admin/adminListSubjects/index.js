@@ -88,7 +88,7 @@ class AdminListSubjects extends Component {
       onOk() {
         deleteSubject({ id })
         notification[success]({
-          message: 'Delete Success!',
+          message: 'Delete Succeeded!',
           description:
             'Action completed successfully.',
         })
@@ -101,7 +101,7 @@ class AdminListSubjects extends Component {
   handleUppdateSubject = () => {
     const success = 'success'
     notification[success]({
-      message: 'Update Success!',
+      message: 'Update Succeeded!',
       description:
             'Action completed successfully.',
     })

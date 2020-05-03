@@ -13,6 +13,7 @@ import LoadingPulse from '~/components/LoadingPulse'
 
 const CreateSubject = (props) => {
   const currentYear = get(props, 'currentYear')
+  const pristine = get(props, 'pristine')
   
   if (!currentYear) {
     return (
@@ -70,6 +71,7 @@ const CreateSubject = (props) => {
           />
           <EmptySpace />
           <FormButton
+            disabled={pristine}
             colorButton='#CA5353'
             type='submit'
             txtButton='REQUEST'

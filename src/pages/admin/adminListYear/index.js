@@ -142,7 +142,7 @@ class HomePageAdmin extends Component {
       onOk() {
         deleteYear({ id })
         notification[success]({
-          message: 'Delete Success!',
+          message: 'Delete Succeeded!',
           description:
             'Action completed successfully.',
         })

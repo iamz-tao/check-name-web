@@ -9,6 +9,7 @@ import { Icon } from 'semantic-ui-react'
 import FilterAndCriteria from './components/FilterAndCriteria'
 import SubjectsList from './components/ListSubjects'
 import UpdateSection from './components/updateSection'
+import ListStudentExport from './components/ListStudentExport'
 
 import HeaderProfessor from '~/components/HeaderNavbar/Professor'
 import NotFound from '~/components/Table/NotFound'
@@ -66,12 +67,15 @@ class HomePageProfessor extends Component {
     },
     addDay: false,
     open: false,
+    openExport: false,
+    subject_code: '',
   }
 
   componentDidMount() {
-    const { getSections } = this.props
+    const { getSections, getCurrentYear } = this.props
     getSections({
     })
+    getCurrentYear({})
   }
 
   handleDeleteSection = (id) => {
@@ -86,7 +90,7 @@ class HomePageProfessor extends Component {
       onOk() {
         deleteSection({ id })
         notification[success]({
-          message: 'Delete Success!',
+          message: 'Delete Succeeded!',
           description:
             'Action completed successfully.',
         })
@@ -129,6 +133,40 @@ class HomePageProfessor extends Component {
     })
   }
 
+  handleExportModal = (id, subject_code) => {
+    const { openExport } = this.state
+    const { getAttendanceSheet } = this.props
+    getAttendanceSheet({  
+      id,
+    })
+    this.setState({
+      openExport: !openExport,
+      subject_code,
+    })
+  }
+
+  handleExport = (subject_name, section) => {
+    const { currentYear } = this.props
+    const { subject_code } = this.state
+    const year = currentYear.get('year')
+    const semester = currentYear.get('semester')
+    const data = {
+      year,
+      semester,
+      subject_code,
+      subject_name,
+      section,
+    }
+    const { exportReport } = this.props
+    exportReport({
+      data,
+      isShow: true,
+    })
+    this.setState({
+      openExport: false,
+    })
+  }
+
   sortItem = (sort_by) => {
     const { subjects } = this.props
     let dataSort = []
@@ -147,19 +185,35 @@ class HomePageProfessor extends Component {
   render() {
     const {
       subjects,
+      attendanceSheet,
+      currentYear,
     } = this.props
 
     const {
       filter,
       open,
       subjectsState,
+      openExport,
+      subject_code,
     } = this.state
+    if (!currentYear) {
+      return (
+        <LoadingPulse />
+      )
+    }
 
     return (
       <PageWrapper>
         <UpdateSection
           open={open}
           handleModal={this.handleModal}
+        />
+        <ListStudentExport
+          open={openExport}
+          handleClose={this.handleExportModal}
+          handleExport={this.handleExport}
+          attendanceSheet={attendanceSheet}
+          subject_code={subject_code}
         />
         <HeaderProfessor />
         <RowContainer>
@@ -195,6 +249,7 @@ class HomePageProfessor extends Component {
                             filter={filter}
                             handleDeleteSection={this.handleDeleteSection}
                             handleModal={this.handleModal}
+                            handleExportModal={this.handleExportModal}
                           />
                         </ListCol>
                       </ListCol>
@@ -218,13 +273,16 @@ class HomePageProfessor extends Component {
 const mapStateToProps = (state, props) => createStructuredSelector({
   subjects: subjectsSelector.getSubjectsProfessor,
   currentYear: yearSelector.getCurrentYear,
+  attendanceSheet: subjectsSelector.getAttendanceSheet,
 })(state, props)
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   getSections: subjectAction.getSubjectsProfessor,
   getSection: subjectAction.getSection,
   deleteSection: subjectAction.deleteSection,
+  getAttendanceSheet: subjectAction.getAttendanceSheet,
   getCurrentYear: yearAction.getCurrentYear,
+  exportReport: subjectAction.exportReport,
 }, dispatch)
 
 export default compose(

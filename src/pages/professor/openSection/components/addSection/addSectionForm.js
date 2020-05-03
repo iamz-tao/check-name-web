@@ -34,9 +34,9 @@ const AddSectionForm = (props) => {
     handleAddDay,
     addDay,
     settingSec,
-    invalid,
     handleSubmit,
     currentYear,
+    pristine,
   } = props
   const {
     day1,
@@ -161,7 +161,7 @@ const AddSectionForm = (props) => {
 
             </DefaultForm>
             &nbsp; &nbsp;
-            <Button onClick={handleModal}>
+            <Button onClick={handleModal} disabled={pristine}>
               SETTING
             </Button>
           </div>
@@ -220,7 +220,7 @@ const AddSectionForm = (props) => {
           </CancelButton>
           <EmptySpace />
           <FormButton
-            // disabled={!invalid}
+            disabled={pristine}
             colorButton='#CA5353'
             type='submit'
             txtButton='OPEN'
@@ -255,6 +255,10 @@ const Wrapper = styled.div`
   .ant-btn:focus, .ant-btn:hover {
     background: rgba(0, 0, 0, 0.33) !important;
     color: #fff !important;
+  }
+  .ui.fluid.dropdown {
+    border-radius: 21px;
+    background : #EBEBEB !important,
   }
 `
 const CustomFormSection = styled(FormSection)`
