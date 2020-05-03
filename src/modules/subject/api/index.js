@@ -13,7 +13,7 @@ export function* getSubjectsAPI() {
   const data = {}
 
   return yield call(http.post, {
-    url: '/api/getSubjectsApprove',
+    url: '/api/ListSubjects',
     payload: {
       token,
       email,

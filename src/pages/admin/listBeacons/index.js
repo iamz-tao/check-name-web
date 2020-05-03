@@ -111,7 +111,7 @@ class ListBeacons extends Component {
       onOk() {
         deleteBeacon({ id })
         notification[success]({
-          message: 'Delete Success!',
+          message: 'Delete Succeeded!',
           description:
             'Action completed successfully.',
         })

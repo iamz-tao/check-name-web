@@ -90,7 +90,7 @@ class HomePageProfessor extends Component {
       onOk() {
         deleteSection({ id })
         notification[success]({
-          message: 'Delete Success!',
+          message: 'Delete Succeeded!',
           description:
             'Action completed successfully.',
         })

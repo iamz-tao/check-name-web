@@ -155,7 +155,7 @@ class ApproveStudent extends Component {
 
   openNotificationRejectSuccess = (type) => {
     notification[type]({
-      message: 'Reject Success!',
+      message: 'Reject Succeeded!',
       description:
         'Action completed successfully.',
     })
@@ -163,7 +163,7 @@ class ApproveStudent extends Component {
 
   openNotificationApproveSuccess = (type) => {
     notification[type]({
-      message: 'Approve Success!',
+      message: 'Approve Succeeded!',
       description:
         'Action completed successfully.',
     })
@@ -278,7 +278,7 @@ class ApproveStudent extends Component {
                       <RowContainerNotFound>
                         <NotFoundWrapper>
                           <h1>
-                            THERE AREN&apos;T STUDENT WAITING FOR APPROVAL.
+                            There isn&apos;t student waiting for approval.
                           </h1>
                         </NotFoundWrapper>
                       </RowContainerNotFound>

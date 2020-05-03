@@ -79,7 +79,7 @@ const UpdateSection = class extends React.Component {
       duration: 3,
     })
     notification[type]({
-      message: 'Update section Success!',
+      message: 'Update section Succeeded!',
       description: 'Open section successfully.',
     })
   }

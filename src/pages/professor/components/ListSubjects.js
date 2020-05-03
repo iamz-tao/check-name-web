@@ -20,7 +20,8 @@ const SubjectsList = (props) => {
   const items = subjects.filter((s) => {
     if (filter.keyword === '') return s
     if (s.getIn(['Subject', 'subject_name']).toLowerCase().includes(filter.keyword.toLowerCase())
-    || s.getIn(['Subject', 'subject_code']).toLowerCase().includes(filter.keyword.toLowerCase())) {
+    || s.getIn(['Subject', 'subject_code']).toLowerCase().includes(filter.keyword.toLowerCase())
+    || s.getIn(['section_number']).toLowerCase().includes(filter.keyword.toLowerCase())) {
       return s
     }
   }).map(s => (

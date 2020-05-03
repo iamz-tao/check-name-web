@@ -55,8 +55,8 @@ const CreateUpdateSubject = class extends React.Component {
       duration: 3,
     })
     notification[type]({
-      message: 'Create Success!',
-      description: 'Create ads type successfully.',
+      message: 'Create Succeeded!',
+      description: 'Create subject successfully.',
     })
   }
 

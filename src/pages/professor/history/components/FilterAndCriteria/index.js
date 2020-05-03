@@ -129,6 +129,10 @@ const Wrapper = styled(Segment)`
     background-color: #fff;
     border-color: #767676;
 }
+
+.ui.selection.active.dropdown .menu {
+    border-radius: 0px 0px 21px 21px;
+}
 `
 
 const HeaderSection = styled.div`

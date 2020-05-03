@@ -397,7 +397,7 @@ export function* updateSubject({ payload }) {
     if (error) {
       return
     }
-    Router.replace('/list-subjects')
+    // Router.replace('/list-subjects')
     yield put(subjectAction.updateSubjectSuccess(payload.data))
   } catch (error) {
     console.log('error', error)

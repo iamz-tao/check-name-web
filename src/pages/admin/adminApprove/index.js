@@ -219,7 +219,7 @@ class AdminApprove extends Component {
                       <RowContainerNotFound>
                         <NotFoundWrapper>
                           <h1>
-                            THERE AREN&apos;T SUBJECT WAITING FOR APPROVEAL.
+                            There isn&apos;t subject waiting for approval.
                           </h1>
                         </NotFoundWrapper>
                       </RowContainerNotFound>

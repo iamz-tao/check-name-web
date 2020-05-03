@@ -10,10 +10,10 @@ const UserList = (props) => {
     filter,
     handleDeleteUser,
   } = props
-
-  const items = users.filter((user) => {
+  const data = (filter.user_role.length > 0 && filter.keyword !== '') ? users.filter(user => user.get('role') === filter.user_role[0]) : users
+  const items = data.filter((user) => {
     if (filter.keyword === '' && filter.user_role === []) return user
-    if (filter.user_role.length > 0) {
+    if (filter.user_role.length > 0 && filter.keyword === '') {
       return user.get('role') === filter.user_role[0]
     }
     if (user.get('id').toLowerCase().includes(filter.keyword.toLowerCase())

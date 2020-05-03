@@ -52,7 +52,7 @@ class ProfilePage extends Component {
       duration: 3,
     })
     notification[type]({
-      message: 'Update Success!',
+      message: 'Update Succeeded!',
       description: 'Update profile successfully.',
     })
   }
