@@ -160,6 +160,10 @@ class HomePageProfessor extends Component {
     const { exportReport } = this.props
     exportReport({
       data,
+      isShow: true,
+    })
+    this.setState({
+      openExport: false,
     })
   }
 

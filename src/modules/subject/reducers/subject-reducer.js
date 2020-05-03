@@ -282,7 +282,6 @@ export default (state = initialState, { type, payload }) => {
         .setIn(['httpState', 'isFetching'], true)
     }
     case SET_ATTENDANCE_SHEET: {
-      console.log('xxxxx',payload)
       return state
         .setIn(['professor', 'attendanceSheet'], fromJS(payload))
         .setIn(['httpState', 'isFetching'], false)
