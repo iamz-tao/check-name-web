@@ -135,3 +135,14 @@ export const getAttendanceSheet = createSelector(
     }
   },
 )
+
+export const getSubjectApprove = createSelector(
+  stateSelector,
+  (state) => {
+    try {
+      return state.getIn(['subjectApprove'], '')
+    } catch (error) {
+      return fromJS({})
+    }
+  },
+)

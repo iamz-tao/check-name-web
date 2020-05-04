@@ -70,3 +70,6 @@ export const SET_LIST_SECTION_TEACHER = 'app/subject/SET_LIST_SECTION_TEACHER'
 export const GET_ATTENDANCE_SHEET = 'app/subject/GET_ATTENDANCE_SHEET'
 export const SET_ATTENDANCE_SHEET = 'app/subject/SET_ATTENDANCE_SHEET'
 
+export const ADMIN_GET_APPROVE = 'app/subject/ADMIN_GET_APPROVE'
+export const ADMIN_SET_APPROVE = 'app/subject/ADMIN_SET_APPROVE'
+

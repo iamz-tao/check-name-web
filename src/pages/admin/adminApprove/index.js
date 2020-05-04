@@ -235,11 +235,11 @@ class AdminApprove extends Component {
 }
 
 const mapStateToProps = (state, props) => createStructuredSelector({
-  subjects: subjectsSelector.getSubjects,
+  subjects: subjectsSelector.getSubjectApprove,
 })(state, props)
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  getSubjects: subjectAction.getSubjects,
+  getSubjects: subjectAction.adminGetSubjectsApprove,
   approveSubject: subjectAction.approveSubject,
   rejectSubject: subjectAction.rejectSubject,
   approveSubjects: subjectAction.approveSubjects,

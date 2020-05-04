@@ -36,6 +36,7 @@ import {
   GET_STD_IN_CLASS_HISTORY,
   GET_LIST_SECTION_TEACHER,
   GET_ATTENDANCE_SHEET,
+  ADMIN_GET_APPROVE,
 } from '../constants'
 import {
   getSubjectsAPI,
@@ -49,6 +50,7 @@ import {
   removeStudentAPI,
   getListSectionTeacherAPI,
   getAttendanceSheetAPI,
+  adminGetSubjectsApproveAPI,
 } from '../api'
 
 import * as http from '~/helpers/axiosWrapperPostToken'
@@ -56,6 +58,21 @@ import * as httpPut from '~/helpers/axiosWrapperPut'
 import * as httpDel from '~/helpers/axiosWrapperDelete'
 import * as httpGet from '~/helpers/axiosWrapperGet'
 
+
+export function* adminGetSubjectsApprove({ payload }) {
+  try {
+    const token = Cookie.get('token')
+    if (!isNil(token)) {
+      const { data, error } = yield adminGetSubjectsApproveAPI(payload.id)
+      if (error) {
+        return
+      }
+      yield put(subjectAction.adminSetSubjectsApprove(data.data))
+    }
+  } catch (error) {
+    console.log('error', error)
+  }
+}
 export function* createSubject({ payload }) {
   try {
     const role = Cookie.get('role', '')
@@ -651,5 +668,6 @@ export default function* authSaga() {
     takeLatest(GET_STD_IN_CLASS_HISTORY, getStudentInClassHitory),
     takeLatest(GET_LIST_SECTION_TEACHER, getListSectionsTeacher),
     takeLatest(GET_ATTENDANCE_SHEET, getAttendanceSheet),
+    takeLatest(ADMIN_GET_APPROVE, adminGetSubjectsApprove),
   ])
 }

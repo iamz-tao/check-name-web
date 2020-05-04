@@ -40,12 +40,15 @@ import {
   SET_LIST_SECTION_TEACHER,
   GET_ATTENDANCE_SHEET,
   SET_ATTENDANCE_SHEET,
+  ADMIN_GET_APPROVE,
+  ADMIN_SET_APPROVE,
 } from '../constants'
 
 const initialState = fromJS({
   subjects: null,
   subject: null,
   studentInSection: null,
+  subjectApprove: null,
   professor: {
     subjects: null,
     section: null,
@@ -91,6 +94,13 @@ export default (state = initialState, { type, payload }) => {
         .set('status', 400)
         .set('payload', payload)
     }
+    case ADMIN_GET_APPROVE:
+      return state
+        .setIn(['httpState', 'isFetching'], true)
+    case ADMIN_SET_APPROVE:
+      return state
+        .set('subjectApprove', fromJS(payload))
+        .setIn(['httpState', 'isFetching'], false)
     case SET_TO_SUBJECTS:
       return state
         .set('subjects', fromJS(payload))

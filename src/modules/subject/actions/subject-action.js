@@ -54,6 +54,8 @@ import {
   SET_LIST_SECTION_TEACHER,
   GET_ATTENDANCE_SHEET,
   SET_ATTENDANCE_SHEET,
+  ADMIN_GET_APPROVE,
+  ADMIN_SET_APPROVE,
 } from '../constants'
 
 export const createSubject = payload => ({
@@ -74,6 +76,16 @@ export const createSubjectFailed = payload => ({
 export const getSubjects = payload => ({
   payload,
   type: GET_SUBJECTS,
+})
+
+export const adminGetSubjectsApprove = payload => ({
+  payload,
+  type: ADMIN_GET_APPROVE,
+})
+
+export const adminSetSubjectsApprove = payload => ({
+  payload,
+  type: ADMIN_SET_APPROVE,
 })
 
 export const setToSubjects = payload => ({

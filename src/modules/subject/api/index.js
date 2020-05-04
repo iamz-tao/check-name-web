@@ -22,6 +22,21 @@ export function* getSubjectsAPI() {
   })
 }
 
+export function* adminGetSubjectsApproveAPI() {
+  const token = Cookie.get('token')
+  const email = Cookie.get('email')
+  const data = {}
+
+  return yield call(http.post, {
+    url: '/api/getSubjectsApprove',
+    payload: {
+      token,
+      email,
+      data,
+    },
+  })
+}
+
 export function* getSubjectsExportAPI() {
   const token = Cookie.get('token')
   const email = Cookie.get('email')

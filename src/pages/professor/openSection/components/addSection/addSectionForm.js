@@ -92,7 +92,7 @@ const AddSectionForm = (props) => {
           </LabelWrapper>
           <DefaultForm
             isRequired
-            label='SUBJECT CODE'
+            label='SUBJECT'
             width='176px'
           >
             <Field
