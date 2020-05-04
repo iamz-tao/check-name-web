@@ -113,9 +113,9 @@ export default (state = initialState, { type, payload }) => {
       return state
         .setIn(['httpState', 'isFetching'], true)
     case APPROVE_SUBJECT_SUCCESS: {
-      const index = state.getIn(['subjects']).findIndex(i => i.get('id') === payload)
+      const index = state.getIn(['subjectApprove']).findIndex(i => i.get('id') === payload)
       return state
-        .removeIn(['subjects', index])
+        .removeIn(['subjectApprove', index])
         .setIn(['httpState', 'isFetching'], false)
     }
     case REJECT_SUBJECT: {
@@ -123,9 +123,9 @@ export default (state = initialState, { type, payload }) => {
         .setIn(['httpState', 'isFetching'], true)
     }
     case REJECT_SUBJECT_SUCCESS: {
-      const index = state.getIn(['subjects']).findIndex(i => i.get('id') === payload)
+      const index = state.getIn(['subjectApprove']).findIndex(i => i.get('id') === payload)
       return state
-        .removeIn(['subjects', index])
+        .removeIn(['subjectApprove', index])
         .setIn(['httpState', 'isFetching'], false)
     }
 
