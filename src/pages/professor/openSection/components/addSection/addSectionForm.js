@@ -122,7 +122,7 @@ const AddSectionForm = (props) => {
 
           <DefaultForm
             isRequired
-            label='ABSENT ITME (Minute)'
+            label='ABSENT TIME (Minute)'
             width='176px'
           >
             <Field

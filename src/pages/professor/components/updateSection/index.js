@@ -195,7 +195,7 @@ const UpdateSection = class extends React.Component {
     const {
       addDay,
     } = this.state
-
+// console.log(section && section.toJS())
     const start_time1 = initialValues && initialValues.getIn(['start_time1'])
     const end_time1 = initialValues && initialValues.getIn(['finish_time1'])
     const start_time2 = initialValues && initialValues.getIn(['start_time2'])

@@ -222,7 +222,7 @@ class TeachingHistory extends Component {
                   <a>{teachingHistory.getIn([0, 'class']).filter(c => c.get('class_id') === classID).getIn([0, 'time'])}</a>
                 </ItemHeaderModal>
                 <ItemHeaderModal>
-                  AMOUNT :{' '}
+                  NUMBER OF STUDENTS :{' '}
                   {studentsCheckInClass.get('amount')}
                 </ItemHeaderModal>
               </div>

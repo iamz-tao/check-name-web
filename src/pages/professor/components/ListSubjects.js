@@ -31,7 +31,7 @@ const SubjectsList = (props) => {
           {/* {subjects.map(s => ( */}
           <ItemWrapper>
             <Row>
-              {/* <a onClick={() => handleModal(s.get('id'))} style={{ width: '100%', color: '#575757' }}> */}
+              <a onClick={() => Router.replace(`/update-section/${s.get('id')}`)} style={{ width: '100%', color: '#575757' }}>
               <a style={{ width: '100%', color: '#575757' }}>
                 <UserDetailGroup>
                   <ListDetail>
@@ -78,6 +78,7 @@ const SubjectsList = (props) => {
                   </DeleteIconWrapper>
                 </UserDetailGroup>
               </a>
+            </a>
             </Row>
           </ItemWrapper>
           {/* ))} */}
