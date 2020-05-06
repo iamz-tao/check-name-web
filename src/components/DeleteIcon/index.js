@@ -2,18 +2,22 @@ import React from 'react'
 import styled from 'styled-components'
 import { Icon } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
+import { Tooltip } from 'antd'
 
 const DeleteIcon = (props) => {
   const {
     size,
     onClick,
+    title,
   } = props
   return (
-    <Trash
-      name='trash alternate outline'
-      size={size}
-      onClick={onClick}
-    />
+    <Tooltip placement='top' title={title}>
+      <Trash
+        name='trash alternate outline'
+        size={size}
+        onClick={onClick}
+      />
+    </Tooltip>
   )
 }
 
