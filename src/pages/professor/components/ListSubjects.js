@@ -2,11 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import { Segment } from 'semantic-ui-react'
 import Router from 'next/router'
+import { Tooltip } from 'antd'
 import DeleteIcon from '~/components/DeleteIcon'
 import ListIcon from '~/components/ListIcon'
 import HistoryIcon from '~/components/HistoryIcon'
 import NotFound from '~/components/Table/NotFound'
-import {Tooltip} from 'antd'
 
 const SubjectsList = (props) => {
   const {
@@ -16,7 +16,7 @@ const SubjectsList = (props) => {
     handleModal,
     handleExportModal,
   } = props
-  
+
   const items = subjects.filter((s) => {
     if (filter.keyword === '') return s
     if (s.getIn(['Subject', 'subject_name']).toLowerCase().includes(filter.keyword.toLowerCase())
@@ -31,53 +31,57 @@ const SubjectsList = (props) => {
           {/* {subjects.map(s => ( */}
           <ItemWrapper>
             <Row>
-              {/* <a onClick={() => handleModal(s.get('id'))} style={{ width: '100%', color: '#575757' }}> */}
-              <a style={{ width: '100%', color: '#575757' }}>
-                <UserDetailGroup>
-                  <ListDetail>
-                    <ItemSpan>
-                      {s.getIn(['Subject', 'subject_code'])}
-                    </ItemSpan>
-                  </ListDetail>
-                  <ListDetail>
-                    <ItemSpan>
-                      {s.getIn(['Subject', 'subject_name'])}
-                    </ItemSpan>
-                  </ListDetail>
-                  <ListDetail style={{ minWidth: '180px' }}>
-                    <ItemSpan>
-                      {s.get('section_number')}
-                    </ItemSpan>
-                  </ListDetail>
-                  <DeleteIconWrapper>
-                  <Tooltip placement="top" title={'Teach History'}>
-                    <HistoryIcon
-                      className='unordered list'
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        handleExportModal(s.get('id'),s.getIn(['Subject', 'subject_code']))
-                      }}
-                    />
-                    </Tooltip>
+              {/* <Tooltip placement='top' title='See Details'> */}
+                <a onClick={() => Router.replace(`/update-section/${s.get('id')}`)} style={{ width: '100%', color: '#575757' }}>
+                  <a style={{ width: '100%', color: '#575757' }}>
+                    <UserDetailGroup>
+                      <ListDetail>
+                        <ItemSpan>
+                          {s.getIn(['Subject', 'subject_code'])}
+                        </ItemSpan>
+                      </ListDetail>
+                      <ListDetail>
+                        <ItemSpan>
+                          {s.getIn(['Subject', 'subject_name'])}
+                        </ItemSpan>
+                      </ListDetail>
+                      <ListDetail style={{ minWidth: '180px' }}>
+                        <ItemSpan>
+                          {s.get('section_number')}
+                        </ItemSpan>
+                      </ListDetail>
+                      <DeleteIconWrapper>
+                        <HistoryIcon
+                          className='unordered list'
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handleExportModal(s.get('id'), s.getIn(['Subject', 'subject_code']))
+                          }}
+                          title='Attendance Score'
+                        />
                     &nbsp; &nbsp;
-                    <ListIcon
-                      className='unordered list'
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        Router.replace(`/list-students-section/${s.get('id')}`)
-                      }}
-                    />
+                        <ListIcon
+                          className='unordered list'
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            Router.replace(`/list-students-section/${s.get('id')}`)
+                          }}
+                          title='Students in section'
+                        />
                       &nbsp; &nbsp;
-                    <DeleteIcon
-                      className='trash'
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        handleDeleteSection(s.get('id'))
-                      }}
-                    />
-                  </DeleteIconWrapper>
-                </UserDetailGroup>
-              </a>
+                        <DeleteIcon
+                          className='trash'
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handleDeleteSection(s.get('id'))
+                          }}
+                          title='Delete'
+                        />
+                      </DeleteIconWrapper>
+                    </UserDetailGroup>
+                  </a>
+                </a>
+              {/* </Tooltip> */}
             </Row>
           </ItemWrapper>
           {/* ))} */}

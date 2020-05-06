@@ -17,6 +17,8 @@ routes
   .add('list-students-section', '/list-students-section/:id', 'professor/listStudentSection')
   .add('export-report', '/export-report', '/professor/exportReport')
   .add('history', '/teaching-history', '/professor/history')
+  .add('update-section', '/update-section/:id', 'professor/updateSection')
+
   
   // Admin
   .add('admin', '/admin', '/admin')

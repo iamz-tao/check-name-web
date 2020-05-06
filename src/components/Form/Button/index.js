@@ -48,9 +48,9 @@ const Button = (props) => {
     disabled = false,
     ...restInput
   } = props
-
   return (
     <CustomButton
+      type={type}
       disabled={disabled}
       isFilter={isFilter}
       isRow={isRow}

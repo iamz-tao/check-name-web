@@ -253,8 +253,8 @@ const ItemHeader = styled.span`
 `
 const Header = styled.span`
     font-family: kanit;
-    font-size: 22px;
-    font-weight: 500;
+    font-size: 18px;
+    font-weight: 300;
     margin: 0;
     color: #554d4d;
 `
