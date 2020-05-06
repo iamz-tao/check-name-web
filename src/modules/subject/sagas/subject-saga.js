@@ -378,7 +378,7 @@ export function* updateSection({ payload }) {
     if (error) {
       return
     }
-    Router.replace('/professor')
+    Router.replace(`/update-section/${payload.data.section_id}`)
     yield put(subjectAction.updateSectionSuccess(payload.data))
   } catch (error) {
     console.log('error', error)
