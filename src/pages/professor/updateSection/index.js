@@ -82,7 +82,7 @@ const UpdateSection = class extends React.Component {
   }
 
   submitForm = (values) => {
-    const { updateSection, handleModal } = this.props
+    const { updateSection, initialValues } = this.props
     const {
       time_late,
       time_absent,
@@ -101,8 +101,46 @@ const UpdateSection = class extends React.Component {
       endTime1,
       startTime2,
       endTime2,
+      removeDay,
+      addDay,
     } = this.state
-    console.log(values.toJS())
+
+    const stime1 = start_time1 === startTime1 || startTime1 === '' ? start_time1 : startTime1
+    const stime2 = start_time2 === startTime2 || startTime2 === '' ? start_time2 : startTime2
+    const etime1 = finish_time1 === endTime1 || endTime1 === '' ? finish_time1 : endTime1
+    const etime2 = finish_time2 === endTime2 || endTime2 === '' ? finish_time2 : endTime2
+ 
+    const Time = []
+    if ((removeDay && addDay && !stime2 && !etime2) || (!initialValues.getIn(['start_time2']) && !removeDay && !addDay) || (initialValues.getIn(['start_time2']) && removeDay && !addDay) || (removeDay && !addDay && stime2 && etime2) || (removeDay && !addDay && !stime2 && !etime2)) {
+      Time.push({
+        day: day1,
+        start_time: stime1,
+        end_time: etime1,
+      })
+    }
+    if ((removeDay && addDay && stime2 && etime2) || (!removeDay && addDay) || (initialValues.getIn(['start_time2']) && !removeDay && !addDay)) {
+      Time.push({
+        day: day1,
+        start_time: stime1,
+        end_time: etime1,
+      },
+      {
+        day: day2,
+        start_time: stime2,
+        end_time: etime2,
+      })
+    }
+
+    const data = {
+      Time,
+      time_late,
+      time_absent,
+      total_mark,
+      section_id,
+    }
+
+    updateSection({ data })
+    // console.log('time>>',Time)
     // this.openNotificationCreateSuccess('success')
   }
 
@@ -138,13 +176,17 @@ const UpdateSection = class extends React.Component {
     const { addDay } = this.state
     this.setState({
       addDay: !addDay,
+      removeDay: false,
     })
   }
 
   handleRemoveDay = () => {
-    const { removeDay } = this.state
+    const { removeDay, addDay } = this.state
     this.setState({
       removeDay: !removeDay,
+      addDay: false,
+      startTime2: '',
+      endTime2: '',
     })
   }
 
@@ -156,11 +198,6 @@ const UpdateSection = class extends React.Component {
     } = this.props
 
     const {
-      day_1,
-      startTime1,
-      endTime1,
-      startTime2,
-      endTime2,
       addDay,
       removeDay,
     } = this.state
@@ -174,8 +211,8 @@ const UpdateSection = class extends React.Component {
 
     const start_time1 = initialValues.getIn(['start_time1']) ? initialValues.getIn(['start_time1']) : null
     const end_time1 = initialValues.getIn(['finish_time1']) ? initialValues.getIn(['finish_time1']) : null
-    const start_time2 = initialValues.getIn(['start_time2']) ? initialValues.getIn(['start_time2']) : 'Select Time'
-    const end_time2 = initialValues.getIn(['finish_time2']) ? initialValues.getIn(['finish_time2']) : 'Select Time'
+    const start_time2 = initialValues.getIn(['start_time2']) ? initialValues.getIn(['start_time2']) : null
+    const end_time2 = initialValues.getIn(['finish_time2']) ? initialValues.getIn(['finish_time2']) : null
 
     return (
       <PageWrapper>
@@ -234,7 +271,7 @@ const UpdateSection = class extends React.Component {
                               </ShowTimeWrapper>
                             </DefaultForm>
                           </BlankWrapper>
-                          {!initialValues.getIn(['start_time2']) && !initialValues.getIn(['finish_time2']) && !addDay && (
+                          {(initialValues && initialValues.getIn(['day2']) && removeDay && !addDay) && (
                           <PlusWrapper>
                             <LabelWrapper style={{ paddingRight: '8px' }}>
                     ADD DAY
@@ -245,99 +282,119 @@ const UpdateSection = class extends React.Component {
                           </PlusWrapper>
                           )
              }
-
+                          {(initialValues && !initialValues.getIn(['day2']) && !addDay) && (
+                          <PlusWrapper>
+                            <LabelWrapper style={{ paddingRight: '8px' }}>
+                    ADD DAY
+                            </LabelWrapper>
+                            <ButtonPlus onClick={this.handleAddDay}>
+                    +
+                            </ButtonPlus>
+                          </PlusWrapper>
+                          )
+             }
                           {
-            addDay && (
-            <div>
-              <DefaultForm
-                label='SECOND DAY'
-              >
-                <Field
-                  required
-                  name='day2'
-                  placeholder='Select Day'
-                  options={day}
-                  component={DropdownWithLabel}
-                  handleInput={this.handleInput}
-                  style={{ width: '100%' }}
-                />
-              </DefaultForm>
-              <BlankWrapper>
+             !initialValues.getIn(['day2']) && addDay && (
+             <div>
+               <DefaultForm
+                 label='SECOND DAY'
+               >
+                 <Field
+                   required
+                   name='day2'
+                   placeholder='Select Day'
+                   options={day}
+                   component={DropdownWithLabel}
+                   handleInput={this.handleInput}
+                   style={{ width: '100%' }}
+                 />
+               </DefaultForm>
+               <BlankWrapper>
 
-                <DefaultForm
-                  label='SECOND TIME'
-                >
-                  <ShowTimeWrapper>
-                    <TimePicker
-                      use12Hours
-                      format={format}
-                      placeholder='Start Time'
-                      onChange={this.getTimeFrom2}
-                      defaultValue={initialValues.getIn(['start_time2']) !== undefined && moment(start_time2, 'h:mm A')}
-                    />
+                 <DefaultForm
+                   label='SECOND TIME'
+                   marginBottom='6px'
+                 >
+                   <ShowTimeWrapper>
+                     <TimePicker
+                       use12Hours
+                       format={format}
+                       placeholder='Start Time'
+                       onChange={this.getTimeFrom2}
+                       defaultValue={start_time2 && moment(start_time2, 'h:mm A')}
+                     />
            &nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;
-                    <TimePicker
-                      format={format}
-                      placeholder='End Time'
-                      onChange={this.getTimeTo2}
-                      defaultValue={initialValues.getIn(['finish_time2']) !== undefined && moment(end_time2, 'h:mm A')}
-                    />
-                  </ShowTimeWrapper>
-                </DefaultForm>
-              </BlankWrapper>
-            </div>
-            )
+                     <TimePicker
+                       format={format}
+                       placeholder='End Time'
+                       onChange={this.getTimeTo2}
+                       defaultValue={end_time2 && moment(end_time2, 'h:mm A')}
+                     />
+                   </ShowTimeWrapper>
+                 </DefaultForm>
+               </BlankWrapper>
+               <PlusWrapper>
+                 <LabelWrapper style={{ paddingRight: '8px' }}>
+                    REMOVE DAY
+                 </LabelWrapper>
+                 <ButtonPlus onClick={this.handleRemoveDay}>
+                    -
+                 </ButtonPlus>
+               </PlusWrapper>
+             </div>
+             )
   }
 
                           {
-            (initialValues.getIn(['day2']) && initialValues.getIn(['start_time2']) && initialValues.getIn(['finish_time2'])) && (
-            <div>
-              <DefaultForm
-                label='SECOND DAY'
-              >
-                <Field
-                  required
-                  name='day2'
-                  placeholder='Select Day'
-                  options={day}
-                  component={DropdownWithLabel}
-                  handleInput={this.handleInput}
-                  style={{ width: '100%' }}
-                />
-              </DefaultForm>
-              <BlankWrapper>
+             ((initialValues && initialValues.getIn(['day2']) && !addDay && !removeDay) || (initialValues && initialValues.getIn(['day2']) && !removeDay && addDay)) && (
+             <div>
+               <DefaultForm
+                 label='SECOND DAY'
+               >
+                 <Field
+                   required
+                   name='day2'
+                   placeholder='Select Day'
+                   options={day}
+                   component={DropdownWithLabel}
+                   handleInput={this.handleInput}
+                   style={{ width: '100%' }}
+                 />
+               </DefaultForm>
+               <BlankWrapper>
 
-                <DefaultForm
-                  label='SECOND TIME'
-                >
-                  <ShowTimeWrapper>
-                    <TimePicker
-                      use12Hours
-                      format={format}
-                      placeholder='Start Time'
-                      onChange={this.getTimeFrom2}
-                      defaultValue={initialValues.getIn(['start_time2']) !== undefined && moment(start_time2, 'h:mm A')}
-                    />
+                 <DefaultForm
+                   label='SECOND TIME'
+                   marginBottom='6px'
+                 >
+                   <ShowTimeWrapper>
+                     <TimePicker
+                       use12Hours
+                       format={format}
+                       placeholder='Start Time'
+                       onChange={this.getTimeFrom2}
+                       defaultValue={start_time2 && moment(start_time2, 'h:mm A')}
+                     />
            &nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;
-                    <TimePicker
-                      format={format}
-                      placeholder='End Time'
-                      onChange={this.getTimeTo2}
-                      defaultValue={initialValues.getIn(['finish_time2']) !== undefined && moment(end_time2, 'h:mm A')}
-                    />
-                  </ShowTimeWrapper>
-                </DefaultForm>
-              </BlankWrapper>
-              <PlusWrapper>
-                            <LabelWrapper style={{ paddingRight: '8px' }}>
+                     <TimePicker
+                       format={format}
+                       placeholder='End Time'
+                       onChange={this.getTimeTo2}
+                       defaultValue={end_time2 && moment(end_time2, 'h:mm A')}
+                     />
+                   </ShowTimeWrapper>
+                 </DefaultForm>
+               </BlankWrapper>
+               <PlusWrapper>
+                 <LabelWrapper style={{ paddingRight: '8px' }}>
                     REMOVE DAY
-                            </LabelWrapper>
-                            <ButtonPlus onClick={this.handleRemoveDay}>
+                 </LabelWrapper>
+                 <ButtonPlus onClick={this.handleRemoveDay}>
                     -
-                            </ButtonPlus>
-                          </PlusWrapper>
-            </div>
-            )
+                 </ButtonPlus>
+               </PlusWrapper>
+             </div>
+             )
   }
 
                           <DefaultForm
@@ -381,7 +438,7 @@ const UpdateSection = class extends React.Component {
                             type='cancel'
                             txtButton='CANCEL'
                             width='50%'
-                            onClick={() => {
+                            onClick={(e) => {
                               Router.push('/professor')
                             }}
                           />

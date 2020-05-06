@@ -8,7 +8,6 @@ import { Icon } from 'semantic-ui-react'
 
 import FilterAndCriteria from './components/FilterAndCriteria'
 import SubjectsList from './components/ListSubjects'
-import UpdateSection from './components/updateSection'
 import ListStudentExport from './components/ListStudentExport'
 
 import HeaderProfessor from '~/components/HeaderNavbar/Professor'
@@ -204,10 +203,6 @@ class HomePageProfessor extends Component {
 
     return (
       <PageWrapper>
-        <UpdateSection
-          open={open}
-          handleModal={this.handleModal}
-        />
         <ListStudentExport
           open={openExport}
           handleClose={this.handleExportModal}
