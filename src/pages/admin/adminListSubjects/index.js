@@ -171,6 +171,13 @@ class AdminListSubjects extends Component {
     })
   }
 
+  errorModal = () => {
+    Modal.error({
+      title: 'Delete subject error!',
+      content: 'Can\'t delete subject beacause this subject is used.',
+    })
+  }
+
   render() {
     const {
       subjects,
@@ -230,6 +237,7 @@ class AdminListSubjects extends Component {
                             filter={filter}
                             handleDeleteSubject={this.handleDeleteSubject}
                             handleModal={this.handleModal}
+                            errorModal={this.errorModal}
                           />
                         </ListCol>
                       </ListCol>

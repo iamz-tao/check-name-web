@@ -10,6 +10,7 @@ const SubjectsList = (props) => {
     filter,
     handleDeleteSubject,
     handleModal,
+    errorModal,
   } = props
 
   const subjectApprove = subjects ? subjects.toJS().filter(s => s.approved_status === 'APPROVE') : []
@@ -45,7 +46,12 @@ const SubjectsList = (props) => {
                       className='trash'
                       onClick={(e) => {
                         e.stopPropagation()
-                        handleDeleteSubject(s.id)
+                        if (s.count > 0) {
+                          errorModal()
+                        }
+                        if (s.count === 0) {
+                          handleDeleteSubject(s.id)
+                        }
                       }}
                     />
                   </DeleteIconWrapper>
@@ -88,6 +94,7 @@ const Wrapper = styled.div`
       color: #CA5353 !important;
     }
   }
+  
 `
 
 const ItemWrapper = styled(Segment)`
