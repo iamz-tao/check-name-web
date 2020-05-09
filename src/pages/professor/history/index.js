@@ -187,7 +187,7 @@ class TeachingHistory extends Component {
     ]
 
     if (studentsCheckInClass) {
-      studentsCheckInClass.get('students').map((s, i) => {
+      studentsCheckInClass.get('students').sort((a, b) => (a.get('id') > b.get('id'))).map((s, i) => {
         data.push({
           key: i,
           id: s.get('id'),

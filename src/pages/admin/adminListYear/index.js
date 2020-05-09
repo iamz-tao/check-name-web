@@ -4,7 +4,7 @@ import Cookie from 'js-cookie'
 import { createStructuredSelector } from 'reselect'
 import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
-import { Modal, notification } from 'antd'
+import { Modal, notification, Button } from 'antd'
 import isNil from 'lodash/isNil'
 
 import { Icon } from 'semantic-ui-react'
@@ -27,6 +27,7 @@ const TableHeader = (props) => {
   const {
     handleModal,
     sortItem,
+    handleClear,
   } = props
 
   return (
@@ -65,9 +66,11 @@ const TableHeader = (props) => {
               STATUS
             </ItemHeader>
           </ListHeader>
-          <ListHeader />
+          {/* <ListHeader /> */}
         </UserDetailGroup>
-        <DeleteWrapper />
+        <Button type="dashed" danger style={{flex: 1}} onClick={() => handleClear()}>
+      Clear teaching history before {(new Date()).getFullYear() + 538}
+    </Button>
       </Row>
     </Wrapper>
   )
@@ -92,6 +95,11 @@ class HomePageAdmin extends Component {
     }
     const { getYearAll } = this.props
     getYearAll({})
+  }
+
+  handleClear = () => {
+    const { clearHistory } = this.props
+    clearHistory({}) 
   }
 
   handleInputChange = async ({ target }) => {
@@ -216,6 +224,7 @@ class HomePageAdmin extends Component {
                         <TableHeader
                           handleModal={this.handleModal}
                           sortItem={this.sortItem}
+                          handleClear={this.handleClear}
                         />
                         <ListCol>
                           <YearList
@@ -248,6 +257,7 @@ const mapStateToProps = (state, props) => createStructuredSelector({
 })(state, props)
 
 const mapDispatchToProps = dispatch => bindActionCreators({
+  clearHistory: yearAction.clearHistory,
   getYearAll: yearAction.getYearAll,
   deleteYear: yearAction.deleteYear,
   updateCurrentYear: yearAction.updateCurrentYear,
@@ -266,6 +276,15 @@ const PageWrapper = styled.div`
     font-size: 20px;
     line-height: 1.4;
     font-family: kanit;
+  }
+
+  .ant-btn-dashed:hover {
+    color: #db2828;
+    background-color: #fff;
+    border-color: #db2828;
+}
+.ant-btn-dashed {
+    border-radius: 18px;
   }
 `
 

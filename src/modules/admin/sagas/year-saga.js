@@ -15,11 +15,28 @@ import {
   DELETE_YEAR,
   UPDATE_CURRENT_YEAR,
   GET_CURRENT_YEAR,
+  CLEAR_HISTORY,
 } from '../constants'
 import { getYearAllAPI, deleteYearAPI, getCurrentYearAPI } from '../api'
 
 import * as httpToken from '~/helpers/axiosWrapperPostToken'
 import * as httpPut from '~/helpers/axiosWrapperPut'
+
+export function* clearHistory() {
+  try {
+    const token = Cookie.get('token')
+    // const response = yield call(httpToken.post, {
+    //   url: '/api/AddYear',
+    //   payload: {
+    //     year,
+    //     semester,
+    //   },
+    // })
+    console.log('clearrrrrr')
+  } catch (error) {
+    console.log('error', error)
+  }
+}
 
 export function* createYear({ payload }) {
   try {
@@ -110,5 +127,6 @@ export default function* authSaga() {
     takeLatest(GET_CURRENT_YEAR, getCurrentYear),
     takeLatest(DELETE_YEAR, deleteYear),
     takeLatest(UPDATE_CURRENT_YEAR, updateCurrentYear),
+    takeLatest(CLEAR_HISTORY, clearHistory),
   ])
 }

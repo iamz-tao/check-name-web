@@ -232,12 +232,13 @@ const UpdateSection = class extends React.Component {
                             {subject}
                           </Header>
                           <Header>
-          SUBJECT :
+          SECTION :
                             {' '}
                             {section}
                           </Header>
                           <DefaultForm
                             label='DAY'
+                            width='176px'
                           >
                             <Field
                               required
@@ -247,12 +248,13 @@ const UpdateSection = class extends React.Component {
                               component={DropdownWithLabel}
                               handleInput={this.handleInput}
                               style={{ width: '100%' }}
-                            />
+                            /> 
                           </DefaultForm>
 
                           <BlankWrapper>
                             <DefaultForm
                               label='TIME'
+                              width='176px'
                             >
                               <ShowTimeWrapper>
                                 <TimePicker
@@ -298,6 +300,7 @@ const UpdateSection = class extends React.Component {
              <div>
                <DefaultForm
                  label='SECOND DAY'
+                 width='176px'
                >
                  <Field
                    required
@@ -313,6 +316,7 @@ const UpdateSection = class extends React.Component {
 
                  <DefaultForm
                    label='SECOND TIME'
+                   width='176px'
                    marginBottom='6px'
                  >
                    <ShowTimeWrapper>
@@ -350,6 +354,7 @@ const UpdateSection = class extends React.Component {
              <div>
                <DefaultForm
                  label='SECOND DAY'
+                 width='176px'
                >
                  <Field
                    required
@@ -366,6 +371,7 @@ const UpdateSection = class extends React.Component {
                  <DefaultForm
                    label='SECOND TIME'
                    marginBottom='6px'
+                   width='176px'
                  >
                    <ShowTimeWrapper>
                      <TimePicker
@@ -398,8 +404,9 @@ const UpdateSection = class extends React.Component {
   }
 
                           <DefaultForm
-                            label='LATE TIME'
+                            label='LATE TIME (Minutes)'
                             align='end'
+                            width='176px'
                           >
                             <Field
                               name='time_late'
@@ -409,8 +416,9 @@ const UpdateSection = class extends React.Component {
                           </DefaultForm>
 
                           <DefaultForm
-                            label='ABSENT TIME'
+                            label='ABSENT TIME (Minutes)'
                             align='end'
+                            width='176px'
                           >
                             <Field
                               name='time_absent'
@@ -420,8 +428,9 @@ const UpdateSection = class extends React.Component {
                           </DefaultForm>
 
                           <DefaultForm
-                            label='TOTAL MARK'
+                            label='TOTAL MARK (%)'
                             align='end'
+                            width='176px'
                           >
                             <Field
                               required

@@ -10,7 +10,13 @@ import {
   UPDATE_CURRENT_YEAR_SUCCESS,
   GET_CURRENT_YEAR,
   SET_CURRENT_YEAR,
+  CLEAR_HISTORY,
 } from '../constants'
+
+export const clearHistory = payload => ({
+  payload,
+  type: CLEAR_HISTORY,
+})
 
 export const createYear = payload => ({
   payload,

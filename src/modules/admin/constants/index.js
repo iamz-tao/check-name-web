@@ -23,3 +23,5 @@ export const SET_TO_BEACON = 'app/admin/beacon/SET_TO_BEACON'
 export const DELETE_BEACON = 'app/admin/beacon/DELETE_BEACON'
 export const DELETE_TO_BEACON = 'app/admin/beacon/DELETE_TO_BEACON'
 
+export const CLEAR_HISTORY = 'app/admin/datateachingHistory/CLEAR_HISTORY'
+
