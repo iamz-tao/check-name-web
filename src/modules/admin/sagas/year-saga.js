@@ -15,11 +15,31 @@ import {
   DELETE_YEAR,
   UPDATE_CURRENT_YEAR,
   GET_CURRENT_YEAR,
+  CLEAR_HISTORY,
 } from '../constants'
 import { getYearAllAPI, deleteYearAPI, getCurrentYearAPI } from '../api'
 
 import * as httpToken from '~/helpers/axiosWrapperPostToken'
 import * as httpPut from '~/helpers/axiosWrapperPut'
+import * as httpDel from '~/helpers/axiosWrapperDelete'
+
+export function* clearHistory() {
+  try {
+    const response = yield call(httpDel.post, {
+      url: '/api/clearData',
+      payload: {
+      },
+    })
+    const { error } = response
+    if (error) {
+      return
+    }
+    yield put(yearAction.clearHistorySuccess())
+    Router.replace('/list-year')
+  } catch (error) {
+    console.log('error', error)
+  }
+}
 
 export function* createYear({ payload }) {
   try {
@@ -110,5 +130,6 @@ export default function* authSaga() {
     takeLatest(GET_CURRENT_YEAR, getCurrentYear),
     takeLatest(DELETE_YEAR, deleteYear),
     takeLatest(UPDATE_CURRENT_YEAR, updateCurrentYear),
+    takeLatest(CLEAR_HISTORY, clearHistory),
   ])
 }

@@ -14,6 +14,56 @@ const ListStudentExport = ({
   }
 
   const attendanceSheets = attendanceSheet.toJS()
+  const dataa = [
+    {
+      date: '07/05/2020 00:09',
+      id: '5920501995',
+      score: 0,
+      student: 'boon boon',
+    },
+    {
+      date: '07/05/2020 00:09',
+      id: '5920501979',
+      score: 1,
+      student: 'thanakit haruehansapong',
+    },
+    {
+      date: '06/05/2020 00:09',
+      id: '5920501995',
+      score: 0,
+      student: 'boon boon',
+    },
+    {
+      date: '06/05/2020 00:09',
+      id: '5920501979',
+      score: 1,
+      student: 'thanakit haruehansapong',
+    },
+    {
+      date: '06/05/2020 16:06',
+      id: '5920501995',
+      score: 0.5,
+      student: 'boon boon',
+    },
+    {
+      date: '06/05/2020 16:06',
+      id: '5920501979',
+      score: 1,
+      student: 'thanakit haruehansapong',
+    },
+    {
+      date: '06/05/2020 19:32',
+      id: '5920501995',
+      score: 1,
+      student: 'boon boon',
+    },
+    {
+      date: '06/05/2020 19:32',
+      id: '5920501979',
+      score: 1,
+      student: 'thanakit haruehansapong',
+    },
+  ]
   const classOpen = []
   const idStd = []
   const xx = []
@@ -46,42 +96,44 @@ const ListStudentExport = ({
     Object.assign(a, { score: x.score += current.score })
     return acc
   }, []))
-  const all = filteredArr.reduce((acc, val) => [...acc, ...val])
- 
+
+  const all = filteredArr.length > 0 ? filteredArr.reduce((acc, val) => [...acc, ...val]) : []
+
   const aaa = []
-  all.map((al) => {
-    all.map((a) => {
-      if (classOpen.length > 1) {
-        if (al.id === a.id && al.date !== a.date) {
+  if (all !== []) {
+    all.map((al) => {
+      all.map((a) => {
+        if (classOpen.length > 1) {
+          if (al.id === a.id && al.date !== a.date) {
+            aaa.push({
+              id: al.id,
+              date: [
+                al.date, a.date,
+              ],
+              name: al.student,
+              score: [
+                al.score, a.score,
+              ],
+              sum: (((al.score += a.score) / classOpen.length) * Math.trunc(attendanceSheets.total_mark)).toFixed(2),
+            })
+          }
+        }
+        if (classOpen.length === 1) {
           aaa.push({
             id: al.id,
             date: [
-              al.date, a.date,
+              al.date,
             ],
             name: al.student,
             score: [
-              al.score, a.score,
+              al.score,
             ],
-            sum: (((al.score += a.score) / classOpen.length) * Math.trunc(attendanceSheets.total_mark)).toFixed(2)
+            sum: ((al.score / classOpen.length) * Math.trunc(attendanceSheets.total_mark)).toFixed(2),
           })
         }
-      }
-      if (classOpen.length === 1) {
-        aaa.push({
-          id: al.id,
-          date: [
-            al.date,
-          ],
-          name: al.student,
-          score: [
-            al.score,
-          ],
-          sum: ((al.score / classOpen.length) * Math.trunc(attendanceSheets.total_mark)).toFixed(2)
-        })
-      }
+      })
     })
-  })
-
+  }
   const data = aaa.reduce((acc, current, index) => {
     const x = acc.find(item => item.id === current.id)
     if (!x) {
@@ -91,7 +143,7 @@ const ListStudentExport = ({
     return acc
   }, [])
 
-  const sortData = data.sort((a, b) => a.id - b.id);
+  const sortData = data.sort((a, b) => a.id - b.id)
   const section_name = attendanceSheets ? attendanceSheets.section_name : '-'
   const section = attendanceSheets ? attendanceSheets.section : '-'
   return (
@@ -153,12 +205,14 @@ const ListStudentExport = ({
                   width: '86px', display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}
                 >
-TOTAL
+TOTAL (
+                  {attendanceSheets.total_mark}
+)
                 </div>
               </div>
               <br />
               {
-            sortData.map(qq => (
+            sortData.map((qq, i) => (
               <div style={{ display: 'flex', flexDirection: 'row' }}>
                 <div style={{ width: '150px', paddingLeft: '8px' }}>{qq.id}</div>
                 <div style={{ flex: 0.4, minWidth: '210px' }}>{qq.name}</div>

@@ -58,19 +58,21 @@ const YearList = (props) => {
                       }
                   </ItemSpan>
                 </ListDetail>
+              </UserDetailGroup>
+              <WrapperTash>
                 <ListDetail style={{ textAlign: 'right' }}>
                   <Switch disabled={y.get('status') === 'ACTIVE'} defaultChecked={y.get('status') === 'ACTIVE'} checked={y.get('status') === 'ACTIVE'} onClick={() => handleGetId(y.get('id'))} />
                 </ListDetail>
-              </UserDetailGroup>
-              <DeleteWrapper>
-                <DeleteIcon
-                  className='trash'
-                  onClick={(e) => {
-                    e.preventDefault()
-                    handleDeleteYear(y.get('id'))
-                  }}
-                />
-              </DeleteWrapper>
+                <DeleteWrapper>
+                  <DeleteIcon
+                    className='trash'
+                    onClick={(e) => {
+                      e.preventDefault()
+                      handleDeleteYear(y.get('id'))
+                    }}
+                  />
+                </DeleteWrapper>
+              </WrapperTash>
             </Row>
           </ItemWrapper>
           {/* ))} */}
@@ -112,6 +114,11 @@ const Wrapper = styled.div`
 }
 `
 
+const WrapperTash = styled.div`
+  width: 240px;
+  display: flex;
+  align-items: center;
+`
 const ItemWrapper = styled(Segment)`
   background-color: white;
   width: 100%;

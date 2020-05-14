@@ -109,7 +109,7 @@ const AddSectionForm = (props) => {
         <CustomFormSection name=''>
           <DefaultForm
             isRequired
-            label='LATE TIME (Minute)'
+            label='LATE TIME (Minutes)'
             width='176px'
           >
             <Field
@@ -122,7 +122,7 @@ const AddSectionForm = (props) => {
 
           <DefaultForm
             isRequired
-            label='ABSENT TIME (Minute)'
+            label='ABSENT TIME (Minutes)'
             width='176px'
           >
             <Field
@@ -135,7 +135,7 @@ const AddSectionForm = (props) => {
 
           <DefaultForm
             isRequired
-            label='TOTAL MARK'
+            label='TOTAL MARK (%)'
             width='176px'
           >
             <Field

@@ -78,9 +78,9 @@ const Wrapper = styled(Segment)`
   }
 
   .ant-btn-dashed:focus, .ant-btn-dashed:hover {
-    color: #767676;
+    color: #767676 !important;
     background-color: #fff;
-    border-color: #767676;
+    border-color: #767676 !important;
 }
 `
 
