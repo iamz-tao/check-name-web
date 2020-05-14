@@ -5,6 +5,7 @@ import {
   SET_TO_YEAR,
   UPDATE_CURRENT_YEAR_SUCCESS,
   SET_CURRENT_YEAR,
+  DELETE_YEAR,
   DELETE_YEAR_SUCCESS,
 } from '../constants'
 import { CLEAR_HTTP } from '~/modules/user/constants'
@@ -12,6 +13,7 @@ import { CLEAR_HTTP } from '~/modules/user/constants'
 const initialState = fromJS({
   yearAll: null,
   year: null,
+  clearData: false,
   httpState: {
     isFetching: false,
     message: '',
@@ -20,6 +22,14 @@ const initialState = fromJS({
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
+    case DELETE_YEAR: {
+      return state
+        .set('clearData', true)
+    }
+    case DELETE_YEAR_SUCCESS: {
+      return state
+        .set('clearData', false)
+    }
     case CREATE_YEAR_SUCCESS: {
       return state
         .set('isFetching', false)

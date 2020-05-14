@@ -21,18 +21,21 @@ import { getYearAllAPI, deleteYearAPI, getCurrentYearAPI } from '../api'
 
 import * as httpToken from '~/helpers/axiosWrapperPostToken'
 import * as httpPut from '~/helpers/axiosWrapperPut'
+import * as httpDel from '~/helpers/axiosWrapperDelete'
 
 export function* clearHistory() {
   try {
-    const token = Cookie.get('token')
-    // const response = yield call(httpToken.post, {
-    //   url: '/api/AddYear',
-    //   payload: {
-    //     year,
-    //     semester,
-    //   },
-    // })
-    console.log('clearrrrrr')
+    const response = yield call(httpDel.post, {
+      url: '/api/clearData',
+      payload: {
+      },
+    })
+    const { error } = response
+    if (error) {
+      return
+    }
+    yield put(yearAction.clearHistorySuccess())
+    Router.replace('/list-year')
   } catch (error) {
     console.log('error', error)
   }

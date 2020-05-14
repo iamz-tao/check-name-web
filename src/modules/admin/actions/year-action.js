@@ -11,11 +11,17 @@ import {
   GET_CURRENT_YEAR,
   SET_CURRENT_YEAR,
   CLEAR_HISTORY,
+  CLEAR_HISTORY_SUCCESS,
 } from '../constants'
 
 export const clearHistory = payload => ({
   payload,
   type: CLEAR_HISTORY,
+})
+
+export const clearHistorySuccess = payload => ({
+  payload,
+  type: CLEAR_HISTORY_SUCCESS,
 })
 
 export const createYear = payload => ({
