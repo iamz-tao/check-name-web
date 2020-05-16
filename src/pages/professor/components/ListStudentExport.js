@@ -174,8 +174,8 @@ const ListStudentExport = ({
           <Button key='back' onClick={handleClose}>
               Close
           </Button>,
-          <Button disabled={!attendanceSheets} key='submit' type='primary' onClick={() => handleExport(section_name, section)}>
-          Submit
+          <Button disabled={!attendanceSheets} style={{ borderColor: '#db2828', backgroundColor: '#db2828' }} key='submit' type='primary' onClick={() => handleExport(section_name, section)}>
+          Export
           </Button>,
         ]}
       >
@@ -258,6 +258,10 @@ const PageWrapper = styled.div`
     line-height: 1.4;
     font-family: kanit;
   }
+  .ant-btn-primary {
+    background-color: #db2828;
+    border-color: #db2828;
+}
 `
 
 const ItemHeaderModal = styled.span`
